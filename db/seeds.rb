@@ -3,19 +3,21 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#   cities = City.create([{ :name => "Chicago" }, { :name => "Copenhagen" }])
+#   Mayor.create(:name => "Emanuel", city: cities.first)
 
-Role.create!(name: 'administrator',
-              description: 'System administrator')
-Role.create!(name: 'operator',
-              description: 'Operator')
-Role.create!(name: 'user',
-              description: 'User')
-Role.create!(name: 'service',
-              description: 'Service')
+administrator = Role.create!(:name => "administrator",
+                              :description => "System administrator")
+Role.create!(:name => "operator",
+              :description => "Operator")
+Role.create!(:name => "user",
+              :description => "User")
+Role.create!(:name => "service",
+              :description => "Service")
 
-User.create!(uid: 'admin',
-              email: 'admin@example.com',
-              first_name: 'Administrator',
-              password: 'abcd1234')
+admin = User.create!(:uid => "admin",
+                      :email => "admin@example.com",
+                      :first_name => "Administrator",
+                      :password => "abcd1234")
+
+admin.roles << administrator

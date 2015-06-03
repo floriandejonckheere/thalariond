@@ -14,9 +14,13 @@
 ActiveRecord::Schema.define(version: 20150603080114) do
 
   create_table "assignments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "assignments", ["user_id", "role_id"], name: "index_assignments_on_user_id_and_role_id", unique: true
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",        null: false
