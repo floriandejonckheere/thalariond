@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603092541) do
+ActiveRecord::Schema.define(version: 20150603100412) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,10 +23,11 @@ ActiveRecord::Schema.define(version: 20150603092541) do
   add_index "assignments", ["user_id", "role_id"], name: "index_assignments_on_user_id_and_role_id", unique: true
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",         null: false
+    t.string   "display_name"
+    t.integer  "owner"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -45,29 +46,34 @@ ActiveRecord::Schema.define(version: 20150603092541) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "service_memberships", force: :cascade do |t|
+    t.integer  "service_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "service_memberships", ["service_id", "group_id"], name: "index_service_memberships_on_service_id_and_group_id", unique: true
+
   create_table "services", force: :cascade do |t|
-    t.string   "uid",                                 null: false
-    t.string   "display_name",           default: "", null: false
-    t.string   "description",            default: ""
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.string   "uid",                             null: false
+    t.string   "display_name",       default: "", null: false
+    t.string   "description",        default: ""
+    t.string   "email",              default: "", null: false
+    t.string   "encrypted_password", default: "", null: false
+    t.integer  "sign_in_count",      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",        default: 0,  null: false
+    t.integer  "failed_attempts",    default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
-  add_index "services", ["email"], name: "index_services_on_email", unique: true
-  add_index "services", ["reset_password_token"], name: "index_services_on_reset_password_token", unique: true
+  add_index "services", ["uid"], name: "index_services_on_uid", unique: true
   add_index "services", ["unlock_token"], name: "index_services_on_unlock_token", unique: true
 
   create_table "users", force: :cascade do |t|

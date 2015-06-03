@@ -11,11 +11,11 @@ class DeviseCreateServices < ActiveRecord::Migration
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
-      t.string   :reset_password_token
-      t.datetime :reset_password_sent_at
+      # t.string   :reset_password_token
+      # t.datetime :reset_password_sent_at
 
       ## Rememberable
-      t.datetime :remember_created_at
+      # t.datetime :remember_created_at
 
       ## Trackable
       t.integer  :sign_in_count, default: 0, null: false
@@ -39,8 +39,8 @@ class DeviseCreateServices < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :services, :email,                unique: true
-    add_index :services, :reset_password_token, unique: true
+    add_index :services, :uid,                  unique: true
+    # add_index :services, :reset_password_token, unique: true
     # add_index :services, :confirmation_token,   unique: true
     add_index :services, :unlock_token,         unique: true
   end
