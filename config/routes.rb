@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :groups
   devise_for :services, :skip => [:registrations, :session, :password]
   devise_for :users, :skip => [:registrations]
   root to: 'home#index'

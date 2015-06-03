@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :lockable
 
-  # Properties
+  # Validations
   validates :uid, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
@@ -17,4 +17,11 @@ class User < ActiveRecord::Base
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
   end
+
+  # Groups
+  has_many :memberships, -> { uniq }, :dependent => :destroy
+  has_many :groups, -> { uniq }, :through => :memberships
+
+  has_many :ownerships, class_name: 'Membership'
+  has_many :owned_groups, through: :ownerships, source: :group
 end

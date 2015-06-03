@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603080114) do
+ActiveRecord::Schema.define(version: 20150603092541) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "user_id"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(version: 20150603080114) do
   end
 
   add_index "assignments", ["user_id", "role_id"], name: "index_assignments_on_user_id_and_role_id", unique: true
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",        null: false
