@@ -13,6 +13,7 @@
 body,
 html {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -65,4 +66,8 @@ input:-moz-placeholder { font-style: italic; }
 input.small-input {
   height: 3rem;
   padding: 3px 5px;
+}
+
+.u-full-height {
+  height: 100%;
 }

@@ -22,12 +22,22 @@ header {
     font-weight: 500;
   }
 
-  .search-input,
-  .search-input:focus {
+  .search-input {
     background-color: lighten($primary-color, 15%);
     border: 0;
     color: white;
+
+    &:focus {
+      background-color: lighten($primary-color, 20%);
+      border: 0;
+      color: white;
+    }
+
+    &::-webkit-input-placeholder {
+      color: white;
+    }
   }
+
   .search-input-wrapper:after {
     position: absolute;
     color: $primary-color;
