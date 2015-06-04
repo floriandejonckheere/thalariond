@@ -1,0 +1,52 @@
+/**
+ * Header
+ *
+ * */
+
+nav {
+  background-color: $dark-grey;
+  height: 100%;
+
+  ul {
+    list-style: outside none;
+
+    li {
+      position: relative;
+      margin: 0;
+
+      a {
+        display: block;
+        width: calc(100% - 3rem);
+        padding: 1.5rem;
+
+        &,
+        &:hover,
+        &:active,
+        &:focus,
+        &:visited {
+          color: white;
+          text-decoration: none;
+        }
+
+        &:hover {
+          background-color: darken($dark-grey, 5%);
+        }
+      }
+
+      &.active a {
+        background-color: darken($dark-grey, 5%);
+
+        &:after {
+          display: inline-block;
+          position:absolute;
+          right: -0.5rem;
+          content: "";
+          background: white;
+          height: 1rem;
+          width: 1rem;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+}
