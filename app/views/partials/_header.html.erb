@@ -1,0 +1,23 @@
+<header>
+  <div class="header-container">
+    <span class="logo"><%= link_to "Thalarion", root_path, :class => "white-text" %></span>
+  </div>
+
+  <div class="header-container u-pull-right">
+    <div class="header-container">
+      <span class="search-input-wrapper">
+        <input type="text" placeholder="Search" class="white-input small-input search-input">
+      </span>
+    </div>
+    <div class="header-container">
+      <ul>
+        <%= link_to destroy_user_session_path, :method => :delete do %><li class="white-text">Sign out</li><% end %>
+        <a href="javascript:void(0);" data-toggle="menu">
+          <li>
+            <strong><%= current_user.first_name %></strong> <i class="fa fa-caret-down"></i>
+          </li>
+        </a>
+      </ul>
+    </div>
+  </div>
+</header>

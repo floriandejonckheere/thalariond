@@ -1,0 +1,64 @@
+/**
+ * Navigation bars
+ *
+ * */
+
+/**
+ * Header
+ *
+ * */
+header {
+  width: 100%;
+  height: $header-height;
+
+  background: $primary-color;
+  color: white;
+
+  .header-container {
+    display: inline-block;
+    line-height: $header-height;
+    height: $header-height;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .logo {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+
+  .search-input,
+  .search-input:focus {
+    background-color: lighten($primary-color, 15%);
+    border: 0;
+    color: white;
+  }
+  .search-input-wrapper:after {
+    position: absolute;
+    color: $primary-color;
+    content: "\f002";
+    font-family: 'FontAwesome';
+    margin-left: -2.25rem;
+  }
+
+  ul {
+    list-style: none;
+
+    a {
+      outline: none;
+    }
+
+    li {
+      display: inline-block;
+      padding-left: 10px;
+      padding-right: 10px;
+
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        background-color: darken($primary-color, 5%);
+      }
+    }
+  }
+}
