@@ -1,0 +1,14 @@
+default: &default
+  port: 1389
+  base_dn: dc=thalarion,dc=be
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+  ssl_cert: ldap.cert
+  ssl_key: ldap.key
+
+test:
+  <<: *default
