@@ -1,5 +1,11 @@
 source 'https://rubygems.org'
 
+source 'https://rails-assets.org' do
+  # Font Awesome
+  gem 'rails-assets-fontawesome'
+  # Skeleton UI
+  gem 'rails-assets-skeleton-ui'
+end
 
 # Devise authentication
 gem 'devise'

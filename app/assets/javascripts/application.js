@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require skeleton-ui
 //= require turbolinks
 //= require_tree .

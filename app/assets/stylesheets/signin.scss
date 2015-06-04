@@ -1,0 +1,24 @@
+/**
+ * Sign in page
+ *
+ * */
+
+.signin-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+
+  color: white;
+  text-align: center;
+
+  padding-top: 10rem;
+
+  background-image: image-url('background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.signin-container h1 {
+  margin-bottom: 7.5rem;
+}

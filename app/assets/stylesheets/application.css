@@ -10,6 +10,71 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require fontawesome
+ *= require skeleton-ui
  *= require_tree .
  *= require_self
  */
+/**
+ * Reset
+ *
+ * */
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Titles
+ *
+ * */
+h1 {
+  font-size: 6em;
+  font-weight: 200;
+}
+
+/**
+ * Extra
+ *
+ * */
+.button.white-button,
+.button.white-button:hover,
+.button.white-button:active,
+.button.white-button:focus {
+  color: white;
+  border-color: white;
+}
+input.white-input,
+input.white-input:hover,
+input.white-input:active,
+input.white-input:focus {
+  border-color: white;
+}
+
+::-webkit-input-placeholder { font-style: italic; }
+::-moz-placeholder { font-style: italic; } /* firefox 19+ */
+:-ms-input-placeholder { font-style: italic; } /* ie */
+input:-moz-placeholder { font-style: italic; }
+
+.white-text,
+.white-text:hover,
+.white-text:active,
+.white-text:link,
+.white-text:visited {
+  color: white;
+}
+
+.float-center {
+  z-index: 1;
+  position: absolute;
+  top: 25px;
+
+  width: 75%;
+  text-align: center;
+}
+
+.danger {
+  background: red;
+}
