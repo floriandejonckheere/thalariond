@@ -7,6 +7,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= yield %>
+  <%= render 'partials/header' %>
+  <div class="row u-full-height">
+    <div class="three columns u-full-height">
+      <%= render 'partials/navigation' %>
+    </div>
+    <div class="nine columns main-content u-full-width">
+      <%= yield %>
+    </div>
+  </div>
 </body>
 </html>
