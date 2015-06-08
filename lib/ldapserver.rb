@@ -1,4 +1,5 @@
 require 'ldap/server'
+require 'ldap/server/util'
 
 module LDAPServer
 
@@ -34,10 +35,23 @@ module LDAPServer
     end
 
     def simple_bind(version, dn, password)
-      if dn == nil || !(dn.end_with?(Rails.application.config.ldap['base_dn']))
+      dn.downcase! if dn
+
+      # Authentication is required
+      if not dn or not dn.end_with?(Rails.application.config.ldap['base_dn'])
         raise LDAP::ResultError::InappropriateAuthentication
       end
-      puts self.split_dn
+
+      split_dn = LDAP::Server::Operation.split_dn(dn)
+      # Bind DN is "uid=UID,ou=users|services,BASE_DN"
+      raise LDAP::ResultError::InvalidCredentials unless split_dn[0].has_key?('uid')
+      raise LDAP::ResultError::InvalidCredentials unless split_dn[1].has_key?('ou')
+      raise LDAP::ResultError::InvalidCredentials unless ['users', 'services'].include?(split_dn[1]['ou'])
+      raise LDAP::ResultError::InvalidCredentials unless password
+
+      p UsersController.helpers.sign_in
+
+      puts "Bound #{split_dn[0]['uid']}"
     end
 
   end

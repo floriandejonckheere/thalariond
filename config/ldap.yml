@@ -1,5 +1,7 @@
+# LDAP configuration
+# Be aware that spring uses port 1389 for some reason
 default: &default
-  port: 1389
+  port: 2389
   base_dn: dc=thalarion,dc=be
 
 development:

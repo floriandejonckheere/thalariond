@@ -1,4 +1,5 @@
 require 'ldapserver'
 include LDAPServer
 
-server = LDAPServer.start
+puts "=> Starting LDAP server"
+LDAPServer.start
