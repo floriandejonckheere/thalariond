@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
 
-
 # Devise authentication
 gem 'devise'
 # CanCan authorization
 gem 'cancan'
 # LDAP server
 gem 'ruby-ldapserver'
+# Daemons
+gem 'daemons'
 
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
