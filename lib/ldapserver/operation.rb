@@ -21,19 +21,18 @@ class LDAPServer::Operation < LDAP::Server::Operation
     raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(split_dn[1]['ou'])
     raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless password
 
-    p UsersController.helpers
-
-    puts "Bound #{split_dn[0]['uid']}"
+    user = User.find_by(uid: split_dn[0]['uid'])
+    raise LDAP::ResultError::NoSuchObject if user.blank?
+    raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless user.valid_password?(password)
   end
 
   def search(basedn, scope, deref, filter)
     basedn.downcase!
 
-    puts LDAP::Server::Operation.anonymous?
-
+    raise LDAP::ResultError::UnwillingToPerform, "Anonymous bind not allowed" if LDAP::Server::Operation.anonymous?
     raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless basedn.end_with?(Rails.application.config.ldap['base_dn'])
 
-    puts "Search: basedn=#{basedn.inspect}, scope=#{scope.inspect}, deref=#{deref.inspect}, filter=#{filter.inspect}\n"
+    #~ puts "Search: basedn=#{basedn.inspect}, scope=#{scope.inspect}, deref=#{deref.inspect}, filter=#{filter.inspect}\n"
 
     raise LDAP::ResultError::InvalidSyntax, "Invalid search filter" unless filter[0]
   end
