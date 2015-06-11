@@ -6,8 +6,8 @@ gem 'devise'
 gem 'cancan'
 # LDAP server
 gem 'ruby-ldapserver'
-# Daemons
-gem 'daemons'
+# Daemons for LDAP server
+gem 'daemons-rails'
 
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record

@@ -14,3 +14,11 @@ $ rake db:setup # Creates and seed the initial database
 A default `admin` user is created with password `abcd1234`.
 
 # Configuration
+
+# Run
+
+To run manually, execute the following commands
+```
+$ RAILS_ENV=production lib/daemons/ldapd_ctl start # LDAP server
+$ RAILS_ENV=production rails server # Rails server
+```

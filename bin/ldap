@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'daemons'
+require_relative '../lib/ldapserver.rb'
+include LDAPServer
 
-Daemons.run(File.join('..', 'lib', 'ldapserver.rb'))
+Daemons.run(LDAPServer.start)
