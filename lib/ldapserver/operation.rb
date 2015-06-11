@@ -43,6 +43,7 @@ module LDAPServer
 
       raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if LDAP::Server::Operation.anonymous?
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless basedn.end_with?(Rails.application.config.ldap['base_dn'])
+
       split_dn = LDAP::Server::Operation.split_dn(basedn)
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless split_dn[0].has_key?('ou')
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'services'].include?(split_dn[0]['ou'])
@@ -59,8 +60,18 @@ module LDAPServer
       model.all.each do |m|
         result << m if ability.can? :read, m
       end
-      result = result.map { |m| { :uid => m.uid } }
-      p result
+      result.each do |r|
+        serial = {}
+        if r.class == User
+          serial['givenName'] = r.first_name
+          serial['surname'] = r.last_name if r.last_name?
+          serial['mail'] = r.email
+        else
+          serial['commonName'] = r.display_name
+          serial['description'] = r.description if r.description?
+        end
+        send_SearchResultEntry("uid=#{r.uid},#{basedn}", serial)
+      end
 
       return result
 
