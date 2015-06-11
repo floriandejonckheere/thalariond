@@ -2,11 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    @user ||= User.new
-    @user.roles.each { |r| send(r.name.downcase) }
-
-    # Guest access
-    if @user.roles.size == 0
+    if user
+      user.roles.each { |r| send(r.name.downcase) }
     end
   end
 
@@ -20,13 +17,21 @@ class Ability
   def user
     base
     # RUD own account
-    can [:read, :update, :delete], User, :id => user.id
+    can [:read, :update, :delete], User do |u|
+      u == user
+    end
     # RD all memberships participated in
-    can [:read, :delete], Membership, :user_id => user.id
+    can [:read, :delete], Membership do |membership|
+      membership.user == user
+    end
     # R all groups participated in
-    can :read, Group, :users => { :user_id => user.id }
+    can :read, Group do |group|
+      group.users.any? { |u| u.id == user.id }
+    end
     # UD all owned groups in
-    can [:update, :delete], Group, :owner => { :user_id => user.id }
+    can [:update, :delete], Group do |group|
+      group.owner == user
+    end
   end
 
   # Service access
@@ -36,7 +41,9 @@ class Ability
     # R all memberships participated in
     can :read, ServiceMembership, :service_id => service.id
     # R all groups participated in
-    can :read, Group, :services => { :service_id => service.id }
+    can :read, Group do |group|
+      group.services.any? { |s| s.id == service.id }
+    end
   end
 
   # Operator access
