@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
 
+  root :to => redirect('/home')
+
   resources :groups
-  devise_for :services, :skip => [:registrations, :session, :password]
+  resources :users
+  resources :services
+
   devise_for :users, :skip => [:registrations]
-  root to: 'home#index'
+  devise_for :services, :skip => [:registrations, :session, :password]
+
+  get '/home' => 'home#index'
+  get '/dashboard' => 'dashboard#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

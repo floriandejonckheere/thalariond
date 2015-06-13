@@ -3,7 +3,7 @@
  *
  * */
 nav {
-  background-color: $dark-grey;
+  background-color: lighten($primary-color, 5%);
   height: 100%;
 
   ul {
@@ -28,19 +28,20 @@ nav {
         }
 
         &:hover {
-          background-color: darken($dark-grey, 5%);
+          background-color: $primary-color;
         }
       }
 
       &.active a {
-        background-color: darken($dark-grey, 5%);
+        background-color: $primary-color;
 
         &:after {
+          position: absolute;
           display: inline-block;
-          position:absolute;
           right: -0.5rem;
           content: "";
           background: white;
+          top: 2rem;
           height: 1rem;
           width: 1rem;
           transform: rotate(45deg);
