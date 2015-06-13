@@ -5,16 +5,18 @@
         <i class="fa fa-home"></i> <strong>Home</strong>
       <% end %>
     </li>
-    <li class="<%= 'active' if controller?('dashboard') %>">
-      <%= link_to dashboard_path do %>
-        <i class="fa fa-dashboard"></i> <strong>Dashboard</strong>
-      <% end %>
-    </li>
-    <li class="<%= 'active' if controller?('users') %>">
-      <%= link_to users_path do %>
-        <i class="fa fa-user"></i> <strong>Users</strong>
-      <% end %>
-    </li>
+    <% if current_user.has_role? :administrator %>
+      <li class="<%= 'active' if controller?('dashboard') %>">
+        <%= link_to dashboard_path do %>
+          <i class="fa fa-dashboard"></i> <strong>Dashboard</strong>
+        <% end %>
+      </li>
+      <li class="<%= 'active' if controller?('users') %>">
+        <%= link_to users_path do %>
+          <i class="fa fa-user"></i> <strong>Users</strong>
+        <% end %>
+      </li>
+    <% end %>
     <li class="<%= 'active' if controller?('groups') %>">
       <%= link_to groups_path do %>
         <i class="fa fa-users"></i> <strong>Groups</strong>
@@ -23,6 +25,11 @@
     <li class="<%= 'active' if controller?('services') %>">
       <%= link_to services_path do %>
         <i class="fa fa-server"></i> <strong>Services</strong>
+      <% end %>
+    </li>
+    <li class="<%= 'active' if controller?('settings') %>">
+      <%= link_to settings_path do %>
+        <i class="fa fa-cogs"></i> <strong>Settings</strong>
       <% end %>
     </li>
   </ul>
