@@ -67,3 +67,33 @@ header {
     }
   }
 }
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+
+  background: white;
+  border: 2px solid white;
+
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  position:absolute;
+  top: 5rem;
+  right: 0;
+
+  display: none;
+  margin: 0;
+
+  background: lighten($primary-color, 10%);
+
+  position: absolute;
+
+  li {
+    width: 20rem;
+    padding: 0rem 2rem;
+    margin: 0;
+  }
+}

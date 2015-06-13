@@ -11,17 +11,18 @@
     </div>
     <div class="header-container">
       <ul>
-        <%= link_to destroy_user_session_path, :method => :delete do %><li class="white-text">Sign out</li><% end %>
-        <a href="javascript:void(0);" data-toggle="dropdown">
+        <a href="javascript:void(0);" data-toggle="dropdown" data-target="#dropdown-user">
           <li>
-            <strong><%= current_user.first_name %></strong> <i class="fa fa-caret-down"></i>
+            <%= image_tag current_user.gravatar_url, :class => 'avatar' %>
+            <span>
+              <strong><%= current_user.first_name %></strong> <i class="fa fa-caret-down"></i>
+            </span>
           </li>
         </a>
-        <ul class="dropdown-menu">
-          <li>Menu 1</li>
-          <li>Menu 2</li>
-        </ul>
       </ul>
+        <ul class="dropdown-menu" id="dropdown-user">
+          <%= link_to destroy_user_session_path, :method => :delete do %><li>Sign out</li><% end %>
+        </ul>
     </div>
   </div>
 </header>

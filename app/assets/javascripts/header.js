@@ -5,8 +5,11 @@
  *
  * */
 
-$(document).ready(function() {
+var ready = function() {
   $('[data-toggle="dropdown"]').click(function(ev) {
-    $(ev.currentTarget).siblings('.dropdown-menu').toggle();
+    $($(ev.currentTarget).attr('data-target')).toggle();
   });
-})
+};
+
+$(document).ready(ready)
+$(document).on('page:load', ready)

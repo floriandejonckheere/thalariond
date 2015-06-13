@@ -2,12 +2,12 @@ Rails.application.routes.draw do
 
   root :to => redirect('/home')
 
+  devise_for :users, :skip => [:registrations]
+  devise_for :services, :skip => [:registrations, :session, :password]
+
   resources :groups
   resources :users
   resources :services
-
-  devise_for :users, :skip => [:registrations]
-  devise_for :services, :skip => [:registrations, :session, :password]
 
   get '/home' => 'home#index'
   get '/dashboard' => 'dashboard#index'

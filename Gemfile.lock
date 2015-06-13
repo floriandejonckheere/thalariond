@@ -65,6 +65,7 @@ GEM
     execjs (2.5.2)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    gravtastic (3.2.6)
     i18n (0.7.0)
     jbuilder (2.2.16)
       activesupport (>= 3.0.0, < 5)
@@ -166,6 +167,7 @@ DEPENDENCIES
   cancan
   coffee-rails (~> 4.1.0)
   devise
+  gravtastic
   jbuilder (~> 2.0)
   jquery-rails
   rails (= 4.2.1)
