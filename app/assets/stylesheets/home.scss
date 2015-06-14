@@ -2,34 +2,3 @@
  * Home
  *
  * */
-
-$bg-color-1: #800080;
-$fg-color-1: #FFFFFF;
-
-.info-panel {
-  padding: 2rem;
-  margin: 0 .2rem;
-
-  width: 100%;
-  height: 10rem;
-  vertical-align: baseline;
-
-  h1, h2, h3, h4, h5, h6 {
-    display: inline;
-    margin-right: 1rem;
-    vertical-align: bottom;
-  }
-
-  .info-panel-actions {
-    width: 100%;
-  }
-
-  &.info-panel-color-1 {
-    background: $bg-color-1;
-    color: $fg-color-1;
-
-    .info-panel-actions {
-      background: darken($bg-color-1, 5%);
-    }
-  }
-}
