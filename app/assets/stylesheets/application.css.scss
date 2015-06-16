@@ -34,6 +34,7 @@ h1 {
 
 /**
  * Extra
+ * TODO: put these things in Skeleton UI
  *
  * */
 .button.white-button,
@@ -75,4 +76,18 @@ input.small-input {
 
 .u-full-height {
   height: 100%;
+}
+
+.button-primary-color {
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
+  color: white;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($primary-color, 5%);
+    border: 1px solid darken($primary-color, 5%);
+    color: white;
+  }
 }

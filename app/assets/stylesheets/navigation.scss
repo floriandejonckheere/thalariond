@@ -2,8 +2,11 @@
  * Header
  *
  * */
+
+$color: $light-grey;
+
 nav {
-  background-color: lighten($primary-color, 5%);
+  background-color: lighten($color, 5%);
   height: 100%;
 
   ul {
@@ -23,17 +26,18 @@ nav {
         &:active,
         &:focus,
         &:visited {
-          color: white;
+          color: grey;
           text-decoration: none;
         }
 
         &:hover {
-          background-color: $primary-color;
+          background-color: $color;
         }
       }
 
       &.active a {
         background-color: $primary-color;
+        color: white;
 
         &:after {
           position: absolute;
