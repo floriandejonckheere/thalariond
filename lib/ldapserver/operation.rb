@@ -1,39 +1,39 @@
 require 'ldap/server'
 require 'ldap/server/util'
 
+require 'ldapserver/dn'
+
 require 'cancan'
 
 module LDAPServer
   class Operation < LDAP::Server::Operation
 
     def to_account(dn)
-      split_dn = LDAP::Server::Operation.split_dn(dn)
-      ou_object = split_dn.find { |f| f.has_key?('ou') }
-      uid_object = split_dn.find { |f| f.has_key?('uid') }
-      if ou_object['ou'] == 'users'
-        model = User
+      dn = DN.split(dn)
+      if dn[:ou] == 'users'
+        return User.find_by(uid: dn[:uid])
       else
-        model = Service
+        return Service.find_by(uid: dn[:uid])
       end
-      return model.find_by(uid: uid_object['uid'])
     end
 
-    def simple_bind(version, dn, password)
-      dn.downcase! if dn
+    def simple_bind(version, bind_dn, password)
+      bind_dn.downcase! if bind_dn
 
       # Authentication is required
-      if not dn or not dn.end_with?(Rails.application.config.ldap['base_dn'])
+      if not bind_dn or not bind_dn.end_with?(Rails.application.config.ldap['base_dn'])
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
       end
 
-      split_dn = LDAP::Server::Operation.split_dn(dn)
+      #~ split_dn = LDAP::Server::Operation.split_dn(dn)
+      dn = DN.split(bind_dn)
       # Bind DN is "uid=UID,ou=users|services,BASE_DN"
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless split_dn[0].has_key?('uid')
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless split_dn[1].has_key?('ou')
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(split_dn[1]['ou'])
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn[:uid].nil?
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn[:ou].nil?
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(dn[:ou])
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless password
 
-      account = to_account(dn)
+      account = to_account(bind_dn)
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if account.blank?
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless account.valid_password?(password)
     end
@@ -44,36 +44,34 @@ module LDAPServer
       raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if LDAP::Server::Operation.anonymous?
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless basedn.end_with?(Rails.application.config.ldap['base_dn'])
 
-      split_dn = LDAP::Server::Operation.split_dn(basedn)
-      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless split_dn[0].has_key?('ou')
-      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'services'].include?(split_dn[0]['ou'])
-
-      if split_dn[0]['ou'] == 'users'
-        model = User
-      else
-        model = Service
-      end
+      dn = DN.split(basedn)
+      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" if dn[:ou].nil?
+      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups'].include?(dn[:ou])
 
       account = to_account(@connection.binddn)
       ability = Ability.new(account)
-      result = []
-      model.all.each do |m|
-        result << m if ability.can? :read, m
-      end
-      result.each do |r|
-        serial = {}
-        if r.class == User
-          serial['givenName'] = r.first_name
-          serial['surname'] = r.last_name if r.last_name?
-          serial['mail'] = r.email
-        else
-          serial['commonName'] = r.display_name
-          serial['description'] = r.description if r.description?
-        end
-        send_SearchResultEntry("uid=#{r.uid},#{basedn}", serial)
-      end
 
-      return result
+      if dn[:ou] == 'users'
+        result = Array.new
+        User.all.each do |m|
+          result << m if ability.can? :read, m
+        end
+        result.each do |r|
+          serial = Hash.new
+          serial['givenName'] = r.first_name
+          serial['sn'] = r.last_name if r.last_name?
+          serial['mail'] = r.email
+          send_SearchResultEntry("uid=#{r.uid},#{basedn}", serial)
+        end
+      else
+        result = Array.new
+        account.groups.each do |group|
+          result << group
+        end
+        p result
+        #~ serial['cn'] = r.display_name
+        #~ serial['description'] = r.description if r.description?
+      end
 
     end
   end

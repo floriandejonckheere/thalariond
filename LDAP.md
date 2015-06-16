@@ -12,7 +12,7 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
 
 ```
 
-Authentication is handled by binding using a user or a service (using the appropriate DN). The contents of the `ou=Users` and `ou=Groups` tree is dependant on the role of the bound user. A higher privileged user will see all users, whereas a regular user will only see himself.
+Authentication is handled by binding using a user or a service (using the appropriate DN). Anonymous binding is not supported. The contents of the `ou=Users` and `ou=Groups` tree is dependant on the role of the bound user. A higher privileged user will see all users, whereas a regular user will only see himself.
 
 Similarly, `ou=Groups` contain the groups the user or service owns or is a member of.
 
@@ -28,6 +28,10 @@ sn: Administrator [OPTIONAL]
 mail: admin@example.com
 enabled: true
 ```
+
+## Services
+
+The `ou=Services` tree is used only for binding services, and as such is not queryable.
 
 ## Groups
 
