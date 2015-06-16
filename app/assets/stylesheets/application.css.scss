@@ -23,6 +23,10 @@ html {
   padding: 0;
 }
 
+.row-main {
+  height: calc(100% - #{$header-height});
+}
+
 /**
  * Titles
  *
@@ -65,9 +69,9 @@ input:-moz-placeholder { font-style: italic; }
   text-decoration: none;
 }
 
-.align-right {
-  text-align: right;
-}
+.align-left   { text-align: left; }
+.align-center { text-align: center; }
+.align-right  { text-align: right; }
 
 input.small-input {
   height: 3rem;
@@ -78,7 +82,9 @@ input.small-input {
   height: 100%;
 }
 
-.button-primary-color {
+.button-primary-color,
+input[type="button"].button-primary-color,
+input[type="submit"].button-primary-color {
   background-color: $primary-color;
   border: 1px solid $primary-color;
   color: white;
@@ -90,4 +96,8 @@ input.small-input {
     border: 1px solid darken($primary-color, 5%);
     color: white;
   }
+}
+
+.multiselect {
+  min-height: 10rem;
 }

@@ -1,0 +1,89 @@
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+  <div class="alert alert-danger">
+    <strong><%= pluralize(@user.errors.count, 'error') %> prohibited this user from being saved:</strong>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="row">
+    <h5>Personal details</h5>
+  </div>
+
+  <div class="row">
+    <div class="two columns align-right">
+      Username
+    </div>
+    <div class="eight columns">
+      <!-- TODO: hide edit field for uid by default -->
+      <%= f.text_field :uid,
+          :placeholder => :username,
+          :class => 'u-full-width',
+          :required => 'true' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="two columns align-right">
+      Full name
+    </div>
+    <div class="four columns">
+      <%= f.text_field :first_name,
+          :placeholder => :first_name,
+          :class => 'u-full-width',
+          :required => 'true' %>
+    </div>
+    <div class="four columns">
+      <%= f.text_field :last_name,
+          :placeholder => :last_name,
+          :class => 'u-full-width' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="two columns align-right">
+      Email
+    </div>
+    <div class="eight columns">
+      <%= f.email_field :email,
+          :placeholder => :email,
+          :class => 'u-full-width',
+          :required => 'true' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5>Authorization</h5>
+  </div>
+
+  <div class="row">
+    <div class="four columns">
+      <%= f.select :roles,
+          options_for_select(Role.all.map { |r| [r.description, r.id] }),
+          {},
+          :class => 'multiselect u-full-width',
+          :include_blank => true,
+          :multiple => true %>
+    </div>
+    <div class="two columns align-center">
+      <a href="javascript:void(0);" class="button">&gt;&gt;</a>
+      <br>
+      <a href="javascript:void(0);" class="button">&lt;&lt;</a>
+    </div>
+    <div class="four columns">
+      <%= f.select :roles,
+          options_for_select(@user.roles.map { |r| [r.description, r.id] }),
+          {},
+          :class => 'multiselect u-full-width',
+          :multiple => true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= f.submit 'Save',
+            :class => 'button button-primary-color' %>
+<% end %>
