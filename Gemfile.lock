@@ -102,6 +102,7 @@ GEM
       sprockets-rails
     rails-assets-font-awesome (4.3.0)
     rails-assets-fontawesome (4.3.0)
+    rails-assets-hint (1.4.0)
     rails-assets-jquery (2.1.4)
     rails-assets-skeleton-ui (1.0.1)
       rails-assets-font-awesome (~> 4.3.0)
@@ -172,6 +173,7 @@ DEPENDENCIES
   jquery-rails
   rails (= 4.2.1)
   rails-assets-fontawesome!
+  rails-assets-hint!
   rails-assets-skeleton-ui!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

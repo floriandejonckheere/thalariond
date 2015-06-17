@@ -15,44 +15,57 @@
   </div>
 
   <div class="row">
-    <div class="two columns align-right">
-      Username
+    <div class="one column">
+      <a href="https://www.gravatar.com/" class="hint-top" data-hint="Change your avatar on Gravatar.com">
+        <%= image_tag @user.gravatar_url, :class => 'avatar avatar-xl' %>
+      </a>
     </div>
-    <div class="eight columns">
-      <!-- TODO: hide edit field for uid by default -->
-      <%= f.text_field :uid,
-          :placeholder => :username,
-          :class => 'u-full-width',
-          :required => 'true' %>
-    </div>
-  </div>
+    <div class="eleven columns">
+      <div class="row">
+        <div class="two columns align-right">
+          Username
+        </div>
+        <div class="eight columns">
+          <div id="section-edit-uid" class="<%= 'hidden' unless @user.uid.nil? %>">
+            <%= f.text_field :uid,
+                :placeholder => :username,
+                :class => 'u-full-width',
+                :required => 'true' %>
+          </div>
+          <div id="section-show-uid" class="<%= 'hidden' if @user.uid.nil? %>">
+            <strong><%= @user.uid %></strong> <a href="javascript:void(0);" id="button-edit-uid" class="button button-small">Edit</a>
+          </div>
+        </div>
+      </div>
 
-  <div class="row">
-    <div class="two columns align-right">
-      Full name
-    </div>
-    <div class="four columns">
-      <%= f.text_field :first_name,
-          :placeholder => :first_name,
-          :class => 'u-full-width',
-          :required => 'true' %>
-    </div>
-    <div class="four columns">
-      <%= f.text_field :last_name,
-          :placeholder => :last_name,
-          :class => 'u-full-width' %>
-    </div>
-  </div>
+      <div class="row">
+        <div class="two columns align-right">
+          Full name
+        </div>
+        <div class="four columns">
+          <%= f.text_field :first_name,
+              :placeholder => :first_name,
+              :class => 'u-full-width',
+              :required => 'true' %>
+        </div>
+        <div class="four columns">
+          <%= f.text_field :last_name,
+              :placeholder => :last_name,
+              :class => 'u-full-width' %>
+        </div>
+      </div>
 
-  <div class="row">
-    <div class="two columns align-right">
-      Email
-    </div>
-    <div class="eight columns">
-      <%= f.email_field :email,
-          :placeholder => :email,
-          :class => 'u-full-width',
-          :required => 'true' %>
+      <div class="row">
+        <div class="two columns align-right">
+          Email
+        </div>
+        <div class="eight columns">
+          <%= f.email_field :email,
+              :placeholder => :email,
+              :class => 'u-full-width',
+              :required => 'true' %>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -62,24 +75,32 @@
 
   <div class="row">
     <div class="four columns">
-      <%= f.select :roles,
-          options_for_select(Role.all.map { |r| [r.description, r.id] }),
-          {},
-          :class => 'multiselect u-full-width',
-          :include_blank => true,
-          :multiple => true %>
+      <%= select_tag 'select-all-roles',
+          options_for_select(Role.all.map { |r| [r.description, r.id] unless @user.roles.include?(r) }.compact),
+          {
+            :class => 'multiselect u-full-width',
+            :multiple => true,
+            :include_blank => false
+          } %>
     </div>
     <div class="two columns align-center">
-      <a href="javascript:void(0);" class="button">&gt;&gt;</a>
+      <a href="javascript:void(0);" id="button-role-add" class="button">&gt;&gt;</a>
       <br>
-      <a href="javascript:void(0);" class="button">&lt;&lt;</a>
+      <a href="javascript:void(0);" id="button-role-remove" class="button">&lt;&lt;</a>
     </div>
     <div class="four columns">
-      <%= f.select :roles,
-          options_for_select(@user.roles.map { |r| [r.description, r.id] }),
+      <%= f.collection_select(
+          :roles,
+          @user.roles,
+          :id,
+          :description,
           {},
-          :class => 'multiselect u-full-width',
-          :multiple => true %>
+          { :multiple => true,
+            :class => 'multiselect u-full-width',
+            :id => 'select-user-roles',
+            :include_blank => false
+          }
+          ) %>
     </div>
   </div>
 

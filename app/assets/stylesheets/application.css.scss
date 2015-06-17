@@ -1,6 +1,8 @@
 @import "variables";
 @import "fontawesome";
 @import "skeleton-ui";
+@import "hint";
+
 @import "signin";
 @import "header";
 @import "home";
@@ -100,4 +102,15 @@ input[type="submit"].button-primary-color {
 
 .multiselect {
   min-height: 10rem;
+}
+
+.button-small {
+  height: 2rem;
+  line-height: 2rem;
+
+  padding: 0px 10px;
+}
+
+.hidden {
+  display: none;
 }

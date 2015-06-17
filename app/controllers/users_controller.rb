@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     authorize! :update, @user
 
     if @user.update(user_params)
-      redirect_to @user
+      redirect_to users_path
     else
       render 'edit'
     end
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   # Allowed parameters
   private
   def user_params
-     params.require(:user).permit(:uid, :first_name, :last_name, :email)
+     params.require(:user).permit(:uid, :first_name, :last_name, :email, role_ids: [])
   end
 
 end

@@ -5,6 +5,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-fontawesome'
   # Skeleton UI
   gem 'rails-assets-skeleton-ui'
+  # Hint
+  gem 'rails-assets-hint'
 end
 
 # Devise authentication

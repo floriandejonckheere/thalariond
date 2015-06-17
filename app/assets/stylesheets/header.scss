@@ -72,6 +72,11 @@ header {
   width: 2rem;
   height: 2rem;
 
+  &.avatar-lg {
+    width: 5rem;
+    height: 5rem;
+  }
+
   &.avatar-xl {
     width: 10rem;
     height: 10rem;
