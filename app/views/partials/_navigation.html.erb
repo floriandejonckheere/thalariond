@@ -16,6 +16,12 @@
           <i class="fa fa-user"></i> <strong>Users</strong>
         <% end %>
       </li>
+    <% else %>
+      <li class="<%= 'active' if controller?('users') %>">
+        <%= link_to show_user_path(current_user) do %>
+          <i class="fa fa-user"></i> <strong>Account</strong>
+        <% end %>
+      </li>
     <% end %>
     <li class="<%= 'active' if controller?('groups') %>">
       <%= link_to groups_path do %>

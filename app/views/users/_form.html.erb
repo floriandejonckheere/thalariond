@@ -35,7 +35,7 @@
           <div id="section-show-uid" class="<%= 'hidden' if @user.uid.nil? %>">
             <strong><%= @user.uid %></strong>
             <% unless @user.uid == 'admin' %>
-              <a href="javascript:void(0);" id="button-edit-uid" class="button button-small">Edit</a>
+              <a href="javascript:void(0);" id="button-edit-uid" class="button button-small" data-confirm="Are you sure you wish to continue? This will change your username for ALL services and may have unintended consequences!">Edit</a>
             <% end %>
           </div>
         </div>
