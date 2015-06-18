@@ -33,7 +33,10 @@
                 :required => 'true' %>
           </div>
           <div id="section-show-uid" class="<%= 'hidden' if @user.uid.nil? %>">
-            <strong><%= @user.uid %></strong> <a href="javascript:void(0);" id="button-edit-uid" class="button button-small">Edit</a>
+            <strong><%= @user.uid %></strong>
+            <% unless @user.uid == 'admin' %>
+              <a href="javascript:void(0);" id="button-edit-uid" class="button button-small">Edit</a>
+            <% end %>
           </div>
         </div>
       </div>

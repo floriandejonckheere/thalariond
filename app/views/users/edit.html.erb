@@ -1,7 +1,3 @@
-<h4>Users</h4>
+<h4>Edit <%= @user.first_name + ' ' + @user.last_name %></h4>
 <hr>
-<div class="row">
-  <div class="four columns">
-    <%= image_tag current_user.gravatar_url, :class => 'avatar avatar-xl' %>
-  </div>
-</div>
+<%= render 'form' %>

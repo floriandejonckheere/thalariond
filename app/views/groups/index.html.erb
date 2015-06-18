@@ -1,3 +1,39 @@
+<span class="u-pull-right"><%= link_to 'Add', new_group_path, :class => 'button button-primary-color' %></span>
 <h4>Groups</h4>
 <hr>
-Lorem ipsum dolor sit amet.
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Owner</th>
+      <th class="align-right">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Group.all.each do |group| %>
+      <tr>
+        <td>
+          <strong><%= link_to group.display_name, group_path(group) %></strong>
+        </td>
+        <td>
+          <% if group.owner %>
+            <%= link_to group.owner.first_name + ' ' + group.owner.last_name, user_path(group.owner) %>
+          <% else %>
+            <em>No owner defined</em>
+          <% end %>
+        </td>
+        <td class="align-right">
+          <% if can? :edit, group %>
+            <%= link_to 'Manage', edit_group_path(group), :class => "button button-small" %>
+          <% end %>
+          <% if can? :delete, group %>
+            <%= link_to 'Delete', group_path(group),
+                  method: :delete,
+                  data: { confirm: 'Are you sure you want to delete this group?' },
+                  :class => "button button-small button-danger" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

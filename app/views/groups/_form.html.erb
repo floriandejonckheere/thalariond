@@ -1,0 +1,60 @@
+<%= form_for @group do |f| %>
+  <% if @group.errors.any? %>
+  <div class="alert alert-danger">
+    <strong><%= pluralize(@group.errors.count, 'error') %> prohibited this group from being saved:</strong>
+    <ul>
+    <% @group.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="row">
+    <h5>Group details</h5>
+  </div>
+
+  <div class="row">
+    <div class="two columns align-right">
+      Name
+    </div>
+    <div class="eight columns">
+      <%= f.text_field :name,
+          :placeholder => :name,
+          :class => 'u-full-width',
+          :required => 'true' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="two columns align-right">
+      Display name
+    </div>
+    <div class="eight columns">
+      <%= f.text_field :display_name,
+          :placeholder => :display_name,
+          :class => 'u-full-width' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5>Members</h5>
+  </div>
+
+  <div class="row">
+    <div class="five columns">
+      Current members
+      <br>
+      <em>Not yet implemented</em>
+    </div>
+    <div class="five columns">
+      Add member
+      <br>
+      <em>Not yet implemented</em>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= f.submit 'Save',
+            :class => 'button button-primary-color' %>
+<% end %>

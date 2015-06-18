@@ -27,23 +27,25 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    authorize! :create, User
     @user = User.new
   end
 
   # GET /users/:id/edit
   def edit
     @user = User.find(params[:id])
+    authorize! :update, @user
   end
 
   # GET /users/:id
   def show
     @user = User.find(params[:id])
+    authorize! :read, @user
   end
 
   # PUT/PATCH /users/:id
   def update
     @user = User.find(params[:id])
-
     authorize! :update, @user
 
     if @user.update(user_params)
