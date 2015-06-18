@@ -17,7 +17,9 @@ class UsersController < ApplicationController
     password_length = 8
     password = Devise.friendly_token.first(password_length)
 
-    @user = User.new(user_params, :password => password)
+    params[:user]["password"] = password
+
+    @user = User.new(new_user_params)
     if @user.save
       redirect_to @user
     else
@@ -48,8 +50,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :update, @user
 
-    if @user.update(user_params)
-      redirect_to users_path
+    if @user.update(update_user_params)
+      redirect_to @user
     else
       render 'edit'
     end
@@ -66,9 +68,24 @@ class UsersController < ApplicationController
   end
 
   # Allowed parameters
-  private
-  def user_params
-     params.require(:user).permit(:uid, :first_name, :last_name, :email, role_ids: [])
+  protected
+  def new_user_params
+     params.require(:user).permit(:uid,
+                                  :first_name,
+                                  :last_name,
+                                  :email,
+                                  role_ids: [])
+  end
+
+  protected
+  def update_user_params
+     params.require(:user).permit(:uid,
+                                  :first_name,
+                                  :last_name,
+                                  :email,
+                                  :password,
+                                  :password_confirmation,
+                                  role_ids: [])
   end
 
 end

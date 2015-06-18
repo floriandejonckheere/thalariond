@@ -27,4 +27,10 @@ class User < ActiveRecord::Base
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
   end
+
+  def ability
+    @ability ||= Ability.new(self)
+  end
+  delegate :can?, :cannot?, :to => :ability
+
 end

@@ -7,17 +7,21 @@
 #   Mayor.create(:name => "Emanuel", city: cities.first)
 
 administrator = Role.create!(:name => "administrator",
-                              :description => "System administrator")
+                              :display_name => "System administrator")
 Role.create!(:name => "operator",
-              :description => "Operator")
+              :display_name => "Operator")
 Role.create!(:name => "user",
-              :description => "User")
+              :display_name => "User")
 Role.create!(:name => "service",
-              :description => "Service")
+              :display_name => "Service")
 
 admin = User.create!(:uid => "admin",
                       :email => "admin@example.com",
                       :first_name => "Administrator",
                       :password => "abcd1234")
+
+thalariond = Service.create!(:uid => "thalariond",
+                              :display_name => "Thalarion",
+                              :description => "Thalarion System Service")
 
 admin.roles << administrator

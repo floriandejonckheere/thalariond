@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 20150603100412) do
   add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",         null: false
+    t.string   "display_name"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "service_memberships", force: :cascade do |t|
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 20150603100412) do
     t.string   "uid",                             null: false
     t.string   "display_name",       default: "", null: false
     t.string   "description",        default: ""
-    t.string   "email",              default: "", null: false
     t.string   "encrypted_password", default: "", null: false
     t.integer  "sign_in_count",      default: 0,  null: false
     t.datetime "current_sign_in_at"

@@ -51,10 +51,11 @@ header {
 
     a {
       outline: none;
+      text-decoration: none;
     }
 
     li {
-      display: inline-block;
+      display: block;
       padding-left: 10px;
       padding-right: 10px;
 

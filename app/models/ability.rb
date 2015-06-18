@@ -11,6 +11,10 @@ class Ability
   def base
     # Everyone can read services
     can :read, Service
+    # Everyone can read their own account
+    can :read, User do |u|
+      u == user
+    end
   end
 
   # User access
