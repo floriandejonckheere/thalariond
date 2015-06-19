@@ -11,6 +11,10 @@ class Ability
   def base
     # Everyone can read services
     can :read, Service
+    # Everyone can read their own account
+    can :read, User do |u|
+      u == user
+    end
   end
 
   # User access
@@ -41,7 +45,9 @@ class Ability
     # R all memberships participated in
     can :read, ServiceMembership, :service_id => service.id
     # R all groups participated in
-    can :read, Group, :services => { :service_id => service.id }
+    can :read, Group do |group|
+      group.services.any? { |s| s.id == service.id }
+    end
   end
 
   # Operator access

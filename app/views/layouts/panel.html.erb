@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thalarion Panel</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render 'partials/header' %>
+  <div class="row row-main">
+    <div class="three columns u-full-height">
+      <%= render 'partials/navigation' %>
+    </div>
+    <div class="nine columns main-content u-full-width">
+      <%= yield %>
+    </div>
+  </div>
+</body>
+</html>

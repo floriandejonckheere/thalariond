@@ -1,0 +1,25 @@
+<span class="u-pull-right"><%= link_to 'Add', new_user_path, :class => 'button button-primary-color' %></span>
+<h4>Users</h4>
+<hr>
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>uid</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% User.all.each do |user| %>
+      <tr>
+        <td>
+          <strong><%= link_to user.uid, user_path(user) %></strong>
+        </td>
+        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.access_locked? ? 'Disabled' : 'Enabled' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

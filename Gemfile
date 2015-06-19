@@ -1,5 +1,14 @@
 source 'https://rubygems.org'
 
+source 'https://rails-assets.org' do
+  # Font Awesome
+  gem 'rails-assets-fontawesome'
+  # Skeleton UI
+  gem 'rails-assets-skeleton-ui'
+  # Hint
+  gem 'rails-assets-hint'
+end
+
 # Devise authentication
 gem 'devise'
 # CanCan authorization
@@ -8,6 +17,8 @@ gem 'cancan'
 gem 'ruby-ldapserver'
 # Daemons for LDAP server
 gem 'daemons-rails'
+# Gravatar
+gem 'gravtastic'
 
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
@@ -49,4 +60,3 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

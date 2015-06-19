@@ -1,0 +1,31 @@
+<header>
+  <div class="header-container">
+    <span class="logo"><%= link_to "Thalarion", root_path, :class => "white-text" %></span>
+  </div>
+
+  <div class="header-container u-pull-right">
+<!--
+    <div class="header-container">
+      <span class="search-input-wrapper">
+        <input type="text" placeholder="Search" class="white-input small-input search-input" disabled>
+      </span>
+    </div>
+-->
+    <div class="header-container">
+      <ul>
+        <a href="javascript:void(0);" data-toggle="dropdown" data-target="#dropdown-user">
+          <li>
+            <%= image_tag current_user.gravatar_url, :class => 'avatar' %>
+            <span>
+              <strong><%= current_user.first_name %></strong> <i class="fa fa-caret-down"></i>
+            </span>
+          </li>
+        </a>
+      </ul>
+        <ul class="dropdown-menu" id="dropdown-user">
+          <%= link_to user_path(current_user) do %><li>My account</li><% end %>
+          <%= link_to destroy_user_session_path, :method => :delete do %><li>Sign out</li><% end %>
+        </ul>
+    </div>
+  </div>
+</header>
