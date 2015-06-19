@@ -9,6 +9,5 @@ class Service < ActiveRecord::Base
   validates :display_name, presence: true
 
   # Groups
-  has_many :service_memberships, -> { uniq }, :dependent => :destroy
-  has_many :groups, -> { uniq }, :through => :service_memberships
+  has_and_belongs_to_many :groups, :unique => true
 end

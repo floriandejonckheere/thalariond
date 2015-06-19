@@ -1,7 +1,0 @@
-john_membership:
-  user: john
-  group: john.jane@example.com
-
-jane_membership:
-  user: jane
-  group: john.jane@example.com

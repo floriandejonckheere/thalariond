@@ -3,9 +3,11 @@ class CreateGroups < ActiveRecord::Migration
     create_table :groups do |t|
       t.string  :name,                null: false
       t.string  :display_name
-      t.integer :owner
+      t.references :user
 
       t.timestamps null: false
     end
+
+    add_index :groups, :name,               unique: true
   end
 end

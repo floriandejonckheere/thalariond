@@ -13,15 +13,11 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
 
   # Role-based ACL
-  has_many :assignments, -> { uniq }, :dependent => :destroy
-  has_many :roles, -> { uniq }, :through => :assignments
+  has_and_belongs_to_many :roles, :uniq => true
 
   # Groups
-  has_many :memberships, -> { uniq }, :dependent => :destroy
-  has_many :groups, -> { uniq }, :through => :memberships
-
-  has_many :ownerships, class_name: 'Membership'
-  has_many :owned_groups, through: :ownerships, source: :group
+  has_and_belongs_to_many :groups, :uniq => true
+  has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
 
   ## Methods
   def has_role?(role_sym)
@@ -32,5 +28,4 @@ class User < ActiveRecord::Base
     @ability ||= Ability.new(self)
   end
   delegate :can?, :cannot?, :to => :ability
-
 end

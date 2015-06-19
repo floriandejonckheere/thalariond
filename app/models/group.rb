@@ -2,14 +2,11 @@ class Group < ActiveRecord::Base
   validates :name, presence: true
 
   # Membership
-  has_many :memberships, -> { uniq }, :dependent => :destroy
-  has_many :users, -> { uniq }, :through => :memberships
+  has_and_belongs_to_many :users, :unique => true
 
   # Ownership
-  has_one :ownership, class_name: 'Membership'
-  has_one :owner, through: :ownership, source: :user
+  belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
 
   # Service membership
-  has_many :service_memberships, -> { uniq }, :dependent => :destroy
-  has_many :services, -> { uniq }, :through => :service_memberships
+  has_and_belongs_to_many :services, :unique => true
 end

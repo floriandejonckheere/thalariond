@@ -11,33 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603100412) do
-
-  create_table "assignments", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "assignments", ["user_id", "role_id"], name: "index_assignments_on_user_id_and_role_id", unique: true
+ActiveRecord::Schema.define(version: 20150619084607) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",         null: false
     t.string   "display_name"
-    t.integer  "owner"
+    t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  create_table "memberships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true
+
+  create_table "groups_services", id: false, force: :cascade do |t|
+    t.integer "group_id",   null: false
+    t.integer "service_id", null: false
   end
 
-  add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
+  create_table "groups_users", id: false, force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "user_id",  null: false
+  end
+
+  add_index "groups_users", ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",         null: false
@@ -46,14 +42,14 @@ ActiveRecord::Schema.define(version: 20150603100412) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "service_memberships", force: :cascade do |t|
-    t.integer  "service_id"
-    t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  add_index "roles", ["name"], name: "index_roles_on_name", unique: true
+
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
   end
 
-  add_index "service_memberships", ["service_id", "group_id"], name: "index_service_memberships_on_service_id_and_group_id", unique: true
+  add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", unique: true
 
   create_table "services", force: :cascade do |t|
     t.string   "uid",                             null: false
