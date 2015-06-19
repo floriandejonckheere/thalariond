@@ -21,7 +21,7 @@
     <div class="eight columns">
       <%= f.text_field :name,
           :placeholder => :name,
-          :class => 'u-full-width',
+          :class => 'u-full-width lowercase',
           :required => 'true' %>
     </div>
   </div>
@@ -37,22 +37,25 @@
     </div>
   </div>
 
-  <div class="row">
-    <h5>Members</h5>
-  </div>
-
-  <div class="row">
-    <div class="five columns">
-      Current members
-      <br>
-      <em>Not yet implemented</em>
+  <% if params[:action] != 'new' %>
+    <div class="row">
+      <h5>Members</h5>
+      <div class="five columns">
+        <% if @group.users.length == 0 %>
+          <p><em>No members</em></p>
+        <% end %>
+        <table>
+          <% @group.users.each do |user| %>
+            <tr>
+              <td><%= link_to user.first_name + ' ' + user.last_name, user_path(user) %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+      <div class="five columns">
+      </div>
     </div>
-    <div class="five columns">
-      Add member
-      <br>
-      <em>Not yet implemented</em>
-    </div>
-  </div>
+  <% end %>
 
   <div class="row">
     <%= f.submit 'Save',
