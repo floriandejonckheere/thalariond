@@ -11,10 +11,6 @@ class Ability
   def base
     # Everyone can read services
     can :read, Service
-    # Everyone can read their own account
-    can :read, User do |u|
-      u == user
-    end
   end
 
   # User access
@@ -24,16 +20,8 @@ class Ability
     can [:read, :update, :delete], User do |u|
       u == user
     end
-    # RD all memberships participated in
-    can [:read, :delete], Membership do |membership|
-      membership.user == user
-    end
-    # R all groups participated in
-    can :read, Group do |group|
-      group.users.any? { |u| u.id == user.id }
-    end
-    # UD all owned groups in
-    can [:update, :delete], Group do |group|
+    # RUD all owned groups in
+    can [:read, :update, :delete], Group do |group|
       group.owner == user
     end
   end
@@ -41,23 +29,18 @@ class Ability
   # Service access
   def service
     # R own account
-    can :read, Service, :id => service.id
-    # R all memberships participated in
-    can :read, ServiceMembership, :service_id => service.id
-    # R all groups participated in
-    can :read, Group do |group|
-      group.services.any? { |s| s.id == service.id }
+    can :read, Service do |s|
+      s == service
     end
   end
 
   # Operator access
   def operator
     user
-    # CRUD memberships
-    can :manage, Membership
-    can :manage, ServiceMembership
     # CRUD groups
     can :manage, Group
+    # CRUD services
+    can :manage, Service
   end
 
   # Administrator access
