@@ -2,7 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user
+    if user && user.roles
+      @user = user
       user.roles.each { |r| send(r.name.downcase) }
     end
   end
@@ -17,12 +18,12 @@ class Ability
   def user
     base
     # RUD own account
-    can [:read, :update, :delete], User do |u|
-      u == user
+    can :manage, User do |u|
+      u == @user
     end
     # RUD all owned groups in
     can [:read, :update, :delete], Group do |group|
-      group.owner == user
+      group.owner == @user
     end
   end
 
@@ -30,7 +31,7 @@ class Ability
   def service
     # R own account
     can :read, Service do |s|
-      s == service
+      s == @user
     end
   end
 
