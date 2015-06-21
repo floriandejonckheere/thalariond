@@ -9,4 +9,25 @@ class Group < ActiveRecord::Base
 
   # Service membership
   has_and_belongs_to_many :services, :unique => true
+
+  # Methods
+  def to_ldap
+    h = {}
+    h['cn'] = self.name
+    h['displayName'] = self.display_name if self.display_name?
+    # Members
+    if self.users.length > 0
+      h['member'] = []
+      self.users.each do |u|
+        h['member'] << "uid=#{u.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}"
+      end
+    end
+    if self.services.length > 0
+      h['member'] = []
+      self.services.each do |s|
+        h['member'] << "uid=#{s.uid},ou=Services,#{Rails.application.config.ldap['base_dn']}"
+      end
+    end
+    return h
+  end
 end

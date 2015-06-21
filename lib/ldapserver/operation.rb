@@ -25,7 +25,6 @@ module LDAPServer
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
       end
 
-      #~ split_dn = LDAP::Server::Operation.split_dn(dn)
       dn = DN.split(bind_dn)
       # Bind DN is "uid=UID,ou=users|services,BASE_DN"
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn[:uid].nil?
@@ -52,25 +51,21 @@ module LDAPServer
       ability = Ability.new(account)
 
       if dn[:ou] == 'users'
-        result = Array.new
-        User.all.each do |m|
-          result << m if ability.can? :read, m
-        end
-        result.each do |r|
-          serial = Hash.new
-          serial['givenName'] = r.first_name
-          serial['sn'] = r.last_name if r.last_name?
-          serial['mail'] = r.email
-          send_SearchResultEntry("uid=#{r.uid},#{basedn}", serial)
+        User.all.each do |u|
+          if ability.can? :read, u
+            send_SearchResultEntry("uid=#{u.uid},#{basedn}", u.to_ldap)
+          end
         end
       else
-        result = Array.new
-        account.groups.each do |group|
-          result << group
+        Group.all.each do |g|
+          if ability.can? :read, g
+            h = g.to_ldap
+            if g.owner != account
+              h.delete('member')
+            end
+            send_SearchResultEntry("cn=#{g.name},#{basedn}", h)
+          end
         end
-        p result
-        #~ serial['cn'] = r.display_name
-        #~ serial['description'] = r.description if r.description?
       end
 
     end

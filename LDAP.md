@@ -6,9 +6,15 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                   |
              dc=thalarion
                   |
-      +-----------+-----------+
-      |           |           |
-  ou=Users   ou=Services   ou=Groups
+      +-----------+-----------+-----------+
+      |           |           |           |
+  ou=Users   ou=Services   ou=Groups   ou=Email
+                                          |
+                              +-----------+-----------+
+                              |           |           |
+                             ...    dc=example.com   ...
+                                          |
+                                      mail=user
 
 ```
 

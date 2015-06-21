@@ -28,4 +28,12 @@ class User < ActiveRecord::Base
     @ability ||= Ability.new(self)
   end
   delegate :can?, :cannot?, :to => :ability
+
+  def to_ldap
+    h = {}
+    h['givenName'] = self.first_name
+    h['sn'] = self.last_name if self.last_name?
+    h['mail'] = self.email
+    return h
+  end
 end

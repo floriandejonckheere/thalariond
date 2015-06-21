@@ -6,6 +6,8 @@ class Ability
       @user = user
       user.roles.each { |r| send(r.name.downcase) }
     end
+
+    alias_action :create, :read, :update, :destroy, :to => :crud
   end
 
   # Base permissions
@@ -18,8 +20,12 @@ class Ability
   def user
     base
     # RUD own account
-    can :manage, User do |u|
+    can [:read, :update, :delete], User do |u|
       u == @user
+    end
+    # R all groups participated in
+    can :read, Group do |group|
+      @user.groups.include? group
     end
     # RUD all owned groups in
     can [:read, :update, :delete], Group do |group|
@@ -39,9 +45,9 @@ class Ability
   def operator
     user
     # CRUD groups
-    can :manage, Group
+    can :crud, Group
     # CRUD services
-    can :manage, Service
+    can :crud, Service
   end
 
   # Administrator access
