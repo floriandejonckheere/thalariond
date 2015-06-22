@@ -50,7 +50,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :update, @user
 
-    if @user.update(update_user_params)
+    parameters = update_user_params
+    parameters.delete('password') if parameters['password'].blank?
+    parameters.delete('password_confirmation') if parameters['password_confirmation'].blank?
+
+    if @user.update(parameters)
       redirect_to @user
     else
       render 'edit'

@@ -4,7 +4,6 @@ class DeviseCreateServices < ActiveRecord::Migration
       ## Custom properties
       t.string :uid,                null: false
       t.string :display_name,       null: false, default: ""
-      t.string :description,        default: ""
 
       ## Database authenticatable
       # t.string :email,              null: false, default: ""

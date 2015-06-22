@@ -4,10 +4,15 @@ class Service < ActiveRecord::Base
   devise :database_authenticatable,
           :trackable
 
-  # Properties
+  # Validations
   validates :uid, presence: true, uniqueness: true
   validates :display_name, presence: true
 
   # Groups
   has_and_belongs_to_many :groups, :unique => true
+
+  # Methods
+  def has_role?(role_sym)
+    roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
+  end
 end

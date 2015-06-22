@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
 
   # Role-based ACL
-  has_and_belongs_to_many :roles, :uniq => true
+  has_and_belongs_to_many :roles, :unique => true
 
   # Groups
   has_and_belongs_to_many :groups, :uniq => true

@@ -3,25 +3,28 @@
 #
 # Examples:
 #
-#   cities = City.create([{ :name => "Chicago" }, { :name => "Copenhagen" }])
-#   Mayor.create(:name => "Emanuel", city: cities.first)
+#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
+#   Mayor.create(:name => 'Emanuel', city: cities.first)
 
-administrator = Role.create!(:name => "administrator",
-                              :display_name => "System administrator")
-Role.create!(:name => "operator",
-              :display_name => "Operator")
-Role.create!(:name => "user",
-              :display_name => "User")
-Role.create!(:name => "service",
-              :display_name => "Service")
+administrator = Role.create!(:name => 'administrator',
+                              :display_name => 'System administrator')
+Role.create!(:name => 'operator',
+              :display_name => 'Operator')
+Role.create!(:name => 'user',
+              :display_name => 'User')
 
-admin = User.create!(:uid => "admin",
-                      :email => "admin@example.com",
-                      :first_name => "Administrator",
-                      :password => "abcd1234")
+admin = User.create!(:uid => 'admin',
+                      :email => 'admin@example.com',
+                      :first_name => 'Administrator',
+                      :password => 'abcd1234')
 
-thalariond = Service.create!(:uid => "thalariond",
-                              :display_name => "Thalarion",
-                              :description => "Thalarion System Service")
+thalariond = Service.create!(:uid => 'thalariond',
+                              :display_name => 'Thalarion System',
+                              :password => 'abcd1234')
+
+group = Group.create!(:name => 'thalarion@thalarion.be',
+                      :display_name => 'Email for thalarion@thalarion.be')
+
+thalariond.groups << group
 
 admin.roles << administrator

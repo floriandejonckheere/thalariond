@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20150619084607) do
   create_table "services", force: :cascade do |t|
     t.string   "uid",                             null: false
     t.string   "display_name",       default: "", null: false
-    t.string   "description",        default: ""
     t.string   "encrypted_password", default: "", null: false
     t.integer  "sign_in_count",      default: 0,  null: false
     t.datetime "current_sign_in_at"

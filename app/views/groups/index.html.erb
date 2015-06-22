@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <% Group.all.each do |group| %>
+        <% (current_user.groups + current_user.owned_groups).each do |group| %>
           <tr>
             <td>
               <strong><%= link_to group.display_name, group_path(group) %></strong>

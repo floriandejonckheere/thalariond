@@ -42,14 +42,6 @@ class Ability
     end
   end
 
-  # Service access
-  def service
-    # R own account
-    can :read, Service do |s|
-      s == @user
-    end
-  end
-
   # Operator access
   def operator
     user
