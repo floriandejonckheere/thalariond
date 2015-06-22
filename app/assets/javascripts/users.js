@@ -6,9 +6,11 @@
  * */
 
 var ready = function() {
-  $('#button-edit-uid').click(function() {
-    $('#section-edit-uid').toggle();
-    $('#section-show-uid').toggle();
+  $('#button-edit').click(function(ev) {
+    if(window.confirm('Are you sure you wish to continue? This will change the ' + $(ev.currentTarget).attr('data-property') + ' for ALL services and may have unintended consequences! Consult your system administrator for further advice.')) {
+      $('#section-edit').toggle();
+      $('#section-show').toggle();
+    }
   });
 
   $('#button-role-add').click(function() {

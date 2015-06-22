@@ -4,5 +4,6 @@ class DashboardController < ApplicationController
   layout "panel"
 
   def index
+    authorize! :manage, :all
   end
 end

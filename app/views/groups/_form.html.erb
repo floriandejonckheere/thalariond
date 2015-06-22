@@ -19,10 +19,18 @@
       Name
     </div>
     <div class="eight columns">
-      <%= f.text_field :name,
-          :placeholder => :name,
-          :class => 'u-full-width lowercase',
-          :required => 'true' %>
+      <div id="section-edit" class="<%= 'hidden' unless @group.name.nil? %>">
+        <%= f.text_field :name,
+            :placeholder => :name,
+            :class => 'u-full-width lowercase',
+            :required => 'true' %>
+      </div>
+      <div id="section-show" class="<%= 'hidden' if @group.name.nil? %>">
+        <p>
+          <strong><%= @group.name %></strong>
+          <a href="javascript:void(0);" id="button-edit" data-property="name" class="button button-small">Edit</a>
+        </p>
+      </div>
     </div>
   </div>
 

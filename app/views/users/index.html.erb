@@ -1,4 +1,6 @@
-<span class="u-pull-right"><%= link_to 'Add', new_user_path, :class => 'button button-primary-color' %></span>
+<% if can? :create, User %>
+  <span class="u-pull-right"><%= link_to 'Add', new_user_path, :class => 'button button-primary-color' %></span>
+<% end %>
 <h4>Users</h4>
 <hr>
 <table class="u-full-width">

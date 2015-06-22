@@ -1,6 +1,14 @@
 class Ability
   include CanCan::Ability
 
+  # Available permissions
+  # L List
+  # C Create
+  # R Read
+  # A Assign (update permissions)
+  # U Update
+  # D Delete
+
   def initialize(user)
     if user && user.roles
       @user = user
@@ -8,12 +16,13 @@ class Ability
     end
 
     alias_action :create, :read, :update, :destroy, :to => :crud
+    alias_action :list, :create, :read, :update, :destroy, :to => :lcrud
   end
 
   # Base permissions
   def base
-    # Everyone can read services
-    can :read, Service
+    # Everyone can list and read services
+    can [:list, :read], Service
   end
 
   # User access
@@ -27,8 +36,8 @@ class Ability
     can :read, Group do |group|
       @user.groups.include? group
     end
-    # RUD all owned groups in
-    can [:read, :update, :delete], Group do |group|
+    # RU all owned groups in
+    can [:read, :update], Group do |group|
       group.owner == @user
     end
   end
@@ -44,10 +53,10 @@ class Ability
   # Operator access
   def operator
     user
-    # CRUD groups
-    can :crud, Group
-    # CRUD services
-    can :crud, Service
+    # LCRUD groups
+    can [:lcrud], Group
+    # LCRUD services
+    can [:lcrud], Service
   end
 
   # Administrator access

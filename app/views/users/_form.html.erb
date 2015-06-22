@@ -26,17 +26,17 @@
           Username
         </div>
         <div class="eight columns">
-          <div id="section-edit-uid" class="<%= 'hidden' unless @user.uid.nil? %>">
+          <div id="section-edit" class="<%= 'hidden' unless @user.uid.nil? %>">
             <%= f.text_field :uid,
                 :placeholder => :username,
                 :class => 'u-full-width lowercase',
                 :required => 'true' %>
           </div>
-          <div id="section-show-uid" class="<%= 'hidden' if @user.uid.nil? %>">
+          <div id="section-show" class="<%= 'hidden' if @user.uid.nil? %>">
             <p>
               <strong><%= @user.uid %></strong>
               <% unless @user.uid == 'admin' %>
-                <a href="javascript:void(0);" id="button-edit-uid" class="button button-small" data-confirm="Are you sure you wish to continue? This will change your username for ALL services and may have unintended consequences!">Edit</a>
+                <a href="javascript:void(0);" id="button-edit" data-property="username" class="button button-small">Edit</a>
               <% end %>
             </p>
           </div>
@@ -117,7 +117,7 @@
     <% end %>
   </div>
 
-  <% if can? :manage, Assignment %>
+  <% if can? :assign, @user %>
     <div class="row">
       <h5>Authorization</h5>
     </div>

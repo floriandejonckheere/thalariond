@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    authorize! :read, User
+    authorize! :list, User
   end
 
   # POST /users
