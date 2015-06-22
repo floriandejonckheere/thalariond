@@ -15,6 +15,7 @@ class Group < ActiveRecord::Base
     h = {}
     h['cn'] = self.name
     h['displayName'] = self.display_name if self.display_name?
+    h['owner'] = "uid=#{self.owner.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}" if self.owner != nil
     # Members
     if self.users.length > 0
       h['member'] = []

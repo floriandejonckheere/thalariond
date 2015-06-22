@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
 
   def to_ldap
     h = {}
+    h['uid'] = self.uid
     h['givenName'] = self.first_name
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email

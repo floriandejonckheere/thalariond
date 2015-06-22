@@ -24,7 +24,7 @@ Similarly, `ou=Groups` contain the groups the user or service owns or is a membe
 
 ## Users
 
-Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all (visible) users. Scope is ignored. All user attributes can be used for filtering, including multiple conditions.
+Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all (visible) users. Scope is ignored. All user attributes can be used for filtering, but currently multiple filter conditions are not supported.
 The results are of the following structure:
 
 ```
@@ -41,7 +41,7 @@ The `ou=Services` tree is used only for binding services, and as such is not que
 
 ## Groups
 
-Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All (visible) attributes can be used for filtering, including multiple conditions. The `member` attribute(s) are only visible if the user has the appropriate permissions (owner of group or higher privileged user). The owner is both listed in the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
+Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All (visible) attributes can be used for filtering, currently multiple filter conditions are not supported. The `member` attribute(s) are only visible if the user has the appropriate permissions (owner of group or higher privileged user). The owner is both listed in the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
 The results are of the following structure:
 
 ```

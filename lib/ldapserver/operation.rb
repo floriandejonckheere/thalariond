@@ -53,17 +53,41 @@ module LDAPServer
       if dn[:ou] == 'users'
         User.all.each do |u|
           if ability.can? :read, u
-            send_SearchResultEntry("uid=#{u.uid},#{basedn}", u.to_ldap)
+            result = []
+
+            if filter[0] == :eq
+              result << u if u.attributes[filter[1]] == filter[3]
+            elsif filter[0] == :substrings
+              result << u if u.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
+            else
+              result << u
+            end
+
+            result.each do |r|
+              send_SearchResultEntry("uid=#{u.uid},#{basedn}", r.to_ldap)
+            end
           end
         end
-      else
+      elsif dn[:ou] == 'groups'
         Group.all.each do |g|
           if ability.can? :read, g
-            h = g.to_ldap
-            if g.owner != account
-              h.delete('member')
+            result = []
+
+            if filter[0] == :eq
+              result << g if g.attributes[filter[1]] == filter[3]
+            elsif filter[0] == :substrings
+              result << g if g.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
+            else
+              result << g
             end
-            send_SearchResultEntry("cn=#{g.name},#{basedn}", h)
+
+            result.each do |r|
+              h = r.to_ldap
+              if r.owner != account
+                h.delete('member')
+              end
+              send_SearchResultEntry("cn=#{r.name},#{basedn}", h)
+            end
           end
         end
       end
