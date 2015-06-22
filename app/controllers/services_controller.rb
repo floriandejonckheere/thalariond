@@ -4,5 +4,6 @@ class ServicesController < ApplicationController
   layout "panel"
 
   def index
+    authorize! :list, Service
   end
 end
