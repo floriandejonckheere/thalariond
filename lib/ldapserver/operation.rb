@@ -69,26 +69,40 @@ module LDAPServer
           end
         end
       elsif dn.find_one(:ou) == 'groups'
-        Group.all.each do |g|
-          if ability.can? :read, g
-            result = []
-
-            if filter[0] == :eq
-              result << g if g.attributes[filter[1]] == filter[3]
-            elsif filter[0] == :substrings
-              result << g if g.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
-            else
-              result << g
-            end
-
-            result.each do |r|
-              h = r.to_ldap
-              if r.owner != account
-                h.delete('member')
+        result = []
+        if dn.find(:dc).length > 2
+          # Search for groups
+          domain = dn.find(:dc)
+          # Group search needs at least four components: two for the base DN, two for the group domain
+          return if domain.length < 4
+          if dn.starts_with?("dc=#{domain[0]},dc=#{domain[1]}")
+            # Domain search
+            Group.where("LOWER(name) LIKE LOWER('%@#{domain[0] + "." + domain[1]}')").each { |g| result << g }
+          elsif dn.starts_with?("cn=#{dn.find_one(:cn)}")
+            # User search
+            group = Group.find_by(name: "#{dn.find_one(:cn)}@#{domain[0]}.#{domain[1]}")
+            result << group if group
+          end
+        else
+          # List all groups
+          Group.all.each do |g|
+            if ability.can? :read, g
+              if filter[0] == :eq
+                result << g if g.attributes[filter[1]] == filter[3]
+              elsif filter[0] == :substrings
+                result << g if g.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
+              else
+                result << g
               end
-              send_SearchResultEntry("cn=#{r.name},#{basedn}", h)
             end
           end
+        end
+        result.each do |r|
+          h = r.to_ldap
+          if r.owner != account
+            h.delete('member')
+          end
+          send_SearchResultEntry("cn=#{r.name},#{basedn}", h)
         end
       end
 

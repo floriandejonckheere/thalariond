@@ -32,7 +32,6 @@ module LDAPServer
       haystack_index = 0
 
       while needle_index < needle.length
-        p "Comparing #{@dname[haystack_index]} == #{needle[needle_index]}"
         return false if @dname[haystack_index] != needle[needle_index]
         needle_index += 1
         haystack_index += 1
@@ -50,7 +49,6 @@ module LDAPServer
       haystack_index = @dname.length - 1
 
       while needle_index >= 0
-        p "Comparing #{@dname[haystack_index]} == #{needle[needle_index]}"
         return false if @dname[haystack_index] != needle[needle_index]
         needle_index -= 1
         haystack_index -= 1
