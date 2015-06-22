@@ -2,16 +2,60 @@ require 'ldap/server/util'
 
 module LDAPServer
   class DN
+    @dname
 
-    def self.split(dn)
-      attrs = Hash.new
-      split_dn = LDAP::Server::Operation.split_dn(dn)
-      split_dn.each do |d|
-        # There should be only one key
-        d.each { |key, value| attrs[key.to_sym] = value }
-      end
-      return attrs
+    def initialize(dn)
+      @dname = LDAP::Server::Operation.split_dn(dn)
     end
 
+    def find_one(attr)
+      @dname.each do |pair|
+        return pair[attr.to_s] if pair[attr.to_s]
+      end
+    end
+
+    def find(attr)
+      result = []
+      @dname.each do |pair|
+        result << pair[attr.to_s] if pair[attr.to_s]
+      end
+      return result
+    end
+
+    def starts_with?(dn)
+      needle = LDAP::Server::Operation.split_dn(dn)
+
+      # Needle is longer than haystack
+      return false if needle.length > @dname.length
+
+      needle_index = 0
+      haystack_index = 0
+
+      while needle_index < needle.length
+        p "Comparing #{@dname[haystack_index]} == #{needle[needle_index]}"
+        return false if @dname[haystack_index] != needle[needle_index]
+        needle_index += 1
+        haystack_index += 1
+      end
+      return true
+    end
+
+    def ends_with?(dn)
+      needle = LDAP::Server::Operation.split_dn(dn)
+
+      # Needle is longer than haystack
+      return false if needle.length > @dname.length
+
+      needle_index = needle.length - 1
+      haystack_index = @dname.length - 1
+
+      while needle_index >= 0
+        p "Comparing #{@dname[haystack_index]} == #{needle[needle_index]}"
+        return false if @dname[haystack_index] != needle[needle_index]
+        needle_index -= 1
+        haystack_index -= 1
+      end
+      return true
+    end
   end
 end

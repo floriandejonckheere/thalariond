@@ -9,11 +9,11 @@ module LDAPServer
   class Operation < LDAP::Server::Operation
 
     def to_account(dn)
-      dn = DN.split(dn)
-      if dn[:ou] == 'users'
-        return User.find_by(uid: dn[:uid])
+      dn = DN.new(dn)
+      if dn.find_one(:ou) == 'users'
+        return User.find_by(uid: dn.find_one(:uid))
       else
-        return Service.find_by(uid: dn[:uid])
+        return Service.find_by(uid: dn.find_one(:uid))
       end
     end
 
@@ -25,11 +25,11 @@ module LDAPServer
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
       end
 
-      dn = DN.split(bind_dn)
+      dn = DN.new(bind_dn)
       # Bind DN is "uid=UID,ou=users|services,BASE_DN"
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn[:uid].nil?
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn[:ou].nil?
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(dn[:ou])
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn.find_one(:uid).nil?
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn.find_one(:ou).nil?
+      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(dn.find_one(:ou))
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless password
 
       account = to_account(bind_dn)
@@ -43,14 +43,14 @@ module LDAPServer
       raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if LDAP::Server::Operation.anonymous?
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless basedn.end_with?(Rails.application.config.ldap['base_dn'])
 
-      dn = DN.split(basedn)
-      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" if dn[:ou].nil?
-      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups'].include?(dn[:ou])
+      dn = DN.new(basedn)
+      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" if dn.find_one(:ou).nil?
+      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups'].include?(dn.find_one(:ou))
 
       account = to_account(@connection.binddn)
       ability = Ability.new(account)
 
-      if dn[:ou] == 'users'
+      if dn.find_one(:ou) == 'users'
         User.all.each do |u|
           if ability.can? :read, u
             result = []
@@ -68,7 +68,7 @@ module LDAPServer
             end
           end
         end
-      elsif dn[:ou] == 'groups'
+      elsif dn.find_one(:ou) == 'groups'
         Group.all.each do |g|
           if ability.can? :read, g
             result = []
