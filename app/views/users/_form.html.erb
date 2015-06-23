@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <% if params[:action] != 'new' %>
+    <% if params[:action] == 'edit' %>
       <div class="row">
         <h5>Password</h5>
         <p>Leave this section blank if you want the password to remain unchanged.</p>
@@ -111,33 +111,13 @@
     </div>
 
     <div class="row">
-      <div class="four columns">
-        <%= select_tag 'select-all-roles',
-            options_for_select(Role.all.map { |r| [r.display_name, r.id] unless @user.roles.include?(r) }.compact),
-            {
-              :class => 'multiselect u-full-width',
-              :multiple => true,
-              :include_blank => false
-            } %>
-      </div>
-      <div class="two columns align-center">
-        <a href="javascript:void(0);" id="button-role-add" class="button">&gt;&gt;</a>
-        <br>
-        <a href="javascript:void(0);" id="button-role-remove" class="button">&lt;&lt;</a>
-      </div>
-      <div class="four columns">
-        <%= f.collection_select(
-            :roles,
-            @user.roles,
-            :id,
-            :display_name,
-            {},
-            { :multiple => true,
-              :class => 'multiselect u-full-width',
-              :id => 'select-user-roles',
-              :include_blank => false
-            }
-            ) %>
+      <div class="six columns">
+        <% Role.all.each do |role| %>
+        <div class="checkbox-container">
+          <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>
+          <%= role.display_name %>
+        </div>
+        <% end %>
       </div>
     </div>
   <% end %>

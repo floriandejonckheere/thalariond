@@ -6,3 +6,13 @@
 .section-edit-uid {
   display: none;
 }
+
+.checkbox-container {
+  display: block;
+  margin-bottom: 5px;
+
+  input,
+  label {
+    display: inline;
+  }
+}

@@ -5,6 +5,8 @@ class UsersController < ApplicationController
 
   layout "panel"
 
+  # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
+
   # GET /users
   def index
     authorize! :list, User
@@ -17,9 +19,11 @@ class UsersController < ApplicationController
     password_length = 8
     password = Devise.friendly_token.first(password_length)
 
-    params[:user]["password"] = password
+    parameters = user_params
+    parameters["password"] = password
+    parameters["password_confirmation"] = password
 
-    @user = User.new(new_user_params)
+    @user = User.new(parameters)
     if @user.save
       redirect_to @user
     else
@@ -50,11 +54,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :update, @user
 
-    parameters = update_user_params
+    parameters = user_params
     parameters.delete('password') if parameters['password'].blank?
     parameters.delete('password_confirmation') if parameters['password_confirmation'].blank?
 
     if @user.update(parameters)
+      p parameters
       redirect_to @user
     else
       render 'edit'
@@ -73,22 +78,14 @@ class UsersController < ApplicationController
 
   # Allowed parameters
   protected
-  def new_user_params
-     params.require(:user).permit(:uid,
-                                  :first_name,
-                                  :last_name,
-                                  :email,
-                                  role_ids: [])
-  end
-
-  protected
-  def update_user_params
+  def user_params
      params.require(:user).permit(:uid,
                                   :first_name,
                                   :last_name,
                                   :email,
                                   :password,
                                   :password_confirmation,
+                                  :roles,
                                   role_ids: [])
   end
 end
