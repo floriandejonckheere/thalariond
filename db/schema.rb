@@ -11,7 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619084607) do
+ActiveRecord::Schema.define(version: 20150623114350) do
+
+  create_table "domain_aliases", force: :cascade do |t|
+    t.text     "alias"
+    t.text     "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "domain_aliases", ["alias"], name: "index_domain_aliases_on_alias", unique: true
+  add_index "domain_aliases", ["domain"], name: "index_domain_aliases_on_domain"
+
+  create_table "domains", force: :cascade do |t|
+    t.text     "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true
+
+  create_table "domains_emails", id: false, force: :cascade do |t|
+    t.integer "domain_id", null: false
+    t.integer "email_id",  null: false
+  end
+
+  add_index "domains_emails", ["domain_id", "email_id"], name: "index_domains_emails_on_domain_id_and_email_id", unique: true
+
+  create_table "email_aliases", force: :cascade do |t|
+    t.text     "alias"
+    t.text     "mail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "email_aliases", ["alias"], name: "index_email_aliases_on_alias", unique: true
+
+  create_table "emails", force: :cascade do |t|
+    t.text     "mail"
+    t.integer  "domain_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",         null: false

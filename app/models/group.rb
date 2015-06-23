@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   # Membership
   has_and_belongs_to_many :users, :unique => true
