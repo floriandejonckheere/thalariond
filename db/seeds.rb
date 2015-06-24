@@ -8,6 +8,8 @@
 
 administrator = Role.create!(:name => 'administrator',
                               :display_name => 'System administrator')
+Role.create!(:name => 'master',
+              :display_name => 'Master')
 Role.create!(:name => 'operator',
               :display_name => 'Operator')
 Role.create!(:name => 'user',

@@ -58,12 +58,20 @@ class Ability
   def operator
     user
     # LCRUD groups
-    can [:lcrud], Group
+    can :lcrud, Group
     # LCRUD services
-    can [:lcrud], Service
+    can :lcrud, Service
     # LCRUD emails and aliases
-    can [:lcrud], Email
-    can [:lcrud], EmailAlias
+    can :lcrud, Email
+    can :lcrud, EmailAlias
+  end
+
+  # Master access
+  def master
+    operator
+    # LCRUD domains and aliases
+    can :lcrud, Domain
+    can :lcrud, DomainAlias
   end
 
   # Administrator access
