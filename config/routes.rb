@@ -8,15 +8,16 @@ Rails.application.routes.draw do
   resources :groups
   resources :users
   resources :services
-  resources :domains do
+  resources :domains, except: [:list, :show ]do
     resources :emails, shallow: true
   end
-  resources :domainaliases
-  resources :emailaliases
+  resources :domainaliases, except: :show
+  resources :emailaliases, except: :show
 
   get '/home' => 'home#index'
   get '/dashboard' => 'dashboard#index'
   get '/settings' => 'settings#index'
+  get '/mail' => 'mail#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

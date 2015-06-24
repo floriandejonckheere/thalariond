@@ -59,7 +59,6 @@ class UsersController < ApplicationController
     parameters.delete('password_confirmation') if parameters['password_confirmation'].blank?
 
     if @user.update(parameters)
-      p parameters
       redirect_to @user
     else
       render 'edit'
