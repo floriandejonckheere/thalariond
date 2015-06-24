@@ -12,6 +12,8 @@ Role.create!(:name => 'operator',
               :display_name => 'Operator')
 Role.create!(:name => 'user',
               :display_name => 'User')
+Role.create!(:name => 'service',
+              :display_name => 'Service')
 Role.create!(:name => 'mail',
               :display_name => 'Mail')
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623100913) do
+ActiveRecord::Schema.define(version: 20150624114526) do
 
   create_table "domain_aliases", force: :cascade do |t|
     t.text     "alias",      null: false
@@ -81,6 +81,13 @@ ActiveRecord::Schema.define(version: 20150623100913) do
   end
 
   add_index "roles", ["name"], name: "index_roles_on_name", unique: true
+
+  create_table "roles_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "role_id",    null: false
+  end
+
+  add_index "roles_services", ["service_id", "role_id"], name: "index_roles_services_on_service_id_and_role_id", unique: true
 
   create_table "roles_users", id: false, force: :cascade do |t|
     t.integer "user_id", null: false
