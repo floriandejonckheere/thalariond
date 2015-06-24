@@ -3,15 +3,7 @@
 @import "skeleton-ui";
 @import "hint";
 
-@import "signin";
-@import "header";
-@import "home";
-@import "dashboard";
-@import "settings";
-@import "services";
-@import "users";
-@import "navigation";
-@import "content";
+@import "*";
 
 /**
  * Reset

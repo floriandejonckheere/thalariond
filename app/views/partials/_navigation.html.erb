@@ -28,6 +28,11 @@
         <i class="fa fa-users"></i> <strong>Groups</strong>
       <% end %>
     </li>
+    <li class="<%= 'active' if ['domain', 'domainalias', 'email', 'emailalias'].include?(controller) %>">
+      <%= link_to domains_path do %>
+        <i class="fa fa-envelope"></i> <strong>Email</strong>
+      <% end %>
+    </li>
     <!--
     <li class="<%= 'active' if controller?('services') %>">
       <%= link_to services_path do %>
