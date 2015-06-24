@@ -1,7 +1,7 @@
 class CreateDomains < ActiveRecord::Migration
   def change
     create_table :domains do |t|
-      t.text :domain
+      t.text :domain,                   null: false
 
       t.timestamps null: false
     end

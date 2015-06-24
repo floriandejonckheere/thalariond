@@ -1,8 +1,8 @@
 class CreateEmailAliases < ActiveRecord::Migration
   def change
     create_table :email_aliases do |t|
-      t.text :alias
-      t.text :mail
+      t.text :alias,                    null: false
+      t.text :mail,                     null: false
 
       t.timestamps null: false
     end

@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623114350) do
+ActiveRecord::Schema.define(version: 20150623100913) do
 
   create_table "domain_aliases", force: :cascade do |t|
-    t.text     "alias"
-    t.text     "domain"
+    t.text     "alias",      null: false
+    t.text     "domain",     null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,23 +24,16 @@ ActiveRecord::Schema.define(version: 20150623114350) do
   add_index "domain_aliases", ["domain"], name: "index_domain_aliases_on_domain"
 
   create_table "domains", force: :cascade do |t|
-    t.text     "domain"
+    t.text     "domain",     null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true
 
-  create_table "domains_emails", id: false, force: :cascade do |t|
-    t.integer "domain_id", null: false
-    t.integer "email_id",  null: false
-  end
-
-  add_index "domains_emails", ["domain_id", "email_id"], name: "index_domains_emails_on_domain_id_and_email_id", unique: true
-
   create_table "email_aliases", force: :cascade do |t|
-    t.text     "alias"
-    t.text     "mail"
+    t.text     "alias",      null: false
+    t.text     "mail",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -48,11 +41,13 @@ ActiveRecord::Schema.define(version: 20150623114350) do
   add_index "email_aliases", ["alias"], name: "index_email_aliases_on_alias", unique: true
 
   create_table "emails", force: :cascade do |t|
-    t.text     "mail"
-    t.integer  "domain_id"
+    t.text     "mail",       null: false
+    t.integer  "domain_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "emails", ["mail", "domain_id"], name: "index_emails_on_mail_and_domain_id", unique: true
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",         null: false
@@ -68,6 +63,8 @@ ActiveRecord::Schema.define(version: 20150623114350) do
     t.integer "group_id",   null: false
     t.integer "service_id", null: false
   end
+
+  add_index "groups_services", ["group_id", "service_id"], name: "index_groups_services_on_group_id_and_service_id", unique: true
 
   create_table "groups_users", id: false, force: :cascade do |t|
     t.integer "group_id", null: false

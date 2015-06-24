@@ -1,8 +1,8 @@
 class CreateDomainAliases < ActiveRecord::Migration
   def change
     create_table :domain_aliases do |t|
-      t.text :alias
-      t.text :domain, index: true
+      t.text :alias,                    null: false
+      t.text :domain, index: true,      null: false
 
       t.timestamps null: false
     end
