@@ -70,30 +70,15 @@ module LDAPServer
         end
       elsif dn.find_one(:ou) == 'groups'
         result = []
-        if dn.find(:dc).length > 2
-          # Search for groups
-          domain = dn.find(:dc)
-          # Group search needs at least four components: two for the base DN, two for the group domain
-          return if domain.length < 4
-          if dn.starts_with?("dc=#{domain[0]},dc=#{domain[1]}")
-            # Domain search
-            Group.where("LOWER(name) LIKE LOWER('%@#{domain[0] + "." + domain[1]}')").each { |g| result << g }
-          elsif dn.starts_with?("cn=#{dn.find_one(:cn)}")
-            # User search
-            group = Group.find_by(name: "#{dn.find_one(:cn)}@#{domain[0]}.#{domain[1]}")
-            result << group if group
-          end
-        else
-          # List all groups
-          Group.all.each do |g|
-            if ability.can? :read, g
-              if filter[0] == :eq
-                result << g if g.attributes[filter[1]] == filter[3]
-              elsif filter[0] == :substrings
-                result << g if g.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
-              else
-                result << g
-              end
+        # List all groups
+        Group.all.each do |g|
+          if ability.can? :read, g
+            if filter[0] == :eq
+              result << g if g.attributes[filter[1]] == filter[3]
+            elsif filter[0] == :substrings
+              result << g if g.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
+            else
+              result << g
             end
           end
         end
@@ -103,6 +88,21 @@ module LDAPServer
             h.delete('member')
           end
           send_SearchResultEntry("cn=#{r.name},#{basedn}", h)
+        end
+      elsif dn.find_one(:ou) == 'domains'
+        if dn.find_one(:dc)
+          # List emails
+          raise LDAP::ResultError::UnwillingToPerform, "Invalid domain specification" if dn.find(:dc).length < 2
+          domain = Domain.find_by(domain: "#{dc[0]}.#{dc[1]}")
+          raise LDAP::ResultError::InsufficientAccess unless ability.can? :read, domain
+
+        else
+          # List domains
+          raise LDAP::ResultError::InsufficientAccess unless ability.can? :list, Domain
+          Domain.all.each do |d|
+            dom = d.domain.split('.')
+            send_SearchResultEntry("dc=#{dom[1]},dc=#{dom[0]},#{basedn}", d.to_ldap)
+          end
         end
       end
 
