@@ -25,6 +25,18 @@ class Ability
     can [:list, :read], Service
   end
 
+  def service
+    base
+    # R own account
+    can :read, Service do |s|
+      s == @user
+    end
+    # R all groups participated in
+    can :read, Group do |group|
+      @user.groups.include? group
+    end
+  end
+
   # User access
   def user
     base
@@ -49,11 +61,24 @@ class Ability
     can [:lcrud], Group
     # LCRUD services
     can [:lcrud], Service
+    # LCRUD emails and aliases
+    can [:lcrud], Email
+    can [:lcrud], EmailAlias
   end
 
   # Administrator access
   def administrator
     operator
     can :manage, :all
+  end
+
+  # Mail service access
+  def mail
+    service
+    # LR domains, emails and aliases
+    can [:list, :read], Domain
+    can [:list, :read], DomainAlias
+    can [:list, :read], Email
+    can [:list, :read], EmailAlias
   end
 end

@@ -12,19 +12,12 @@ Role.create!(:name => 'operator',
               :display_name => 'Operator')
 Role.create!(:name => 'user',
               :display_name => 'User')
+Role.create!(:name => 'mail',
+              :display_name => 'Mail')
 
 admin = User.create!(:uid => 'admin',
                       :email => 'admin@example.com',
                       :first_name => 'Administrator',
                       :password => 'abcd1234')
-
-thalariond = Service.create!(:uid => 'thalariond',
-                              :display_name => 'Thalarion System',
-                              :password => 'abcd1234')
-
-group = Group.create!(:name => 'thalarion@thalarion.be',
-                      :display_name => 'Email for thalarion@thalarion.be')
-
-thalariond.groups << group
 
 admin.roles << administrator
