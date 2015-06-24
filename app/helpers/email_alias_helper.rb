@@ -1,2 +1,0 @@
-module EmailAliasHelper
-end

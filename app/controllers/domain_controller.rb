@@ -1,2 +1,0 @@
-class DomainController < ApplicationController
-end

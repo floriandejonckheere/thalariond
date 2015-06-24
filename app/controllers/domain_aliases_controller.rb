@@ -1,0 +1,2 @@
+class DomainAliasesController < ApplicationController
+end

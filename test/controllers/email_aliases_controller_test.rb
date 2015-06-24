@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EmailAliasControllerTest < ActionController::TestCase
+class EmailAliasesControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end
