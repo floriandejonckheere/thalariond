@@ -12,22 +12,26 @@
         <% end %>
         <div class="row">
           <div class="four columns offset-by-one">
-            <%= f.text_field :uid, placeholder: "Username", autofocus: true, :class => "white-input u-full-width" %>
+            <%= f.text_field :uid, placeholder: 'Username', autofocus: true, :class => 'white-input u-full-width' %>
           </div>
           <div class="four columns">
-            <%= f.password_field :password, placeholder: "Password", autocomplete: "off", :class => "white-input u-full-width" %>
+            <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", :class => 'white-input u-full-width' %>
           </div>
           <div class="two columns">
-            <%= f.submit "Sign in", :class => "button white-button u-full-width" %>
+            <%= f.submit 'Sign in', :class => 'button white-button u-full-width' %>
           </div>
         </div>
         <div class="row">
           <%- if devise_mapping.recoverable? %>
-            <%= link_to "Recover account", new_password_path(resource_name), :class => "white-text" %>
+            <%= link_to 'Recover account', new_password_path(resource_name), :class => 'white-text' %>
           <% end -%>
-          |
           <%- if devise_mapping.lockable? %>
-            <%= link_to "Unlock account", new_unlock_path(resource_name), :class => "white-text" %>
+            |
+            <%= link_to 'Unlock account', new_unlock_path(resource_name), :class => 'white-text' %>
+          <% end -%>
+          <%- if devise_mapping.confirmable? %>
+            |
+            <%= link_to 'Confirm account', new_confirmation_path(resource_name), :class => 'white-text' %>
           <% end -%>
         </div>
       <% end %>
