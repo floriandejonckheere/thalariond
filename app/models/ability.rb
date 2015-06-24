@@ -23,8 +23,11 @@ class Ability
   def base
     # Everyone can list and read services
     can [:list, :read], Service
+    # Everyone can list domains
+    can :list, Domain
   end
 
+  # Service permissions
   def service
     base
     # R own account
@@ -64,6 +67,9 @@ class Ability
     # LCRUD emails and aliases
     can :lcrud, Email
     can :lcrud, EmailAlias
+    # LR domains and aliases
+    can [:list, :read], Domain
+    can [:list, :read], DomainAlias
   end
 
   # Master access
