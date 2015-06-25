@@ -8,7 +8,7 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                   |
       +-----------+-----------+-----------+
       |           |           |           |
-  ou=Users   ou=Services   ou=Groups   ou=Email
+  ou=Users   ou=Services   ou=Groups  ou=Domains
                                           |
                               +-----------+-----------+
                               |           |           |
@@ -42,11 +42,24 @@ The `ou=Services` tree is used only for binding services, and as such is not que
 ## Groups
 
 Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All (visible) attributes can be used for filtering, currently multiple filter conditions are not supported. The `member` attribute(s) are only visible if the user has the appropriate permissions (owner of group or higher privileged user). The owner is both listed in the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
-The results are of the following structure:
+The results are of the following format:
 
 ```
 dn: cn=group,ou=Groups,dc=thalarion,dc=be
 displayName: Group
 owner: uid=administrator,ou=Users,dc=thalarion,dc=be
 member: owner: uid=administrator,ou=Users,dc=thalarion,dc=be
+
+```
+
+## Domains
+
+Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all managed domains. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
+Perform a search with base DN `dc=mydomain.com,dc=thalarion,dc=be` to list all emails of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
+The results are of the following format:
+
+```
+dn: mail=admin,dc=mydomain.com,ou=Domains,dc=thalarion,dc=be
+mail: admin
+
 ```

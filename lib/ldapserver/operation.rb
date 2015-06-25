@@ -45,7 +45,7 @@ module LDAPServer
 
       dn = DN.new(basedn)
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" if dn.find_one(:ou).nil?
-      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups'].include?(dn.find_one(:ou))
+      raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups', 'domains'].include?(dn.find_one(:ou))
 
       account = to_account(@connection.binddn)
       ability = Ability.new(account)
@@ -90,18 +90,41 @@ module LDAPServer
           send_SearchResultEntry("cn=#{r.name},#{basedn}", h)
         end
       elsif dn.find_one(:ou) == 'domains'
-        if dn.find_one(:dc)
+        if dn.find(:dc).length > 2
           # List emails
-          raise LDAP::ResultError::UnwillingToPerform, "Invalid domain specification" if dn.find(:dc).length < 2
-          domain = Domain.find_by(domain: "#{dc[0]}.#{dc[1]}")
-          raise LDAP::ResultError::InsufficientAccess unless ability.can? :read, domain
-
+          domain = Domain.find_by(domain: dn.find_one(:dc))
+          raise LDAP::ResultError::NoSuchObject, "No such domain" if domain.nil?
+          raise LDAP::ResultError::InsufficientAccessRights, "Insufficient permissions" unless ability.can? :read, domain
+          result = []
+          if filter[0] == :eq
+            e = domain.emails.find_by(mail: filter[3])
+            result << e if e
+          elsif filter[0] == :substrings
+            domain.emails.each do |e|
+              result << e if e.mail =~ /^#{filter.drop(3).join('.*')}$/
+            end
+          else
+            domain.emails.each { |e| result << e }
+          end
+          result.each do |e|
+            send_SearchResultEntry("mail=#{e.mail},#{basedn}", e.to_ldap)
+          end
         else
           # List domains
-          raise LDAP::ResultError::InsufficientAccess unless ability.can? :list, Domain
-          Domain.all.each do |d|
-            dom = d.domain.split('.')
-            send_SearchResultEntry("dc=#{dom[1]},dc=#{dom[0]},#{basedn}", d.to_ldap)
+          raise LDAP::ResultError::InsufficientAccessRights, "Insufficient permissions" unless ability.can? :list, Domain
+          result = []
+          if filter[0] == :eq
+            d = Domain.find_by(domain: filter[3])
+            result << d if d
+          elsif filter[0] == :substrings
+            Domain.all.each do |d|
+              result << d if d.domain =~ /^#{filter.drop(3).join('.*')}$/
+            end
+          else
+            Domain.all.each { |d| result << d }
+          end
+          result.each do |d|
+            send_SearchResultEntry("dc=#{d.domain},#{basedn}", d.to_ldap)
           end
         end
       end

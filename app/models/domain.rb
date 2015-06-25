@@ -6,7 +6,7 @@ class Domain < ActiveRecord::Base
   # Methods
   def to_ldap
     h = {}
-    h['cn'] = self.domain
+    h['dc'] = self.domain
     return h
   end
 end

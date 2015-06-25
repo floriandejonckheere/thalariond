@@ -23,8 +23,6 @@ class Ability
   def base
     # Everyone can list and read services
     can [:list, :read], Service
-    # Everyone can list domains
-    can :list, Domain
   end
 
   # Service permissions
