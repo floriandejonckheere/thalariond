@@ -12,6 +12,7 @@ module LDAPServer
       @dname.each do |pair|
         return pair[attr.to_s] if pair[attr.to_s]
       end
+      return nil
     end
 
     def find(attr)
@@ -19,6 +20,7 @@ module LDAPServer
       @dname.each do |pair|
         result << pair[attr.to_s] if pair[attr.to_s]
       end
+      return nil if result.empty?
       return result
     end
 

@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   # Groups
   has_and_belongs_to_many :groups, :unique => true
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
-  validates_inclusion_of :owned_groups, in: :groups
+  #~ validates_inclusion_of :owned_groups, in: :groups, :message => 'Owned groups must also be participated in'
 
   ## Methods
   def has_role?(role_sym)
