@@ -2,24 +2,55 @@
   <% if can? :update, @group %>
     <%= link_to 'Edit', edit_group_path(@group), :class => 'button' %>
   <% end %>
+  <% if can? :delete, @group %>
+    <%= link_to 'Delete', group_path(@group),
+                          method: :delete,
+                          data: { confirm: 'Are you sure you want to delete this group?' },
+                          :class => 'button button-danger' %>
+  <% end %>
 </span>
 <h4><%= @group.display_name %></h4>
 <hr>
 
 <div class="row">
+  <h5>Group details</h5>
+  <p>
+    <div class="row">
+      <div class="two columns">
+        Name
+      </div>
+      <div class="eight columns">
+        <strong><%= @group.name %></strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="two columns">
+        Description
+      </div>
+      <div class="eight columns">
+        <%= @group.display_name %>
+      </div>
+    </div>
+  </p>
+</div>
+
+<div class="row">
   <h5>Members</h5>
-  <div class="five columns">
-    <% if @group.users.length == 0 %>
-      <p><em>No members</em></p>
-    <% end %>
-    <table class="u-full-width">
-      <% @group.users.each do |user| %>
-        <tr>
-          <td><%= link_to user.first_name + ' ' + user.last_name, user_path(user) %></td>
-        </tr>
+  <p>
+    <div class="six columns">
+      <% if @group.users.length == 0 %>
+        <p><em>No members</em></p>
       <% end %>
-    </table>
-  </div>
-  <div class="five columns">
-  </div>
+      <table class="u-full-width">
+        <% @group.users.each do |user| %>
+          <tr>
+            <td><%= link_to user.first_name + ' ' + user.last_name, user_path(user) %></td>
+            <% if @group.owner == user %>
+              <td><strong>Owner</strong></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </p>
 </div>

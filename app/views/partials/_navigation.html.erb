@@ -28,7 +28,7 @@
         <i class="fa fa-users"></i> <strong>Groups</strong>
       <% end %>
     </li>
-    <li class="<%= 'active' if ['domain', 'domainalias', 'email', 'emailalias'].include?(controller) %>">
+    <li class="<%= 'active' if controller?('mail', 'domain', 'domainalias', 'email', 'emailalias') %>">
       <%= link_to mail_path do %>
         <i class="fa fa-envelope"></i> <strong>Email</strong>
       <% end %>

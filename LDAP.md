@@ -8,7 +8,7 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                   |
       +-----------+-----------+-----------+
       |           |           |           |
-  ou=Users   ou=Services   ou=Groups  ou=Domains
+  ou=Users   ou=Services   ou=Groups   ou=Mail
                                           |
                               +-----------+-----------+
                               |           |           |
