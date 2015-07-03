@@ -10,5 +10,6 @@ rake db:migrate
 rake assets:precompile
 
 # Run application
+rm -f /app/tmp/pids/server.pid
 ./lib/daemons/ldapd_ctl start
 rails server -b 0.0.0.0 -e production
