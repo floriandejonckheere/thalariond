@@ -52,10 +52,15 @@ member: owner: uid=administrator,ou=Users,dc=thalarion,dc=be
 
 ```
 
-## Domains
+Groups with a name that corresponds to a managed email address are called *permission groups*, and are used to determine the set of users that have access to the email at this address. All participating users can use their own password to login to the IMAP server. Permission groups are automatically created upon creation of emails.
 
-Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all managed domains. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
+## Mail
+
+Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all managed domains. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
 Perform a search with base DN `dc=mydomain.com,dc=thalarion,dc=be` to list all emails of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
+
+To support templated dovecot authentication binds, a client can bind against `mail=mymail,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be`. In this mode, the provided password is checked against the passwords of all users in the permission group.
+
 The results are of the following format:
 
 ```
