@@ -41,6 +41,8 @@ h1 {
 .button.white-button:focus {
   color: white;
   border-color: white;
+  padding: 0;
+  text-align: center;
 }
 input.white-input,
 input.white-input:hover,
