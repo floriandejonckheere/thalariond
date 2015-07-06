@@ -18,4 +18,5 @@
 
 vendor/bundle
 
-private.sh
+# Ignore private settings
+private/

@@ -11,7 +11,7 @@ $ bundle install
 $ rake db:setup # Creates and seed the initial database
 ```
 
-A default `admin` user is created with password `abcd1234`.
+A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seed.rb`.
 
 # Configuration
 
@@ -22,3 +22,6 @@ To run manually, execute the following commands
 $ RAILS_ENV=production lib/daemons/ldapd_ctl start # LDAP server
 $ RAILS_ENV=production rails server # Rails server
 ```
+
+Or use the Dockerfile.
+**WARNING**: By default no database migrations are ever applied. Apply them manually after each update!
