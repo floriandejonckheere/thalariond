@@ -42,6 +42,9 @@ module LDAPServer
         group.users.each do |user|
           return if user.valid_password?(password)
         end
+        group.services.each do |service|
+          return if service.valid_password?(password)
+        end
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
       else
         # User|Service
