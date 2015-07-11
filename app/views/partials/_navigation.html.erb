@@ -28,22 +28,22 @@
         <i class="fa fa-users"></i> <strong>Groups</strong>
       <% end %>
     </li>
-    <li class="<%= 'active' if controller?('mail', 'domain', 'domainalias', 'email', 'emailalias') %>">
+    <% if can? :update, Domain %>
+      <li class="<%= 'active' if controller?('domains') %>">
+        <%= link_to domains_path do %>
+          <i class="fa fa-cloud"></i> <strong>Domains and emails</strong>
+        <% end %>
+      </li>
+    <% end %>
+    <li class="<%= 'active' if controller?('mail', 'domainaliases', 'emails', 'emailaliases') %>">
       <%= link_to mail_path do %>
         <i class="fa fa-envelope"></i> <strong>Email</strong>
       <% end %>
     </li>
-    <!--
     <li class="<%= 'active' if controller?('services') %>">
       <%= link_to services_path do %>
         <i class="fa fa-server"></i> <strong>Services</strong>
       <% end %>
     </li>
-    <li class="<%= 'active' if controller?('settings') %>">
-      <%= link_to settings_path do %>
-        <i class="fa fa-cogs"></i> <strong>Settings</strong>
-      <% end %>
-    </li>
-    -->
   </ul>
 </nav>

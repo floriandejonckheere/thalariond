@@ -1,15 +1,15 @@
-<h4>Email</h4>
+<% if can? :create, Domain %>
+  <span class="u-pull-right"><%= link_to 'Add', new_domain_path, :class => 'button button-primary-color' %></span>
+<% end %>
+<h4>Domains</h4>
 <hr>
 
 <div class="row">
-  <% if can? :create, Domain %>
-    <span class="u-pull-right"><%= link_to 'Add', new_domain_path, :class => 'button button-primary-color' %></span>
-  <% end %>
-  <h5>Domains</h5>
   <table class="u-full-width">
     <thead>
       <tr>
         <th>Domain</th>
+        <th>Email count</th>
         <th class="align-right">Actions</th>
       </tr>
     </thead>
@@ -17,7 +17,10 @@
       <% Domain.all.each do |domain| %>
         <tr>
           <td>
-            <strong><%= link_to domain.domain, edit_domain_path(domain) %></strong>
+            <strong><%= link_to domain.domain, domain_path(domain) %></strong>
+          </td>
+          <td>
+            <%= domain.emails.count %>
           </td>
           <td class="align-right">
             <% if can? :edit, Domain %>

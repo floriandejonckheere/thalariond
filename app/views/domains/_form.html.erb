@@ -1,0 +1,29 @@
+<%= form_for @domain do |f| %>
+  <% if @domain.errors.any? %>
+  <div class="alert alert-danger">
+    <strong><%= pluralize(@domain.errors.count, 'error') %> prohibited this domain from being saved:</strong>
+    <ul>
+    <% @domain.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="row">
+    <h5>Domain details</h5>
+    <div class="two columns align-right">
+      FQDN
+    </div>
+    <div class="eight columns">
+      <%= f.text_field :domain,
+          :placeholder => :domain,
+          :class => 'u-full-width lowercase',
+          :required => 'true' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= f.submit 'Save',
+            :class => 'button button-primary-color' %>
+<% end %>

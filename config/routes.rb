@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :groups
   resources :users
   resources :services
-  resources :domains, except: [:list, :show ]do
+  resources :domains do
     resources :emails, shallow: true
   end
   resources :domainaliases, except: :show

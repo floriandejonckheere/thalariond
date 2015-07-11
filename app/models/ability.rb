@@ -44,8 +44,8 @@ class Ability
   def user
     base
     # RUD own account
-    can [:read, :update, :delete], User do |u|
-      u == @user
+    can [:read, :update, :destroy], User do |u|
+      u.id == @user.id
     end
     # R all groups participated in
     can :read, Group do |group|

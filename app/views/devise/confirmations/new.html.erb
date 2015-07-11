@@ -1,16 +1,24 @@
-<h2>Resend confirmation instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %> 
+<div class="signin-container">
+  <div class="container">
+    <h1>Confirm account</h1>
+    <div class="container">
+      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+        <% if flash.any? %>
+        <div class="row">
+          <div class="ten columns offset-by-one">
+            <%= render 'partials/messages' %>
+          </div>
+        </div>
+        <% end %>
+        <div class="row">
+          <div class="five columns offset-by-two">
+            <%= f.email_field :email, placeholder: "Email address", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), :class => "white-input u-full-width" %>
+          </div>
+          <div class="three columns">
+            <%= f.submit "Send instructions", :class => "button white-button u-full-width" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

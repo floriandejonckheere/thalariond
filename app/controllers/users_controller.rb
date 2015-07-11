@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   # DELETE /users/:id
   def destroy
     @user = User.find(params[:id])
-    authorize! :delete, @user
+    authorize! :destroy, @user
 
     @user.destroy
 

@@ -40,17 +40,24 @@
     <div class="six columns">
       <% if @group.users.length == 0 %>
         <p><em>No members</em></p>
-      <% end %>
-      <table class="u-full-width">
-        <% @group.users.each do |user| %>
-          <tr>
-            <td><%= link_to user.first_name + ' ' + user.last_name, user_path(user) %></td>
-            <% if @group.owner == user %>
-              <td><strong>Owner</strong></td>
+      <% else %>
+        <table class="u-full-width">
+          <thead>
+            <tr>
+              <td><strong>Name</strong></td>
+              <td class="align-right"><strong>Status</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            <% @group.users.each do |user| %>
+              <tr>
+                <td><%= link_to user.display_name, user_path(user) %></td>
+                <td class="align-right"><%= @group.owner == user ? 'Owner' : 'Member' %></td>
+              </tr>
             <% end %>
-          </tr>
-        <% end %>
-      </table>
+          </tbody>
+        </table>
+      <% end %>
     </div>
   </p>
 </div>

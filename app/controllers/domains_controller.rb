@@ -11,7 +11,7 @@ class DomainsController < ApplicationController
 
     @domain = Domain.new(domain_params)
     if @domain.save
-      redirect_to domain_path(@domain)
+      redirect_to mail_path
     else
       render 'new'
     end
@@ -35,7 +35,7 @@ class DomainsController < ApplicationController
     authorize! :update, @domain
 
     if @domain.update(domain_params)
-      redirect_to domain_path(@domain)
+      redirect_to mail_path
     else
       render 'edit'
     end
@@ -48,7 +48,7 @@ class DomainsController < ApplicationController
 
     @domain.destroy
 
-    redirect_to domains_path
+    redirect_to mail_path
   end
 
   # Allowed parameters

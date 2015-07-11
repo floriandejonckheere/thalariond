@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :recoverable,
-          :trackable, :validatable, :lockable
+          :trackable, :validatable, :lockable, :confirmable
 
   # Validations
   validates :uid, presence: true, uniqueness: true, format: { with: /[a-z_0-9]{3,}/ }
@@ -37,5 +37,11 @@ class User < ActiveRecord::Base
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
     return h
+  end
+
+  def display_name
+    name = self.first_name
+    name << ' ' + self.last_name if self.last_name?
+    return name
   end
 end

@@ -5,26 +5,19 @@
     <p>Welcome to the Thalarion control panel. You can manage your account and relevant services from here.</p>
     <p>
       <ul>
-        <li>Change your first, last and username</li>
+        <li>Change your personal details</li>
         <li>Change your primary email address</li>
-        <li>Manage your owned groups</li>
-        <li>Manage your service access</li>
+        <li>Manage your groups and emails</li>
+        <li>View additional services</li>
       </ul>
     </p>
-  </div>
-  <div class="five columns">
-    <div class="panel">
-      <h5>Announcements</h5>
-      <p>
-        <em>There are no announcements right now</em>
-      </p>
-    </div>
   </div>
 </div>
 
 <div class="row">
   <h5>Get started</h5>
   <p>
-    <%= link_to 'Manage your account &raquo;'.html_safe, edit_user_path(current_user), :class => 'button' %>
+    <%= link_to 'Manage your account &raquo;'.html_safe, user_path(current_user), :class => 'button' %>
+    <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'button' %>
   </p>
 </div>
