@@ -3,7 +3,7 @@
 # Create a file `private.sh` in `private/`, and define the variables in the run command:
 . private/private.sh
 
-docker run -d --name thalariond \
+docker run $@ --name thalariond \
 	--link postgresql:postgresql \
 	-e "DB_HOST=${DB_HOST}" \
 	-e "DB_DATABASE=${DB_DATABASE}" \
