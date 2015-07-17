@@ -1,15 +1,1 @@
-admin:
-  name: administrator
-  description: System Administrator
-
-operator:
-  name: operator
-  description: Operator
-
-user:
-  name: user
-  description: User
-
-service:
-  name: service
-  description: Service
+# Roles are defined in db/seed.rb

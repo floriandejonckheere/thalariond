@@ -1,9 +1,15 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+webmaster-com:
+  alias: webmaster@example.com
+  mail: admin@example.com
 
-one:
-  vmail: MyText
-  email_id: 
+hostmaster-com:
+  alias: hostmaster@example.com
+  mail: admin@example.com
 
-two:
-  vmail: MyText
-  email_id: 
+webmaster-org:
+  alias: webmaster@example.org
+  mail: admin@example.org
+
+hostmaster-org:
+  alias: hostmaster@example.org
+  mail: admin@example.org

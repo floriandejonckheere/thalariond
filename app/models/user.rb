@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :uid, presence: true, uniqueness: true, format: { with: /[a-z_0-9]{3,}/ }
+  # TODO: email should not be inside the managed domain set
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
 
@@ -18,6 +19,8 @@ class User < ActiveRecord::Base
   # Groups
   has_and_belongs_to_many :groups, :unique => true
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
+  # TODO: owned_groups should be a subset of :groups
+  # Alternatively, when assigning owned groups add it to :groups too
   #~ validates_inclusion_of :owned_groups, in: :groups, :message => 'Owned groups must also be participated in'
 
   ## Methods

@@ -1,7 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+example-com:
+  domain: example.com
 
-one:
-  domain: MyText
-
-two:
-  domain: MyText
+example-org:
+  domain: example.org

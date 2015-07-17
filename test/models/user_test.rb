@@ -1,5 +1,8 @@
 require 'test_helper'
 
+# Run the following command before each test
+# $ bundle exec rake db:reset RAILS_ENV=test
+
 class UserTest < ActiveSupport::TestCase
 
   test 'memberships' do

@@ -1,9 +1,19 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+admin-com:
+  mail: admin
+  domain: example-com
 
-one:
-  mail: MyText
-  domain: 
+admin-org:
+  mail: admin
+  domain: example-org
 
-two:
-  mail: MyText
-  domain: 
+john-com:
+  mail: john
+  domain: example-com
+
+jane-com:
+  mail: jane
+  domain: example-com
+
+jake-com:
+  mail: jake
+  domain: example-com
