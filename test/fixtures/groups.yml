@@ -2,27 +2,27 @@
 admin-com-group:
   name: admin@example.com
   display_name: Email group for admin@example.com
-  owner: admin
   users: admin
+  owner: admin
 
 john-com-group:
   name: john@example.com
   display_name: Email group for john@example.com
-  owner: john
   users:
     - john
     - jane
+  owner: john
 
 jane-com-group:
   name: jane@example.com
   display_name: Email group for jane@example.com
-  owner: jane
   users:
     - john
     - jane
+  owner: jane
 
 jake-com-group:
   name: jake@example.com
   display_name: Email group for jake@example.com
-  owner: jake
   users: jake
+  owner: jake

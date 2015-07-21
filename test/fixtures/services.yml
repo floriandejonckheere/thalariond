@@ -12,7 +12,7 @@ dovecot:
     - service
     - mail
 
-client
+client:
   uid: client
   display_name: Service Client
   roles:

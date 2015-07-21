@@ -2,13 +2,14 @@ class Group < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   # Membership
-  has_and_belongs_to_many :users, :unique => true
+  has_and_belongs_to_many :users, unique: true
 
   # Ownership
   belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
+  validates_inclusion_of :owner, in: :users, allow_blank: true
 
   # Service membership
-  has_and_belongs_to_many :services, :unique => true
+  has_and_belongs_to_many :services, unique: true
 
   # Methods
   def to_ldap
