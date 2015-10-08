@@ -1,4 +1,5 @@
 default: &default
+  bindaddr: 127.0.0.1
   port: 1389
   base_dn: dc=thalarion,dc=be
 

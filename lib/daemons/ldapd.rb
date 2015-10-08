@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'erb'
+
 # You might want to change this
 ENV['RAILS_ENV'] ||= 'development'
 
@@ -9,7 +11,7 @@ Dir.chdir(root)
 
 require File.join(root, 'config', 'environment')
 
-ActiveRecord::Base.establish_connection(YAML::load(File.open(File.join(root, 'config', 'database.yml')))[ENV['RAILS_ENV']])
+ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(File.join(root, 'config', 'database.yml'))).result)[ENV['RAILS_ENV']])
 
 require File.join(root, 'lib', 'ldapserver')
 include LDAPServer

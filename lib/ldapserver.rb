@@ -8,7 +8,8 @@ module LDAPServer
     @server
 
     def start
-      opts = { :port => Rails.application.config.ldap['port'],
+      opts = { :bindaddr => Rails.application.config.ldap['bindaddr'],
+                :port => Rails.application.config.ldap['port'],
                 :namingContexts => Rails.application.config.ldap['base_dn'],
                 :operation_class => LDAPServer::Operation}
 
@@ -19,7 +20,7 @@ module LDAPServer
 
       @server = LDAP::Server.new(opts)
 
-      puts '=> Starting LDAP server'
+      puts "=> Starting LDAP server in #{ENV['RAILS_ENV']} mode"
       @server.run_tcpserver
       @server.join
     end
