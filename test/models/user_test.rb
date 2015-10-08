@@ -8,6 +8,12 @@ class UserTest < ActiveSupport::TestCase
   john = User.find_by!(uid: 'john')
   jane = User.find_by!(uid: 'jane')
   jake = User.find_by!(uid: 'jake')
+  foo  = User.find_by!(uid: 'foo')
+
+  test 'user_uid' do
+    foo.update(:uid => 'fo')
+    assert not foo.valid?
+  end
 
   test 'group_user_memberships' do
     john_com_group = Group.find_by!(name: 'john@example.com')

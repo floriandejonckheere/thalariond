@@ -21,3 +21,11 @@ jake:
   email: jake.doe@example.net
   roles:
     - user
+
+foo:
+  uid: foo
+  first_name: Foo
+  last_name: Bar
+  email: foo.bar@example.net
+  roles:
+    - administrator
