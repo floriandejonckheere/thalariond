@@ -1,4 +1,5 @@
 require 'ldap/server'
+require 'logger'
 
 require_relative 'ldapserver/operation'
 
@@ -6,27 +7,42 @@ module LDAPServer
 
   class Server
     @server
+    @logger
+
+    def initialize(root)
+      @logger = Logger.new(File.join(root, 'log', "ldapd.#{Rails.env}.log"))
+    end
+
+    def self.logger
+      @logger
+    end
 
     def start
-      opts = { :bindaddr => Rails.application.config.ldap['bindaddr'],
-                :port => Rails.application.config.ldap['port'],
-                :namingContexts => Rails.application.config.ldap['base_dn'],
-                :operation_class => LDAPServer::Operation}
+      config = Rails.application.config.ldap
 
-      if Rails.application.config.ldap.has_key?(:ssl_cert)
-        opts[:ssl_cert_file] = Rails.application.config.ldap['ssl_cert']
-        opts[:ssl_key_file] = Rails.application.config.ldap['ssl_key']
+      opts = { :bindaddr => config['bindaddr'],
+                :port => config['port'],
+                :namingContexts => config['base_dn'],
+                :operation_class => LDAPServer::Operation,
+                :logger => @logger
+      }
+
+      if config.has_key?(:ssl_cert)
+        opts[:ssl_cert_file] = config[:ssl_cert]
+        opts[:ssl_key_file] = config[:ssl_key]
+        opts[:ssl_ca_path] = config[:ssl_ca_path] if config.has_key?(:ssl_ca_path)
+        opts[:ssl_dhparams] = config[:ssl_dhparams] if config.has_key?(:ssl_dhparams)
       end
 
       @server = LDAP::Server.new(opts)
 
-      puts "=> Starting LDAP server in #{ENV['RAILS_ENV']} mode"
+      @logger.info "Starting LDAP server"
       @server.run_tcpserver
       @server.join
     end
 
     def stop
-      puts '=> Stopping LDAP server'
+      @logger.info "Stopping LDAP server"
       @server.stop
     end
   end

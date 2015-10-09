@@ -2,9 +2,9 @@
 
 require 'erb'
 
-# You might want to change this
 ENV['RAILS_ENV'] ||= 'development'
 
+# Load Rails environment
 root = File.expand_path(File.dirname(__FILE__))
 root = File.dirname(root) until File.exists?(File.join(root, 'config'))
 Dir.chdir(root)
@@ -13,10 +13,11 @@ require File.join(root, 'config', 'environment')
 
 ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(File.join(root, 'config', 'database.yml'))).result)[ENV['RAILS_ENV']])
 
+# Load ldapd
 require File.join(root, 'lib', 'ldapserver')
 include LDAPServer
 
-server = LDAPServer::Server.new
+server = LDAPServer::Server.new(root)
 
 Signal.trap('TERM') do
   server.stop

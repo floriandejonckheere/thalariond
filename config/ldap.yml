@@ -10,6 +10,8 @@ production:
   <<: *default
   ssl_cert: ldap.cert
   ssl_key: ldap.key
+  # ssl_ca_path: ca.pem
+  # ssl_dhparams: dhparams.pem
 
 test:
   <<: *default
