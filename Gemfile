@@ -14,7 +14,7 @@ gem 'devise'
 # CanCan authorization
 gem 'cancan'
 # LDAP server
-gem 'ruby-ldapserver'
+gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
 # Daemons for LDAP server
 gem 'daemons-rails'
 # Gravatar

@@ -15,6 +15,7 @@ class Group < ActiveRecord::Base
   def to_ldap
     h = {}
     h['cn'] = self.name
+    h['objectClass'] = 'group'
     h['displayName'] = self.display_name if self.display_name?
     h['owner'] = "uid=#{self.owner.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}" if self.owner != nil
     # Members

@@ -8,11 +8,11 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                   |
       +-----------+-----------+-------------+
       |           |           |             |
-  ou=Users   ou=Services   ou=Groups   ou=Domains
-                                            |
-                                +-----------+-----------+
-                                |           |           |
-                               ...    dc=example.com   ...
+ ou=Groups   ou=Services   ou=Users    ou=Domains
+      |                                     |
+ +------------+                 +-----------+-----------+
+ |            |                 |           |           |
+cn=groupA  cn=groupB           ...    dc=example.com   ...
                                             |
                                         mail=user
 
@@ -46,9 +46,12 @@ The results are of the following format:
 
 ```
 dn: cn=group,ou=Groups,dc=thalarion,dc=be
+cn: group
+objectClass: group
 displayName: Group
 owner: uid=administrator,ou=Users,dc=thalarion,dc=be
-member: owner: uid=administrator,ou=Users,dc=thalarion,dc=be
+member: uid=administrator,ou=Users,dc=thalarion,dc=be
+member: uid=postfix,ou=Services,dc=thalarion,dc=be
 
 ```
 

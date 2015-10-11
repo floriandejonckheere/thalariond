@@ -1,7 +1,5 @@
 require 'ldap/server'
-require 'ldap/server/util'
-
-require 'ldapserver/dn'
+require 'ldap/server/dn'
 
 require 'cancan'
 
@@ -9,7 +7,7 @@ module LDAPServer
   class Operation < LDAP::Server::Operation
 
     def to_account(dn)
-      dn = DN.new(dn)
+      dn = LDAP::Server::DN.new(dn)
       if dn.find_one(:ou) == 'users'
         return User.find_by(uid: dn.find_one(:uid))
       else
@@ -26,7 +24,7 @@ module LDAPServer
       end
       raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless password
 
-      dn = DN.new(bind_dn)
+      dn = LDAP::Server::DN.new(bind_dn)
       # Bind DN is either "uid=UID,ou=users|services,BASE_DN" or an email address (see LDAP.md)
       if dn.find_one(:uid).nil?
         # Email
@@ -63,7 +61,7 @@ module LDAPServer
       raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if LDAP::Server::Operation.anonymous?
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless basedn.end_with?(Rails.application.config.ldap['base_dn'])
 
-      dn = DN.new(basedn)
+      dn = LDAP::Server::DN.new(basedn)
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" if dn.find_one(:ou).nil?
       raise LDAP::ResultError::UnwillingToPerform, "Invalid base DN" unless ['users', 'groups', 'domains'].include?(dn.find_one(:ou))
 
