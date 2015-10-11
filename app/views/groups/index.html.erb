@@ -6,25 +6,32 @@
 <h4>Groups</h4>
 <hr>
 
-<% if current_user.groups.any? %>
-  <div class="row">
-    <h5>Groups</h5>
-    <table class="u-full-width">
-      <thead>
-        <tr>
-          <th>Group name</th>
-          <th>Status</th>
-          <th>Owner</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% (current_user.groups + current_user.owned_groups).each do |group| %>
+<% if (current_user.groups.any? or current_user.can?( :list, Group)) %>
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>Group name</th>
+        <th>Membership status</th>
+        <th>Owner</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Group.all.each do |group| %>
+        <% if current_user.can? :read, group %>
           <tr>
             <td>
               <strong><%= link_to group.display_name, group_path(group) %></strong>
             </td>
-            <td><%= group.owner == current_user ? 'Owner' : 'Member' %></td>
+            <td>
+              <% if group.owner == current_user %>
+                Owner
+              <% elsif group.users.include? current_user %>
+                Member
+              <% else %>
+                Not a member
+              <% end %>
+            </td>
             <td>
               <% if group.owner %>
                 <%= link_to group.owner.first_name + ' ' + group.owner.last_name, user_path(group.owner) %>
@@ -40,48 +47,7 @@
             </td>
           </tr>
         <% end %>
-      </tbody>
-    </table>
-  </div>
-<% else %>
-  <p><em>You do not belong to any groups</em></p>
-<% end %>
-
-<% if can? :list, Group %>
-  <div class="row">
-    <h5>All groups</h5>
-    <table class="u-full-width">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Owner</th>
-          <th class="align-right">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% Group.all.each do |group| %>
-          <tr>
-            <td>
-              <strong><%= link_to group.display_name, group_path(group) %></strong>
-            </td>
-            <td><%= group.owner == current_user ? 'Owner' : 'Member' %></td>
-            <td>
-              <% if group.owner %>
-                <%= link_to group.owner.first_name + ' ' + group.owner.last_name, user_path(group.owner) %>
-              <% else %>
-                <em>No owner defined</em>
-              <% end %>
-            </td>
-            <td class="align-right">
-              <% if can? :update, group %>
-                <%= link_to 'Manage', edit_group_path(group),
-                      :class => 'button button-small' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
