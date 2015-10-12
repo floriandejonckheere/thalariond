@@ -18,4 +18,13 @@ class Service < ActiveRecord::Base
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
   end
+
+  def to_ldap
+    h = {}
+    h['uid'] = self.uid
+    h['objectClass'] = 'serviceAccount'
+    h['displayName'] = self.display_name
+    h['enabled'] = not self.access_locked?
+    return h
+  end
 end

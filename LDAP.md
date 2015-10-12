@@ -29,6 +29,7 @@ The results are of the following structure:
 
 ```
 dn: uid=user,ou=Users,dc=thalarion,dc=be
+uid: user
 givenName: Administrator
 sn: Administrator [OPTIONAL]
 mail: admin@example.com
@@ -37,7 +38,14 @@ enabled: true
 
 ## Services
 
-The `ou=Services` tree is used only for binding services, and as such is not queryable.
+The `ou=Services` tree is analogous to the `ou=Users` tree. It is used for binding. non-human services (such as postfix and dovecot). Additionally, it is queryable.
+
+```
+dn: uid=service,ou=Services,dc=thalarion,dc=be
+uid: service
+displayName: Service
+enabled: true
+```
 
 ## Groups
 

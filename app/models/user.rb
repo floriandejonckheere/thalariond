@@ -35,9 +35,11 @@ class User < ActiveRecord::Base
   def to_ldap
     h = {}
     h['uid'] = self.uid
+    h['objectClass'] = 'userAccount'
     h['givenName'] = self.first_name
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
+    h['enabled'] = not self.access_locked?
     return h
   end
 
