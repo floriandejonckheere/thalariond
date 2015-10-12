@@ -47,6 +47,10 @@ class User < ActiveRecord::Base
     return name
   end
 
+  def display_roles
+    self.roles.map(&:display_name).join ', '
+  end
+
   ## Validations
   def email_outside_managed_domains
     if Domain.find_by(domain: email.split('@')[1]).present?

@@ -16,9 +16,22 @@
     <% User.all.each do |user| %>
       <tr>
         <td>
-          <strong><%= link_to user.uid, user_path(user) %></strong>
+          <strong><%= user.uid %></strong>
         </td>
-        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td>
+          <div class="row">
+            <div class="two columns">
+              <%= image_tag user.gravatar_url, :class => 'avatar' %>
+            </div>
+            <div class="ten columns">
+              <strong><%= link_to user.display_name, user_path(user) %></strong>
+              <br>
+              <% if user.roles.any? %>
+                <em><%= user.display_roles %></em>
+              <% end %>
+            </div>
+          </div>
+        </td>
         <td><%= user.email %></td>
         <td><%= user.access_locked? ? 'Disabled' : 'Enabled' %></td>
       </tr>
