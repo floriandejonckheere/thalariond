@@ -1,0 +1,40 @@
+/**
+ * Dashboard
+ *
+ * */
+
+.dashboard-container {
+  margin-top: 3rem;
+}
+
+.title-main {
+  font-size: .8rem;
+  color: $light-grey;
+  text-transform: uppercase;
+}
+
+.title-section {
+  font-size: 2rem;
+  color: $dark-grey;
+  font-size: 200;
+}
+
+.title-nav {
+  margin-bottom: .5rem;
+
+  font-size: .8rem;
+  color: $light-grey;
+  text-transform: uppercase;
+}
+
+nav {
+  margin-top: 2rem;
+
+  .nav {
+    padding-left: 1rem;
+  }
+
+  font-family: 'Roboto', sans-serif;
+  font-size: .8rem;
+  font-weight: 200;
+}

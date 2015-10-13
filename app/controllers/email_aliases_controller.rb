@@ -3,7 +3,7 @@ class EmailAliasesController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "panel"
+  layout "dashboard"
 
   # GET /emailaliases
   def index

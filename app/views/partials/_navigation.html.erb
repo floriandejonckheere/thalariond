@@ -1,49 +1,57 @@
-<nav>
-  <ul>
-    <li class="<%= 'active' if controller?('home') %>">
-      <%= link_to home_path do %>
-        <i class="fa fa-home"></i> <strong>Home</strong>
-      <% end %>
-    </li>
-    <% if current_user.has_role? :administrator %>
-      <li class="<%= 'active' if controller?('dashboard') %>">
-        <%= link_to dashboard_path do %>
-          <i class="fa fa-dashboard"></i> <strong>Dashboard</strong>
+<div class="row">
+  <div class="col-xs-4">
+    <img src="<%= asset_path("logo.png") %>">
+  </div>
+</div>
+<div class="row">
+  <nav>
+    <ul class="nav nav-pills nav-stacked">
+      <div class="title-nav">Dashboards</div>
+      <li class="nav-item">
+        <%= link_to home_path, :class => (controller?('home') ? 'nav-link active' : 'nav-link') do %>
+          Home
         <% end %>
       </li>
-      <li class="<%= 'active' if controller?('users') %>">
-        <%= link_to users_path do %>
-          <i class="fa fa-user"></i> <strong>Users</strong>
+      <% if current_user.has_role? :administrator %>
+        <li class="nav-item">
+          <%= link_to dashboard_path, :class => (controller?('dashboard') ? 'nav-link active' : 'nav-link') do %>
+            Dashboard
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to users_path, :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
+            Users
+          <% end %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to user_path(current_user), :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
+            Account
+          <% end %>
+        </li>
+      <% end %>
+      <li class="nav-item">
+        <%= link_to groups_path, :class => (controller?('groups') ? 'nav-link active' : 'nav-link') do %>
+          Groups
         <% end %>
       </li>
-    <% else %>
-      <li class="<%= 'active' if controller?('users') %>">
-        <%= link_to user_path(current_user) do %>
-          <i class="fa fa-user"></i> <strong>Account</strong>
+      <% if can? :update, Domain %>
+        <li class="nav-item">
+          <%= link_to domains_path, :class => (controller?('domains') ? 'nav-link active' : 'nav-link') do %>
+            Domains and emails
+          <% end %>
+        </li>
+      <% end %>
+      <li class="nav-item">
+        <%= link_to mail_path, :class => (controller?('mail', 'domainaliases', 'emails', 'emailaliases') ? 'nav-link active' : 'nav-link') do %>
+          Email
         <% end %>
       </li>
-    <% end %>
-    <li class="<%= 'active' if controller?('groups') %>">
-      <%= link_to groups_path do %>
-        <i class="fa fa-users"></i> <strong>Groups</strong>
-      <% end %>
-    </li>
-    <% if can? :update, Domain %>
-      <li class="<%= 'active' if controller?('domains') %>">
-        <%= link_to domains_path do %>
-          <i class="fa fa-cloud"></i> <strong>Domains and emails</strong>
+      <li class="nav-item">
+        <%= link_to services_path, :class => (controller?('services') ? 'nav-link active' : 'nav-link') do %>
+          Services
         <% end %>
       </li>
-    <% end %>
-    <li class="<%= 'active' if controller?('mail', 'domainaliases', 'emails', 'emailaliases') %>">
-      <%= link_to mail_path do %>
-        <i class="fa fa-envelope"></i> <strong>Email</strong>
-      <% end %>
-    </li>
-    <li class="<%= 'active' if controller?('services') %>">
-      <%= link_to services_path do %>
-        <i class="fa fa-server"></i> <strong>Services</strong>
-      <% end %>
-    </li>
-  </ul>
-</nav>
+    </ul>
+  </nav>
+</div>

@@ -22,6 +22,7 @@ Role.create!(:name => 'mail',
 admin = User.create!(:uid => 'admin',
                       :email => 'admin@example.com',
                       :first_name => 'Administrator',
-                      :password => 'abcd1234')
+                      :password => 'abcd1234',
+                      :confirmed_at => DateTime.now)
 
 admin.roles << administrator

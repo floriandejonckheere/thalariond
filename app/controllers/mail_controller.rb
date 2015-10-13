@@ -1,7 +1,7 @@
 class MailController < ApplicationController
   before_filter :authenticate_user!
 
-  layout "panel"
+  layout "dashboard"
 
   def index
   end
