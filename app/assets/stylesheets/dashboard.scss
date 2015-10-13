@@ -38,3 +38,27 @@ nav {
   font-size: .8rem;
   font-weight: 200;
 }
+
+.avatar {
+  display: inline;
+
+  height: 2rem;
+  width: 2rem;
+
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.link-logo {
+  font-size: 2rem;
+}
+
+.link-logo:link,
+.link-logo:visited {
+  color: $light-grey;
+}
+
+.link-logo:hover,
+.link-logo:active {
+  color: $dark-grey;
+}

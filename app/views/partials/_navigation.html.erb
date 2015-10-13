@@ -1,12 +1,14 @@
 <div class="row">
   <div class="col-xs-4">
-    <img src="<%= asset_path("logo.png") %>">
+    <%= link_to home_path, :class => 'link-logo' do %>
+      <img src="<%= asset_path("logo.png") %>">
+    <% end %>
   </div>
 </div>
 <div class="row">
   <nav>
     <ul class="nav nav-pills nav-stacked">
-      <div class="title-nav">Dashboards</div>
+      <div class="title-nav">General</div>
       <li class="nav-item">
         <%= link_to home_path, :class => (controller?('home') ? 'nav-link active' : 'nav-link') do %>
           Home
@@ -19,6 +21,12 @@
           <% end %>
         </li>
         <li class="nav-item">
+          <%= link_to dashboard_path, :class => (controller?('dashboard') ? 'nav-link active' : 'nav-link') do %>
+            Statistics
+          <% end %>
+        </li>
+        <div class="title-nav">Users</div>
+        <li class="nav-item">
           <%= link_to users_path, :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
             Users
           <% end %>
@@ -26,30 +34,31 @@
       <% else %>
         <li class="nav-item">
           <%= link_to user_path(current_user), :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
-            Account
+            My Account
           <% end %>
         </li>
       <% end %>
+      <li class="nav-item">
+        <%= link_to services_path, :class => (controller?('services') ? 'nav-link active' : 'nav-link') do %>
+          Services
+        <% end %>
+      </li>
       <li class="nav-item">
         <%= link_to groups_path, :class => (controller?('groups') ? 'nav-link active' : 'nav-link') do %>
           Groups
         <% end %>
       </li>
+      <div class="title-nav">Email</div>
       <% if can? :update, Domain %>
         <li class="nav-item">
           <%= link_to domains_path, :class => (controller?('domains') ? 'nav-link active' : 'nav-link') do %>
-            Domains and emails
+            Domains
           <% end %>
         </li>
       <% end %>
       <li class="nav-item">
         <%= link_to mail_path, :class => (controller?('mail', 'domainaliases', 'emails', 'emailaliases') ? 'nav-link active' : 'nav-link') do %>
-          Email
-        <% end %>
-      </li>
-      <li class="nav-item">
-        <%= link_to services_path, :class => (controller?('services') ? 'nav-link active' : 'nav-link') do %>
-          Services
+          Emails
         <% end %>
       </li>
     </ul>
