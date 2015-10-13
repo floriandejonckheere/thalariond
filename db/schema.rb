@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710081303) do
+ActiveRecord::Schema.define(version: 20151013130726) do
 
   create_table "domain_aliases", force: :cascade do |t|
     t.text     "alias",      null: false
@@ -97,46 +97,48 @@ ActiveRecord::Schema.define(version: 20150710081303) do
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", unique: true
 
   create_table "services", force: :cascade do |t|
-    t.string   "uid",                             null: false
-    t.string   "display_name",       default: "", null: false
-    t.string   "encrypted_password", default: "", null: false
-    t.integer  "sign_in_count",      default: 0,  null: false
+    t.string   "uid",                               null: false
+    t.string   "display_name",       default: "",   null: false
+    t.string   "encrypted_password", default: "",   null: false
+    t.integer  "sign_in_count",      default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",    default: 0,  null: false
+    t.integer  "failed_attempts",    default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "enabled",            default: true
   end
 
   add_index "services", ["uid"], name: "index_services_on_uid", unique: true
   add_index "services", ["unlock_token"], name: "index_services_on_unlock_token", unique: true
 
   create_table "users", force: :cascade do |t|
-    t.string   "uid",                                 null: false
-    t.string   "first_name",             default: "", null: false
+    t.string   "uid",                                   null: false
+    t.string   "first_name",             default: "",   null: false
     t.string   "last_name",              default: ""
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",   null: false
+    t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",        default: 0,  null: false
+    t.integer  "failed_attempts",        default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.boolean  "enabled",                default: true
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

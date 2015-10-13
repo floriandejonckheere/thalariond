@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
     h['givenName'] = self.first_name
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
-    h['enabled'] = not self.access_locked?
+    h['enabled'] = self.active_for_authentication?
     return h
   end
 
@@ -47,6 +47,11 @@ class User < ActiveRecord::Base
     name = self.first_name
     name << ' ' + self.last_name if self.last_name?
     return name
+  end
+
+  # Overrides Devise's active_for_authentication?
+  def active_for_authentication?
+    super && self.enabled
   end
 
   ## Validations

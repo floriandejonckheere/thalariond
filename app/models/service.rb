@@ -24,7 +24,12 @@ class Service < ActiveRecord::Base
     h['uid'] = self.uid
     h['objectClass'] = 'serviceAccount'
     h['displayName'] = self.display_name
-    h['enabled'] = not self.access_locked?
+    h['enabled'] = self.active_for_authentication?
     return h
+  end
+
+  # Overrides Devise's active_for_authentication?
+  def active_for_authentication?
+    super && self.enabled
   end
 end
