@@ -35,9 +35,11 @@ class User < ActiveRecord::Base
   def to_ldap
     h = {}
     h['uid'] = self.uid
+    h['objectClass'] = 'userAccount'
     h['givenName'] = self.first_name
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
+    h['enabled'] = self.active_for_authentication?
     return h
   end
 
@@ -49,6 +51,11 @@ class User < ActiveRecord::Base
 
   def display_roles
     self.roles.map(&:display_name).join ', '
+  end
+
+  # Overrides Devise's active_for_authentication?
+  def active_for_authentication?
+    super && self.enabled
   end
 
   ## Validations

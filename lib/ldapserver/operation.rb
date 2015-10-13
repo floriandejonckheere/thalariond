@@ -86,6 +86,24 @@ module LDAPServer
             end
           end
         end
+      elsif dn.find_one(:ou) == 'services'
+        Service.all.each do |s|
+          if ability.can? :read, s
+            result = []
+
+            if filter[0] == :eq
+              result << s if s.attributes[filter[1]] == filter[3]
+            elsif filter[0] == :substrings
+              result << s if s.attributes[filter[1]] =~ /^#{filter.drop(3).join('.*')}$/
+            else
+              result << s
+            end
+
+            result.each do |r|
+              send_SearchResultEntry("uid=#{u.uid},#{basedn}", r.to_ldap)
+            end
+          end
+        end
       elsif dn.find_one(:ou) == 'groups'
         result = []
         # List all groups
