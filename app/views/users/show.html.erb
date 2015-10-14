@@ -72,4 +72,20 @@
   <h3>Recent activity</h3>
 </div>
 
-<em>No recent activity recorded</em>
+<% if AuthEvent.where(:user_id => current_user.id).any? %>
+  <ul class="list-group">
+  <% AuthEvent.where(:user_id => current_user.id).each do |event| %>
+    <li class="list-group-item">
+      <% if event.result %>
+        <%= current_user.first_name %> signed in
+      <% else %>
+        <%= current_user.first_name %> failed to sign in
+      <% end %>
+      <br>
+      <span class="text-timestamp"><%= time_ago_in_words(event.timestamp) %> ago</span>
+    </li>
+  <% end %>
+  </ul>
+<% else %>
+  <em>No recent activity recorded</em>
+<% end %>
