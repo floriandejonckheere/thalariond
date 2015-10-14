@@ -1,4 +1,6 @@
 class Email < ActiveRecord::Base
+  has_paper_trail
+
   validates :mail, presence: true
 
   belongs_to :domain, -> { uniq }

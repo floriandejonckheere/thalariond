@@ -9,6 +9,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-hint'
 end
 
+# Paper Trail auditing
+gem 'paper_trail', '~> 4.0.0'
 # Devise authentication
 gem 'devise'
 # CanCan authorization

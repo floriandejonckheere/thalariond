@@ -49,7 +49,7 @@ class DomainAliasAliasesController < ApplicationController
   # DELETE /domainaliases/:id
   def destroy
     @domainalias = DomainAlias.find(params[:id])
-    authorize! :delete, @domainalias
+    authorize! :destroy, @domainalias
 
     @domainalias.destroy
 

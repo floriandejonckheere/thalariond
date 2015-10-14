@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/:id
   def destroy
     @group = Group.find(params[:id])
-    authorize! :delete, @group
+    authorize! :destroy, @group
 
     @group.destroy
 

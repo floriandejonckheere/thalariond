@@ -64,7 +64,7 @@ class ServicesController < ApplicationController
   # DELETE /services/:id
   def destroy
     @service = Service.find(params[:id])
-    authorize! :delete, @service
+    authorize! :destroy, @service
 
     @service.destroy
 

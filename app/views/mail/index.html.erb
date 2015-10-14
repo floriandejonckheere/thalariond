@@ -23,9 +23,9 @@
             <% if can? :edit, Domain %>
               <%= link_to 'Edit', edit_domain_path(domain), :class => "button button-small" %>
             <% end %>
-            <% if can? :delete, Domain %>
+            <% if can? :destroy, Domain %>
               <%= link_to 'Delete', domain_path(domain),
-                    method: :delete,
+                    :method => :delete,
                     data: { confirm: 'Are you sure you want to delete this domain? This will delete all dependent emails!' },
                     :class => "button button-small button-danger" %>
             <% end %>

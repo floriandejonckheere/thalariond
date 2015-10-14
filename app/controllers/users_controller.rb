@@ -70,7 +70,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :destroy, @user
 
-    @user.destroy
+    # Prevent deletion of admin account
+    if @user.uid == 'admin'
+      flash[:user] = "Admin account cannot be deleted"
+    else
+      @user.destroy
+    end
 
     redirect_to users_path
   end

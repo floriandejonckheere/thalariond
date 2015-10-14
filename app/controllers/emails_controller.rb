@@ -44,7 +44,7 @@ class EmailsController < ApplicationController
   # DELETE /emails/:id
   def destroy
     @email = Email.find(params[:id])
-    authorize! :delete, @email
+    authorize! :destroy, @email
 
     @email.destroy
 

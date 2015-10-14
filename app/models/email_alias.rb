@@ -1,4 +1,6 @@
 class EmailAlias < ActiveRecord::Base
+  has_paper_trail
+
   validates :alias, presence: true, format: { with: /@/ }, uniqueness: true
   validates :mail, presence: true, format: { with: /@/ }
 

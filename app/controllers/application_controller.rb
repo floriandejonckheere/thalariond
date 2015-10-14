@@ -9,4 +9,12 @@ class ApplicationController < ActionController::Base
     method = "#{resource}_params"
     params[resource] &&= send(method) if respond_to?(method, true)
   end
+
+  # Extra metadata for Paper Trail
+  def info_for_paper_trail
+    {
+      :ip => request.remote_ip,
+      :user_agent => request.user_agent
+    }
+  end
 end

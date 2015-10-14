@@ -1,4 +1,6 @@
 class DomainAlias < ActiveRecord::Base
+  has_paper_trail
+
   validates :alias, presence: true, uniqueness: true
   validates :domain, presence: true
 

@@ -44,7 +44,7 @@ class DomainsController < ApplicationController
   # DELETE /domains/:id
   def destroy
     @domain = Domain.find(params[:id])
-    authorize! :delete, @domain
+    authorize! :destroy, @domain
 
     @domain.destroy
 

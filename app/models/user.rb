@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_paper_trail :skip => [:reset_password_token, :reset_password_sent_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :failed_attempts, :unlock_token, :locked_at, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email]
+
   include Gravtastic
   gravtastic
 

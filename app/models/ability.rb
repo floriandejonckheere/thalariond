@@ -7,7 +7,7 @@ class Ability
   # R Read
   # A Assign (update permissions)
   # U Update
-  # D Delete
+  # D Destroy
 
   def initialize(user)
     if user && user.roles

@@ -49,7 +49,7 @@ class EmailAliasesController < ApplicationController
   # DELETE /emailaliases/:id
   def destroy
     @emailalias = EmailAlias.find(params[:id])
-    authorize! :delete, @emailalias
+    authorize! :destroy, @emailalias
 
     @emailalias.destroy
 
