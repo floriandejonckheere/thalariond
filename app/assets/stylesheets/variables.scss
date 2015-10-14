@@ -2,14 +2,28 @@
  * Color scheme
  *
  * */
+
+/* Number of backgrounds */
+$backgrounds: 6;
+
+$light-grey: #AEAEAE;
+$dark-grey: #555;
+$grey: #929292;
+
+$line-color: rgba(0, 0, 0, 0.1);
+
+/**
+ * Bootstrap overrides
+ *
+ * */
+$brand-primary: #F34541;
+
+
 $primary-color: #F34541;
 $secondary-color: #4CAF50;
 
-$dark-grey: #929292;
-$light-grey: #E7E7E7;
+$bg-color-1: #06B17C;
+$bg-color-2: #FA7E4C;
+$bg-color-3: #C59D35;
 
-/**
- * Header
- *
- * */
-$header-height: 5rem;
+$fg-color-1: #FFFFFF;

@@ -1,53 +1,81 @@
-<span class="u-pull-right">
-  <% if can? :create, Group %>
-    <%= link_to 'Add', new_group_path, :class => 'button button-primary-color u-pull-right' %>
-  <% end %>
-</span>
-<h4>Groups</h4>
-<hr>
+<% content_for :title do   %>Accounts<% end %>
+<% content_for :section do %>Groups<% end %>
 
-<% if (current_user.groups.any? or current_user.can?( :list, Group)) %>
-  <table class="u-full-width">
-    <thead>
-      <tr>
-        <th>Group name</th>
-        <th>Membership status</th>
-        <th>Owner</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Group.all.each do |group| %>
-        <% if current_user.can? :read, group %>
-          <tr>
-            <td>
-              <strong><%= link_to group.display_name, group_path(group) %></strong>
-            </td>
-            <td>
-              <% if group.owner == current_user %>
-                Owner
-              <% elsif group.users.include? current_user %>
-                Member
-              <% else %>
-                Not a member
-              <% end %>
-            </td>
-            <td>
-              <% if group.owner %>
-                <%= link_to group.owner.first_name + ' ' + group.owner.last_name, user_path(group.owner) %>
-              <% else %>
-                <em>No owner defined</em>
-              <% end %>
-            </td>
-            <td>
-              <% if can? :update, group %>
-                <%= link_to 'Manage', edit_group_path(group),
-                      :class => 'button button-small' %>
-              <% end %>
-            </td>
-          </tr>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
+  </li>
+  <li class="nav-item">
+    <a href="#member" class="nav-link" role="tab" data-toggle="tab">Member</a>
+  </li>
+  <li class="nav-item">
+    <a href="#owner" class="nav-link" role="tab" data-toggle="tab">Owner</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="all">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Members</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if !Group.any? %>
+        <td>
+          <em>No registered groups</em>
+        </td>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+        <% Group.all.each do |group| %>
+          <% if current_user.can? :read, group %>
+            <tr>
+              <td>
+                <strong><%= link_to group.display_name, group_path(group) %></strong>
+              </td>
+              <td>
+                <% if group.owner == current_user %>
+                  Owner
+                <% elsif group.users.include? current_user %>
+                  Member
+                <% else %>
+                  -
+                <% end %>
+              </td>
+              <td>
+                <% if group.owner %>
+                  <%= link_to group.owner.display_name, user_path(group.owner) %>
+                <% else %>
+                  -
+                <% end %>
+              </td>
+              <td>
+                <%= group.members.count %>
+              </td>
+              <td>
+                <% if can? :update, group %>
+                  <%= link_to 'Manage', edit_group_path(group),
+                        :class => 'button button-small' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if can? :create, Group %>
+      <%= link_to 'Add', new_group_path, :class => 'button button-primary-color u-pull-right' %>
+    <% end %>
+  </div>
+  <div role="tabpanel" class="tab-pane fade in" id="member">
+    member
+  </div>
+  <div role="tabpanel" class="tab-pane fade in" id="owner">
+    owner
+  </div>
+</div>

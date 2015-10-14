@@ -1,24 +1,30 @@
 <div class="signin-container">
   <div class="container">
-    <h1>Confirm account</h1>
-    <div class="container">
-      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-        <% if flash.any? %>
-        <div class="row">
-          <div class="ten columns offset-by-one">
-            <%= render 'partials/messages' %>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 class="title">Confirm account</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-md-offset-2">
+        <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+          <% if flash.any? %>
+          <div class="row">
+            <div class="col-xs-12">
+              <%= render 'partials/messages' %>
+            </div>
           </div>
-        </div>
+          <% end %>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 col-md-offset-2">
+              <%= f.email_field :email, placeholder: "Email address", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+            </div>
+            <div class="col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-0">
+              <%= f.submit 'Confirm' %>
+            </div>
+          </div>
         <% end %>
-        <div class="row">
-          <div class="five columns offset-by-two">
-            <%= f.email_field :email, placeholder: "Email address", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), :class => "white-input u-full-width" %>
-          </div>
-          <div class="three columns">
-            <%= f.submit "Send instructions", :class => "button white-button u-full-width" %>
-          </div>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

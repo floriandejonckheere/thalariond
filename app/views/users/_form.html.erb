@@ -112,6 +112,14 @@
 
     <div class="row">
       <div class="six columns">
+        <% current_user.roles.each do |role| %>
+          <p><strong><%= role.display_name %></strong></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six columns">
         <% Role.all.each do |role| %>
         <div class="checkbox-container">
           <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "panel"
+  layout "dashboard"
 
   # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
 

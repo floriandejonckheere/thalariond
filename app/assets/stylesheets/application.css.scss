@@ -1,114 +1,18 @@
 @import "variables";
 @import "fontawesome";
-@import "skeleton-ui";
 @import "hint";
+@import "entypo";
+@import "bootstrap";
 
 @import "*";
 
-/**
- * Reset
- *
- * */
 body,
 html {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  font-family: 'Roboto Light', sans-serif;
 }
 
-.row-main {
-  height: calc(100% - #{$header-height});
-}
-
-/**
- * Titles
- *
- * */
-h1 {
-  font-size: 6em;
-  font-weight: 200;
-}
-
-/**
- * Extra
- * TODO: put these things in Skeleton UI
- *
- * */
-.button.white-button,
-.button.white-button:hover,
-.button.white-button:active,
-.button.white-button:focus {
-  color: white;
-  border-color: white;
-  padding: 0;
-  text-align: center;
-}
-input.white-input,
-input.white-input:hover,
-input.white-input:active,
-input.white-input:focus {
-  border-color: white;
-}
-
+/* Italic placeholders */
 ::-webkit-input-placeholder { font-style: italic; }
 ::-moz-placeholder { font-style: italic; } /* firefox 19+ */
 :-ms-input-placeholder { font-style: italic; } /* ie */
 input:-moz-placeholder { font-style: italic; }
-
-.white-text,
-.white-text:hover,
-.white-text:active,
-.white-text:link,
-.white-text:visited {
-  color: white;
-  text-decoration: none;
-}
-
-.align-left   { text-align: left; }
-.align-center { text-align: center; }
-.align-right  { text-align: right; }
-
-input.small-input {
-  height: 3rem;
-  padding: 3px 5px;
-}
-
-.u-full-height {
-  height: 100%;
-}
-
-.button-primary-color,
-input[type="button"].button-primary-color,
-input[type="submit"].button-primary-color {
-  background-color: $primary-color;
-  border: 1px solid $primary-color;
-  color: white;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($primary-color, 5%);
-    border: 1px solid darken($primary-color, 5%);
-    color: white;
-  }
-}
-
-.multiselect {
-  min-height: 10rem;
-}
-
-.button-small {
-  height: 2rem;
-  line-height: 2rem;
-
-  padding: 0px 10px;
-}
-
-.hidden {
-  display: none;
-}
-
-.lowercase {
-  text-transform: lowercase;
-}

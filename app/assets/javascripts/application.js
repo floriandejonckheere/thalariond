@@ -12,10 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require skeleton-ui
+//= require tether
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
 
+// This function will be ran on every page whether or not turbolinks is used
 var ready = function() {
 
 };

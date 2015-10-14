@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     return name
   end
 
+  def display_roles
+    self.roles.map(&:display_name).join ', '
+  end
+
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
     super && self.enabled

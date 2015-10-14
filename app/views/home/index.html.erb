@@ -1,23 +1,19 @@
-<h4>Welcome, <%= current_user.first_name + ' ' + current_user.last_name %></h4>
-<hr>
-<div class="row">
-  <div class="seven columns">
-    <p>Welcome to the Thalarion control panel. You can manage your account and relevant services from here.</p>
-    <p>
-      <ul>
-        <li>Change your personal details</li>
-        <li>Change your primary email address</li>
-        <li>Manage your groups and emails</li>
-        <li>View additional services</li>
-      </ul>
-    </p>
-  </div>
-</div>
+<% content_for :title do   %>General<% end %>
+<% content_for :section do %>Home<% end %>
 
-<div class="row">
-  <h5>Get started</h5>
-  <p>
-    <%= link_to 'Manage your account &raquo;'.html_safe, user_path(current_user), :class => 'button' %>
-    <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'button' %>
-  </p>
-</div>
+<h4>Welcome, <%= current_user.display_name %></h4>
+<p>Welcome to the Thalarion control panel. You can manage your account and relevant services from here.</p>
+<p>
+  <ul>
+    <li>Change your personal details</li>
+    <li>Change your primary email address</li>
+    <li>Manage your groups and emails</li>
+    <li>View additional services</li>
+  </ul>
+</p>
+
+<h5>Get started</h5>
+<p>
+  <%= link_to 'Manage your account &raquo;'.html_safe, user_path(current_user), :class => 'btn btn-secondary' %>
+  <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'btn btn-secondary' %>
+</p>

@@ -1,0 +1,26 @@
+/**
+ * Tabs
+ *
+ * */
+
+.nav.nav-tabs {
+  border: 0;
+  border-bottom: 1px solid $line-color;
+
+  .nav-link {
+    border: 0;
+
+    color: $dark-grey;
+
+    &:hover {
+      color: $grey;
+    }
+
+    &.active {
+      border-bottom: 4px solid $primary-color;
+
+      color: $primary-color;
+      font-family: 'Roboto Medium', 'Roboto Light', sans-serif;
+    }
+  }
+}

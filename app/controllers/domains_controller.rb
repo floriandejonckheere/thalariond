@@ -3,7 +3,7 @@ class DomainsController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "panel"
+  layout "dashboard"
 
   # POST /domains
   def create

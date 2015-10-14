@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "panel"
+  layout "dashboard"
 
   # GET /groups
   def index

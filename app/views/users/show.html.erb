@@ -1,65 +1,75 @@
-<span class="u-pull-right">
-  <% if can? :update, @user %>
-    <%= link_to 'Edit', edit_user_path(@user), :class => 'button' %>
-  <% end %>
-  <% if can? :destroy, @user %>
-    <%= link_to 'Delete', user_path(@user),
-                          :method => :delete,
-                          data: { confirm: 'Are you sure you want to delete this user?' },
-                          :class => 'button button-danger' %>
-  <% end %>
-</span>
-<h4><%= @user.first_name + ' ' + @user.last_name %></h4>
-<hr>
+<% content_for :title do   %>Accounts<% end %>
+<% content_for :section do %><%= @user.display_name %><% end %>
 
-<div class="row">
-  <h5>Personal details</h5>
-</div>
-
-<div class="row">
-  <div class="one column">
-    <%= image_tag @user.gravatar_url, :class => 'avatar avatar-xl' %>
-  </div>
-  <div class="eleven columns">
-    <div class="row">
-      <div class="two columns align-right">
-        Username
-      </div>
-      <div class="eight columns">
-        <p><strong><%= @user.uid %></strong></p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="two columns align-right">
-        Full name
-      </div>
-      <div class="eight columns">
-        <p><strong><%= @user.first_name + ' ' + @user.last_name %></strong></p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="two columns align-right">
-        Email
-      </div>
-      <div class="eight columns">
-        <p><strong><%= @user.email %></strong></p>
-      </div>
-    </div>
-  </div>
-
-<div class="row">
-  <h5>Authorization</h5>
-  <p><%= @user.first_name %> has been assigned the following roles:</p>
-  <% if @user.roles.length == 0 %>
-    <p><em>No roles assigned</em></p>
-  <% end %>
-  <div class="eight columns">
-    <ul>
-      <% @user.roles.each do |role| %>
-        <li><%= role.display_name %></li>
+<div class="text-center">
+  <%= image_tag @user.gravatar_url, :class => 'img-thumbnail img-circle' %>
+  <p>
+    <h2><%= @user.display_name %></h2>
+    <em><%= @user.email %></em>
+  </p>
+  <p>
+    <div class="btn-group">
+      <% if can? :update, @user %>
+        <%= link_to edit_user_path(@user), :class => 'btn btn-secondary' do %>
+          <i class="icon-pencil"></i>
+        <% end %>
       <% end %>
-    </ul>
+      <% if can? :destroy, @user %>
+        <%= link_to user_path(@user),
+                              :method => :delete,
+                              :data => { confirm: 'Are you sure you want to delete this user?' },
+                              :class => 'btn btn-secondary' do %>
+            <i class="icon-trash"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </p>
+</div>
+
+<div class="title-heading">
+  <h3>Personal details</h3>
+</div>
+
+<div class="row">
+  <div class="col-xs-2">
+    <strong>Username</strong>
+  </div>
+  <div class="col-xs-4">
+    <%= @user.uid %>
   </div>
 </div>
+<div class="row">
+  <div class="col-xs-2">
+    <strong>Full name</strong>
+  </div>
+  <div class="col-xs-4">
+    <%= @user.display_name %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-2">
+    <strong>Email</strong>
+  </div>
+  <div class="col-xs-4">
+    <%= @user.email %>
+  </div>
+</div>
+
+<div class="title-heading">
+  <h3>Authorization</h3>
+</div>
+
+<p>
+  <% if @user.roles.any? %>
+    <%= @user.first_name %> has been assigned the following roles:
+    <strong><%= @user.roles.map { |r| r.display_name }.join ', ' %></strong>
+  <% else %>
+    <em><%= @user.first_name %> does not have any assigned roles</em>
+  <% end %>
+</p>
+
+<div class="title-heading">
+  <h3>Recent activity</h3>
+</div>
+
+<em>No recent activity recorded</em>

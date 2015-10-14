@@ -1,40 +1,48 @@
 <div class="signin-container">
   <div class="container">
-    <h1>Sign in</h1>
-    <div class="container">
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <% if flash.any? %>
-        <div class="row">
-          <div class="ten columns offset-by-one">
-            <%= render 'partials/messages' %>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 class="title">Sign in</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-md-offset-2">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <% if flash.any? %>
+          <div class="row">
+            <div class="col-xs-12">
+              <%= render 'partials/messages' %>
+            </div>
           </div>
-        </div>
+          <% end %>
+          <div class="row">
+            <div class="col-xs-12 col-md-5">
+              <%= f.text_field :uid, placeholder: 'Username', autofocus: true %>
+            </div>
+            <div class="col-xs-12 col-md-5">
+              <%= f.password_field :password, placeholder: 'Password', autocomplete: "off" %>
+            </div>
+            <div class="col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-0">
+              <%= f.submit 'Sign in' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <%- if devise_mapping.recoverable? %>
+                <%= link_to 'Recover account', new_password_path(resource_name) %>
+              <% end -%>
+              <%- if devise_mapping.lockable? %>
+                |
+                <%= link_to 'Unlock account', new_unlock_path(resource_name) %>
+              <% end -%>
+              <%- if devise_mapping.confirmable? %>
+                |
+                <%= link_to 'Confirm account', new_confirmation_path(resource_name) %>
+              <% end -%>
+            </div>
+          </div>
         <% end %>
-        <div class="row">
-          <div class="four columns offset-by-one">
-            <%= f.text_field :uid, placeholder: 'Username', autofocus: true, :class => 'white-input u-full-width' %>
-          </div>
-          <div class="four columns">
-            <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", :class => 'white-input u-full-width' %>
-          </div>
-          <div class="two columns">
-            <%= f.submit 'Sign in', :class => 'button white-button u-full-width' %>
-          </div>
-        </div>
-        <div class="row">
-          <%- if devise_mapping.recoverable? %>
-            <%= link_to 'Recover account', new_password_path(resource_name), :class => 'white-text' %>
-          <% end -%>
-          <%- if devise_mapping.lockable? %>
-            |
-            <%= link_to 'Unlock account', new_unlock_path(resource_name), :class => 'white-text' %>
-          <% end -%>
-          <%- if devise_mapping.confirmable? %>
-            |
-            <%= link_to 'Confirm account', new_confirmation_path(resource_name), :class => 'white-text' %>
-          <% end -%>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
