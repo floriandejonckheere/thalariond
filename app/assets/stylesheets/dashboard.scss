@@ -7,26 +7,6 @@
   margin-top: 3rem;
 }
 
-.title-main {
-  font-size: .8rem;
-  color: $light-grey;
-  text-transform: uppercase;
-}
-
-.title-section {
-  font-size: 2rem;
-  color: $dark-grey;
-  font-size: 200;
-}
-
-.title-nav {
-  margin-bottom: .5rem;
-
-  font-size: .8rem;
-  color: $light-grey;
-  text-transform: uppercase;
-}
-
 nav {
   margin-top: 2rem;
 
@@ -34,31 +14,19 @@ nav {
     padding-left: 1rem;
   }
 
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Light', sans-serif;
   font-size: .8rem;
   font-weight: 200;
 }
 
-.avatar {
-  display: inline;
+.logo {
+  opacity: 0.4;
 
-  height: 2rem;
-  width: 2rem;
-
-  margin-right: 5px;
-  vertical-align: middle;
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
-.link-logo {
-  font-size: 2rem;
-}
-
-.link-logo:link,
-.link-logo:visited {
-  color: $light-grey;
-}
-
-.link-logo:hover,
-.link-logo:active {
-  color: $dark-grey;
+.tab-content {
+  padding-top: 1rem;
 }
