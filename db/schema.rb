@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014121941) do
+ActiveRecord::Schema.define(version: 20151014132044) do
+
+  create_table "auth_events", force: :cascade do |t|
+    t.text     "component",  null: false
+    t.text     "action",     null: false
+    t.boolean  "result",     null: false
+    t.text     "ip"
+    t.text     "agent"
+    t.integer  "user_id"
+    t.datetime "timestamp",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "domain_aliases", force: :cascade do |t|
     t.text     "alias",      null: false

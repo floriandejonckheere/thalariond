@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   root :to => redirect('/home')
 
-  devise_for :users, :skip => [:registrations]
-  devise_for :services, :skip => [:registrations, :session, :password]
+  devise_for :users, :controllers => {:sessions => 'sessions'}, :skip => [:registrations]
+  devise_for :services, :controllers => {:sessions => 'sessions'}, :skip => [:registrations, :session, :password]
 
   resources :groups
   resources :users
