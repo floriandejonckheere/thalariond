@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :groups
   resources :users
   resources :services
+  resources :roles
   resources :domains do
     resources :emails, shallow: true
   end

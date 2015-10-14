@@ -8,7 +8,7 @@
 <div class="row">
   <nav>
     <ul class="nav nav-pills nav-stacked">
-      <div class="title-nav">General</div>
+      <div class="title-main m-t">General</div>
       <li class="nav-item">
         <%= link_to home_path, :class => (controller?('home') ? 'nav-link active' : 'nav-link') do %>
           Home
@@ -21,7 +21,7 @@
           <% end %>
         </li>
       <% end %>
-      <div class="title-nav">Accounts</div>
+      <div class="title-main m-t">Accounts</div>
       <% if current_user.can? :list, User %>
         <li class="nav-item">
           <%= link_to users_path, :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
@@ -45,7 +45,14 @@
           Groups
         <% end %>
       </li>
-      <div class="title-nav">Email</div>
+      <% if current_user.can? :update, Role %>
+        <li class="nav-item">
+          <%= link_to roles_path, :class => (controller?('roles') ? 'nav-link active' : 'nav-link') do %>
+            Authorization
+          <% end %>
+        </li>
+      <% end %>
+      <div class="title-main m-t">Email</div>
       <% if can? :update, Domain %>
         <li class="nav-item">
           <%= link_to domains_path, :class => (controller?('domains') ? 'nav-link active' : 'nav-link') do %>

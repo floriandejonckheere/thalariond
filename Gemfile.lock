@@ -80,6 +80,8 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    entypo-rails (2.2.3)
+      railties (>= 3.1, <= 5)
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -191,6 +193,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   daemons-rails
   devise
+  entypo-rails
   gravtastic
   jbuilder (~> 2.0)
   jquery-rails

@@ -25,6 +25,8 @@ class Ability
     can [:list, :read], Service
     # Everyone can read domains
     can :read, Domain
+    # Everyone can list and read roles
+    can [:list, :read], Role
   end
 
   # Service permissions

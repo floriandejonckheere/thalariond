@@ -11,7 +11,8 @@ end
 
 # Bootstrap 4 Alpha
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
-
+# Entypo font
+gem 'entypo-rails'
 # Devise authentication
 gem 'devise'
 # CanCan authorization
