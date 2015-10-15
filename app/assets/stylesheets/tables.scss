@@ -1,0 +1,13 @@
+/**
+ * Tables
+ *
+ * */
+
+.th-table {
+  @extend .table;
+
+  th {
+    border-top: 0;
+  }
+
+}

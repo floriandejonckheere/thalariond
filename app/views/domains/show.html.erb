@@ -1,2 +1,24 @@
-<h4><%= @domain.domain.capitalize %></h4>
-<hr>
+<% content_for :title do   %>Email<% end %>
+<% content_for :section do %>Domain <%= @domain.domain %><% end %>
+
+<div class="pull-right">
+  <% if current_user.can? :update, Domain %>
+    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary' do %>
+      <i class="icon-pencil"></i>
+    <% end %>
+  <% end %>
+</div>
+
+<p>
+  <strong>FQDN</strong>: <%= @domain.domain %>
+</p>
+
+<div class="title-heading">
+  <h3>Emails</h3>
+</div>
+
+<% if @domain.emails.any? %>
+
+<% else %>
+  <em>No active emails</em>
+<% end %>

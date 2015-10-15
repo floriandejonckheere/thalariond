@@ -15,7 +15,7 @@
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="all">
-    <table class="table">
+    <table class="th-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -27,9 +27,11 @@
       </thead>
       <tbody>
         <% if !Group.any? %>
-        <td>
-          <em>No registered groups</em>
-        </td>
+          <tr>
+            <td>
+              <em>No registered groups</em>
+            </td>
+          </tr>
         <% end %>
         <% Group.all.each do |group| %>
           <% if current_user.can? :read, group %>

@@ -11,7 +11,7 @@ class DomainsController < ApplicationController
 
     @domain = Domain.new(domain_params)
     if @domain.save
-      redirect_to mail_path
+      redirect_to domains_path
     else
       render 'new'
     end

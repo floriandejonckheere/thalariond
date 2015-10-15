@@ -1,5 +1,5 @@
 /**
- * Titles
+ * Typography
  *
  * */
 
@@ -48,4 +48,10 @@
     color: $light-grey;
     text-transform: uppercase;
   }
+}
+
+.text-timestamp {
+  font-size: .8rem;
+  font-style: italic;
+  color: $grey;
 }
