@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 source 'https://rails-assets.org' do
   # Font Awesome
-  gem 'rails-assets-fontawesome'
+  gem 'rails-assets-font-awesome'
   # Hint
   gem 'rails-assets-hint'
   # Tether used for Bootstrap popovers
@@ -11,8 +11,6 @@ end
 
 # Bootstrap 4 Alpha
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
-# Entypo font
-gem 'entypo-rails'
 # Paper Trail auditing
 gem 'paper_trail', '~> 4.0.0'
 # Devise authentication

@@ -6,7 +6,7 @@
     <% if (current_user.can? :create, Domain or current_user.can? :create, DomainAlias) %>
       <div class="btn-group">
         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-          <i class="icon-plus"></i>
+          <i class="fa fa-plus"></i>
         </button>
         <div class="dropdown-menu">
           <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if current_user.can? :create, Domain %>
