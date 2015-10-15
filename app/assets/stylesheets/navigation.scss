@@ -1,5 +1,5 @@
 /**
- * Tabs
+ * Navigation
  *
  * */
 
@@ -22,5 +22,19 @@
       color: $primary-color;
       font-family: 'Roboto Medium', 'Roboto Light', sans-serif;
     }
+  }
+}
+
+.th.breadcrumb {
+  background: 0;
+  padding: 0;
+  margin: 0;
+
+  a,
+  a:link,
+  a:active,
+  a:hover,
+  a:focus {
+    color: $light-grey;
   }
 }

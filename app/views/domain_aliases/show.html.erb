@@ -1,0 +1,22 @@
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Mail</li>
+    <li><%= link_to 'Domain aliases', domains_path(:anchor => "aliases") %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Domain alias <%= @domain_alias.alias %><% end %>
+
+<div class="pull-right">
+  <% if current_user.can? :update, @domain_alias %>
+    <%= link_to edit_domain_alias_path(@domain_alias), :class => 'btn btn-secondary' do %>
+      <i class="fa fa-pencil"></i>
+    <% end %>
+  <% end %>
+</div>
+
+<p>
+  <strong>Alias</strong>: <%= @domain_alias.alias %>
+</p>
+<p>
+  <strong>Destination domain</strong>: <%= @domain_alias.domain %>
+</p>

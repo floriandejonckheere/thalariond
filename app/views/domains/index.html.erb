@@ -1,4 +1,4 @@
-<% content_for :title do   %>Email<% end %>
+<% content_for :title do   %>Mail<% end %>
 <% content_for :section do %>Domains<% end %>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -10,7 +10,7 @@
         </button>
         <div class="dropdown-menu">
           <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if current_user.can? :create, Domain %>
-          <%= link_to 'Domain alias', new_domainalias_path, :class => 'dropdown-item' if current_user.can? :create, DomainAlias %>
+          <%= link_to 'Domain alias', new_domain_alias_path, :class => 'dropdown-item' if current_user.can? :create, DomainAlias %>
         </div>
       </div>
     <% end %>
@@ -29,7 +29,7 @@
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="all">
-    <table class="th-table">
+    <table class="th table">
       <thead>
         <tr>
           <th><input type="checkbox"></th>
@@ -38,15 +38,15 @@
         </tr>
       </thead>
       <tbody>
-        <% if !(Domain.all + DomainAlias.all).any? %>
+        <% if (!Domain.any? or !Domain.any?) %>
           <tr>
             <td></td>
-            <td>
+            <td colspan="3" class="text-center">
               <em>No registered domains or domain aliases</em>
             </td>
           </tr>
         <% end %>
-        <% (Domain.all + DomainAlias.all).each do |domain| %>
+        <% (Domain.all + DomainAlias.all).sort.each do |domain| %>
           <tr>
             <td>
               <input type="checkbox">
@@ -55,7 +55,7 @@
               <% if domain.is_a?(Domain) %>
                 <strong><%= link_to domain.domain, domain_path(domain) %></strong>
               <% else %>
-                <strong><%= link_to domain.alias, domail_alias_path(domain) %></strong>
+                <strong><%= link_to domain.alias, domain_alias_path(domain) %></strong>
               <% end %>
             </td>
             <td>
@@ -67,7 +67,7 @@
     </table>
   </div>
   <div role="tabpanel" class="tab-pane fade in" id="domains">
-    <table class="th-table">
+    <table class="th table">
       <thead>
         <tr>
           <th><input type="checkbox"></th>
@@ -79,7 +79,7 @@
         <% if !Domain.any? %>
           <tr>
             <td></td>
-            <td>
+            <td colspan="3" class="text-center">
               <em>No registered domains</em>
             </td>
           </tr>
@@ -94,7 +94,7 @@
             </td>
             <td>
               <% if domain.emails.any? %>
-                <%= domain.emails.count %>
+                <%= domain.emails.count %> active emails
               <% else %>
                 <em>No active emails</em>
               <% end %>
@@ -105,11 +105,11 @@
     </table>
   </div>
   <div role="tabpanel" class="tab-pane fade in" id="aliases">
-    <table class="th-table">
+    <table class="th table">
       <thead>
         <tr>
           <th><input type="checkbox"></th>
-          <th>Alias domain</th>
+          <th>Domain alias</th>
           <th>Destination domain</th>
         </tr>
       </thead>
@@ -117,7 +117,7 @@
         <% if !DomainAlias.any? %>
           <tr>
             <td></td>
-            <td>
+            <td colspan="3" class="text-center">
               <em>No registered domain aliases</em>
             </td>
           </tr>
@@ -128,7 +128,7 @@
               <input type="checkbox">
             </td>
             <td>
-              <strong><%= link_to domain_alias.alias, domainalias_path(domain_alias) %></strong>
+              <strong><%= link_to domain_alias.alias, domain_alias_path(domain_alias) %></strong>
             </td>
             <td>
               <%= domain_alias.domain %>

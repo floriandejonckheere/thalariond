@@ -1,65 +1,65 @@
-class DomainAliasAliasesController < ApplicationController
+class DomainAliasesController < ApplicationController
   before_filter :authenticate_user!
 
   load_and_authorize_resource
 
   layout "dashboard"
 
-  # GET /domainaliases
+  # GET /domain_aliases
   def index
     authorize! :list, DomainAlias
   end
 
-  # POST /domainaliases
+  # POST /domain_aliases
   def create
     authorize! :create, DomainAlias
 
-    @domainalias = DomainAlias.new(domainalias_params)
-    if @domainalias.save
-      redirect_to domainaliases_path
+    @domain_alias = DomainAlias.new(domain_alias_params)
+    if @domain_alias.save
+      redirect_to domain_aliases_path
     else
       render 'new'
     end
   end
 
-  # GET /domainaliases/new
+  # GET /domain_aliases/new
   def new
     authorize! :create, DomainAlias
-    @domainalias = DomainAlias.new
+    @domain_alias = DomainAlias.new
   end
 
-  # GET /domainaliases/:id/edit
+  # GET /domain_aliases/:id/edit
   def edit
-    @domainalias = DomainAlias.find(params[:id])
-    authorize! :update, @domainalias
+    @domain_alias = DomainAlias.find(params[:id])
+    authorize! :update, @domain_alias
   end
 
-  # PUT/PATCH /domainaliases/:id
+  # PUT/PATCH /domain_aliases/:id
   def update
-    @domainalias = DomainAlias.find(params[:id])
-    authorize! :update, @domainalias
+    @domain_alias = DomainAlias.find(params[:id])
+    authorize! :update, @domain_alias
 
-    if @domainalias.update(domainalias_params)
+    if @domain_alias.update(domain_alias_params)
       redirect_to domains_path
     else
       render 'edit'
     end
   end
 
-  # DELETE /domainaliases/:id
+  # DELETE /domain_aliases/:id
   def destroy
-    @domainalias = DomainAlias.find(params[:id])
-    authorize! :destroy, @domainalias
+    @domain_alias = DomainAlias.find(params[:id])
+    authorize! :destroy, @domain_alias
 
-    @domainalias.destroy
+    @domain_alias.destroy
 
     redirect_to domains_path
   end
 
   # Allowed parameters
   protected
-  def domainalias_params
-     params.require(:domain_alias).permit(:alias,
+  def domain_alias_params
+    params.require(:domain_alias).permit(:alias,
                                           :domain)
   end
 end

@@ -15,7 +15,7 @@
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="all">
-    <table class="th-table">
+    <table class="th table">
       <thead>
         <tr>
           <th>Name</th>
@@ -56,7 +56,7 @@
                 <% end %>
               </td>
               <td>
-                <%= group.members.count %>
+                <%= group.users.count %>
               </td>
               <td>
                 <% if can? :update, group %>

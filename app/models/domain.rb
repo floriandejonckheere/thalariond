@@ -12,4 +12,9 @@ class Domain < ActiveRecord::Base
     h['objectClass'] = 'vmailDomain'
     return h
   end
+
+  def <=>(domain)
+    return self.domain <=> domain.alias if domain.is_a?(DomainAlias)
+    self.domain <=> domain.domain
+  end
 end

@@ -12,8 +12,8 @@ Rails.application.routes.draw do
   resources :domains do
     resources :emails, shallow: true
   end
-  resources :domainaliases, except: :show
-  resources :emailaliases, except: :show
+  resources :domain_aliases, :controller => 'domain_aliases', :except => :index
+  resources :email_aliases, :controller => 'email_aliases', :except => :index
 
   get '/home' => 'home#index'
   get '/dashboard' => 'dashboard#index'

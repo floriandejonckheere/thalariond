@@ -45,23 +45,16 @@
           Groups
         <% end %>
       </li>
-      <% if current_user.can? :update, Role %>
-        <li class="nav-item">
-          <%= link_to roles_path, :class => (controller?('roles') ? 'nav-link active' : 'nav-link') do %>
-            Authorization
-          <% end %>
-        </li>
-      <% end %>
-      <div class="title-main m-t">Email</div>
+      <div class="title-main m-t">Mail</div>
       <% if can? :update, Domain %>
         <li class="nav-item">
-          <%= link_to domains_path, :class => (controller?('domains') ? 'nav-link active' : 'nav-link') do %>
+          <%= link_to domains_path, :class => (controller?('domains', 'domain_aliases') ? 'nav-link active' : 'nav-link') do %>
             Domains
           <% end %>
         </li>
       <% end %>
       <li class="nav-item">
-        <%= link_to mail_path, :class => (controller?('mail', 'domainaliases', 'emails', 'emailaliases') ? 'nav-link active' : 'nav-link') do %>
+        <%= link_to email_path, :class => (controller?('emails', 'emailaliases') ? 'nav-link active' : 'nav-link') do %>
           Emails
         <% end %>
       </li>
