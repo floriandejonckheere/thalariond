@@ -20,6 +20,10 @@ class Email < ActiveRecord::Base
     end
   end
 
+  def to_s
+    "#{self.mail}@#{self.domain.domain}"
+  end
+
   def to_ldap
     h = {}
     h['mail'] = self.mail
