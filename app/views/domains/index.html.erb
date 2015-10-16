@@ -32,7 +32,12 @@
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
+          <th>
+            <div class="th checkbox checkbox-primary">
+              <input type="checkbox" id="checkbox-all">
+              <label for="checkbox">LABEL</label>
+            </div>
+          </th>
           <th>Domain</th>
           <th>Type</th>
         </tr>
@@ -40,7 +45,6 @@
       <tbody>
         <% if (!Domain.any? or !Domain.any?) %>
           <tr>
-            <td></td>
             <td colspan="3" class="text-center">
               <em>No registered domains or domain aliases</em>
             </td>
@@ -49,7 +53,10 @@
         <% (Domain.all + DomainAlias.all).sort.each do |domain| %>
           <tr>
             <td>
-              <input type="checkbox">
+              <div class="th checkbox checkbox-primary">
+                <input type="checkbox" id="checkbox-<%= domain.id %>">
+                <label for="checkbox"></label>
+              </div>
             </td>
             <td>
               <% if domain.is_a?(Domain) %>
@@ -78,7 +85,6 @@
       <tbody>
         <% if !Domain.any? %>
           <tr>
-            <td></td>
             <td colspan="3" class="text-center">
               <em>No registered domains</em>
             </td>
@@ -116,7 +122,6 @@
       <tbody>
         <% if !DomainAlias.any? %>
           <tr>
-            <td></td>
             <td colspan="3" class="text-center">
               <em>No registered domain aliases</em>
             </td>

@@ -6,9 +6,14 @@
  * */
 
 @import "variables";
+@import "font-awesome-sprockets";
 @import "font-awesome";
 @import "hint";
 @import "bootstrap";
+
+@mixin scale($arg...) {}
+@mixin transition-transform($arg) {}
+@import "awesome-bootstrap-checkbox";
 
 @import "*";
 @import "**/*";

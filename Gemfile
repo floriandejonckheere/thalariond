@@ -1,14 +1,16 @@
 source 'https://rubygems.org'
 
 source 'https://rails-assets.org' do
-  # Font Awesome
-  gem 'rails-assets-font-awesome'
   # Hint
   gem 'rails-assets-hint'
   # Tether used for Bootstrap popovers
   gem 'rails-assets-tether', '>= 1.1.0'
+  # Bootstrap Checkbox
+  gem 'rails-assets-awesome-bootstrap-checkbox'
 end
 
+# Font Awesome
+gem 'font-awesome-sass', '~> 4.4.0'
 # Bootstrap 4 Alpha
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 # Paper Trail auditing
