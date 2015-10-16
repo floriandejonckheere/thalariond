@@ -1,0 +1,35 @@
+<% content_for :title do   %>Mail<% end %>
+<% content_for :section do %>Emails<% end %>
+
+<table class="th table">
+  <thead>
+    <tr>
+      <th><input type="checkbox"></th>
+      <th>Email</th>
+      <th>Members</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if !Email.any? %>
+      <tr>
+        <td></td>
+        <td colspan="3" class="text-center">
+          <em>No registered emails</em>
+        </td>
+      </tr>
+    <% end %>
+    <% Email.all.each do |email| %>
+      <tr>
+        <td>
+          <input type="checkbox">
+        </td>
+        <td>
+          <%= link_to email, email_path(email) %>
+        </td>
+        <td>
+          None
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

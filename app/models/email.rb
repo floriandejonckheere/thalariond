@@ -20,6 +20,10 @@ class Email < ActiveRecord::Base
     end
   end
 
+  def permission_group
+    Group.find_by(name: self.to_s)
+  end
+
   def to_s
     "#{self.mail}@#{self.domain.domain}"
   end

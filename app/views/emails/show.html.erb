@@ -1,0 +1,33 @@
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Mail</li>
+    <li><%= link_to 'Emails', mail_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Domain <%= @domain.domain %><% end %>
+
+<div class="pull-right">
+  <% if current_user.can? :update, @domain %>
+    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary' do %>
+      <i class="fa fa-pencil"></i>
+    <% end %>
+  <% end %>
+</div>
+
+<p>
+  <strong>FQDN</strong>: <%= @domain.domain %>
+</p>
+
+<div class="title-heading">
+  <h3>Emails</h3>
+</div>
+
+<% if @domain.emails.any? %>
+  <ul>
+    <% @domain.emails.each do |email| %>
+      <li><%= email.to_s %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <em>No active emails</em>
+<% end %>

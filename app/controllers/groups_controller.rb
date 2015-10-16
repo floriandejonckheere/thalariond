@@ -7,9 +7,7 @@ class GroupsController < ApplicationController
 
   # GET /groups
   def index
-    # Everyone can access the index page,
-    # authorization for :list is handled
-    # in the view.
+    authorize! :list, Group
   end
 
   # POST /groups

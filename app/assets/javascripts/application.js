@@ -20,6 +20,8 @@
 // This function will be ran on every page whether or not turbolinks is used
 var ready = function() {
 
+  $('[data-toggle="tooltip"]').tooltip()
+
 };
 
 $(document).ready(ready)

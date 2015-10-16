@@ -35,7 +35,7 @@ class DomainsController < ApplicationController
     authorize! :update, @domain
 
     if @domain.update(domain_params)
-      redirect_to mail_path
+      redirect_to domain_path(@domain)
     else
       render 'edit'
     end

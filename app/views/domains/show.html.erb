@@ -8,26 +8,55 @@
 
 <div class="pull-right">
   <% if current_user.can? :update, @domain %>
-    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary' do %>
+    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary btn-sm' do %>
       <i class="fa fa-pencil"></i>
     <% end %>
   <% end %>
 </div>
 
 <p>
-  <strong>FQDN</strong>: <%= @domain.domain %>
+  <strong>Domain</strong>: <%= @domain.domain %>
 </p>
 
 <div class="title-heading">
   <h3>Emails</h3>
 </div>
 
-<% if @domain.emails.any? %>
-  <ul>
-    <% @domain.emails.each do |email| %>
-      <li><%= email.to_s %></li>
+<div class="pull-right">
+  <% if current_user.can? :create, Email %>
+    <%= link_to new_domain_email_path(@domain), :class => 'btn btn-secondary btn-sm' do %>
+      <i class="fa fa-plus"></i>
     <% end %>
-  </ul>
+  <% end %>
+</div>
+
+<% if @domain.emails.any? %>
+  <table class="th table">
+    <thead>
+      <tr>
+        <th><input type="checkbox"></th>
+        <th>Email</th>
+        <th>Members</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @domain.emails.each do |email| %>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <%= link_to email, email_path(email) %>
+          </td>
+          <td>
+            <% if email.permission_group.nil? %>
+              <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
+            <% else %>
+              <%= email.permission_group.users.count %> members
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <em>No active emails</em>
 <% end %>
