@@ -9,7 +9,7 @@ class EmailsController < ApplicationController
   def create
     authorize! :create, Email
 
-    @email = Email.new(email_params)
+    @email = Email.new(email_params_new)
     if @email.save
       redirect_to domain_emails_path(@email.domain)
     else
@@ -34,7 +34,7 @@ class EmailsController < ApplicationController
     @email = Email.find(params[:id])
     authorize! :update, @email
 
-    if @email.update(email_params)
+    if @email.update(email_params_update)
       redirect_to domain_emails_path(@email.domain)
     else
       render 'edit'
@@ -53,8 +53,12 @@ class EmailsController < ApplicationController
 
   # Allowed parameters
   protected
-  def email_params
+  def email_params_new
      params.require(:email).permit(:mail,
                                     :domain_id)
+  end
+  protected
+  def email_params_update
+     params.require(:email).permit(:mail)
   end
 end

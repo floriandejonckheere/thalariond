@@ -4,30 +4,39 @@
     <li><%= link_to 'Emails', mail_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Domain <%= @domain.domain %><% end %>
+<% content_for :section do %>Email <%= @email %><% end %>
 
 <div class="pull-right">
-  <% if current_user.can? :update, @domain %>
-    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary' do %>
+  <% if current_user.can? :update, @email %>
+    <%= link_to edit_email_path(@email), :class => 'btn btn-secondary' do %>
       <i class="fa fa-pencil"></i>
     <% end %>
   <% end %>
 </div>
 
 <p>
-  <strong>FQDN</strong>: <%= @domain.domain %>
+  <strong>Email</strong>: <%= @email %>
 </p>
 
 <div class="title-heading">
-  <h3>Emails</h3>
+  <h3>Members</h3>
 </div>
 
-<% if @domain.emails.any? %>
-  <ul>
-    <% @domain.emails.each do |email| %>
-      <li><%= email.to_s %></li>
-    <% end %>
-  </ul>
+<% if @email.permission_group.nil? %>
+  <div class="alert alert-danger">
+    <strong><i class="fa fa-exclamation-triangle"></i> Email account does not have an associated permission group.</strong>
+  </div>
+  <p>
+    Please create a group named <em><%= @email %></em> to allow access control.
+  </p>
 <% else %>
-  <em>No active emails</em>
+  <% if @email.permission_group.users.any? %>
+    <ul>
+      <% @email.permission_group.users.each do |user| %>
+        <li><%= link_to user.display_name, user_path(user) %>
+      <% end %>
+    </ul>
+  <% else %>
+    <em>No active emails</em>
+  <% end %>
 <% end %>

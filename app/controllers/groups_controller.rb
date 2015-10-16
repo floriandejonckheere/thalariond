@@ -1,13 +1,10 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
-
   layout "dashboard"
 
   # GET /groups
   def index
-    authorize! :list, Group
   end
 
   # POST /groups

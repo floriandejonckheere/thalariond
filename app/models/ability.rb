@@ -38,7 +38,7 @@ class Ability
     end
     # R all groups participated in
     can :read, Group do |group|
-      @user.groups.include? group
+      group.users.include? @user
     end
   end
 
