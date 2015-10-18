@@ -1,59 +1,51 @@
 class DomainAliasesController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource
 
   layout "dashboard"
 
-  # GET /domain_aliases
-  def index
-    authorize! :list, DomainAlias
-  end
+  #~ def index
+  #~ end
 
-  # POST /domain_aliases
   def create
     authorize! :create, DomainAlias
 
     @domain_alias = DomainAlias.new(domain_alias_params)
     if @domain_alias.save
-      redirect_to domain_aliases_path
+      redirect_to domains_path(:anchor => 'domain_aliases')
     else
       render 'new'
     end
   end
 
-  # GET /domain_aliases/new
   def new
     authorize! :create, DomainAlias
-    @domain_alias = DomainAlias.new
   end
 
-  # GET /domain_aliases/:id/edit
   def edit
-    @domain_alias = DomainAlias.find(params[:id])
     authorize! :update, @domain_alias
   end
 
-  # PUT/PATCH /domain_aliases/:id
+  def show
+    authorize! :read, @domain_alias
+  end
+
   def update
-    @domain_alias = DomainAlias.find(params[:id])
     authorize! :update, @domain_alias
 
     if @domain_alias.update(domain_alias_params)
-      redirect_to domains_path
+      redirect_to domain_alias_path(@domain_alias)
     else
       render 'edit'
     end
   end
 
-  # DELETE /domain_aliases/:id
   def destroy
-    @domain_alias = DomainAlias.find(params[:id])
     authorize! :destroy, @domain_alias
 
     @domain_alias.destroy
-
-    redirect_to domains_path
+    redirect_to domains_path(:anchor => 'domain_aliases')
   end
 
   # Allowed parameters

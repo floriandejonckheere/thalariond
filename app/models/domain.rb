@@ -1,11 +1,15 @@
 class Domain < ActiveRecord::Base
   has_paper_trail
 
-  validates :domain, presence: true, uniqueness: true
+  validates :domain, presence: true, uniqueness: true, format: { with: /\./ }
+  validate :validate_domain_not_alias
 
   has_many :emails, -> { uniq }, :dependent => :destroy
 
-  # Methods
+  def validate_domain_not_alias
+    errors.add(:domain, "can't be a domain alias") if DomainAlias.find_by(alias: self.domain)
+  end
+
   def to_ldap
     h = {}
     h['dc'] = self.domain

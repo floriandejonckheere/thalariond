@@ -1,11 +1,17 @@
 class DomainsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource
 
   layout "dashboard"
 
-  # POST /domains
+  def index
+    authorize! [:list, :read], Domain
+    authorize! [:list, :read], DomainAlias
+
+    @domain_aliases = DomainAlias.accessible_by(current_ability)
+  end
+
   def create
     authorize! :create, Domain
 
@@ -17,21 +23,20 @@ class DomainsController < ApplicationController
     end
   end
 
-  # GET /domains/new
   def new
     authorize! :create, Domain
-    @domain = Domain.new
   end
 
-  # GET /domains/:id/edit
   def edit
-    @domain = Domain.find(params[:id])
-    authorize! :update, @domain
+    authorize! :create, @domain
   end
 
-  # PUT/PATCH /domains/:id
+  def show
+    authorize! :read, @domain
+    @domain_aliases = DomainAlias.where(domain: @domain.domain)
+  end
+
   def update
-    @domain = Domain.find(params[:id])
     authorize! :update, @domain
 
     if @domain.update(domain_params)
@@ -41,17 +46,13 @@ class DomainsController < ApplicationController
     end
   end
 
-  # DELETE /domains/:id
   def destroy
-    @domain = Domain.find(params[:id])
     authorize! :destroy, @domain
 
     @domain.destroy
-
-    redirect_to mail_path
+    redirect_to domains_path
   end
 
-  # Allowed parameters
   protected
   def domain_params
      params.require(:domain).permit(:domain)

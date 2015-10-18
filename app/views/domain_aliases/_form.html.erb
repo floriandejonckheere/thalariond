@@ -24,6 +24,7 @@
     <%= f.text_field :domain,
         :placeholder => :domain,
         :class => 'form-control',
+        :value => @domain_alias.domain || params[:domain],
         :id => 'domain',
         :required => 'true' %>
   </fieldset>

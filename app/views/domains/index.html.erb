@@ -22,7 +22,7 @@
     <a href="#domains" class="nav-link" role="tab" data-toggle="tab">Domains</a>
   </li>
   <li class="nav-item">
-    <a href="#aliases" class="nav-link" role="tab" data-toggle="tab">Aliases</a>
+    <a href="#domain_aliases" class="nav-link" role="tab" data-toggle="tab">Aliases</a>
   </li>
 </ul>
 
@@ -32,32 +32,20 @@
     <table class="th table">
       <thead>
         <tr>
-          <th>
-            <div class="th checkbox checkbox-primary">
-              <input type="checkbox" id="checkbox-all">
-              <label for="checkbox">LABEL</label>
-            </div>
-          </th>
           <th>Domain</th>
           <th>Type</th>
         </tr>
       </thead>
       <tbody>
-        <% if (!Domain.any? or !Domain.any?) %>
+        <% if @domains.empty? and @domain_aliases.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
-              <em>No registered domains or domain aliases</em>
+            <td colspan="2">
+              <em>No domains or domain aliases found</em>
             </td>
           </tr>
         <% end %>
-        <% (Domain.all + DomainAlias.all).sort.each do |domain| %>
+        <% (@domains + @domain_aliases).sort.each do |domain| %>
           <tr>
-            <td>
-              <div class="th checkbox checkbox-primary">
-                <input type="checkbox" id="checkbox-<%= domain.id %>">
-                <label for="checkbox"></label>
-              </div>
-            </td>
             <td>
               <% if domain.is_a?(Domain) %>
                 <strong><%= link_to domain.domain, domain_path(domain) %></strong>
@@ -77,24 +65,20 @@
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
           <th>Domain</th>
           <th>Emails</th>
         </tr>
       </thead>
       <tbody>
-        <% if !Domain.any? %>
+        <% if @domains.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
-              <em>No registered domains</em>
+            <td colspan="2" class="text-center">
+              <em>No domains found</em>
             </td>
           </tr>
         <% end %>
-        <% Domain.all.each do |domain| %>
+        <% @domains.each do |domain| %>
           <tr>
-            <td>
-              <input type="checkbox">
-            </td>
             <td>
               <strong><%= link_to domain.domain, domain_path(domain) %></strong>
             </td>
@@ -110,28 +94,24 @@
       </tbody>
     </table>
   </div>
-  <div role="tabpanel" class="tab-pane fade in" id="aliases">
+  <div role="tabpanel" class="tab-pane fade in" id="domain_aliases">
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
           <th>Domain alias</th>
           <th>Destination domain</th>
         </tr>
       </thead>
       <tbody>
-        <% if !DomainAlias.any? %>
+        <% if @domain_aliases.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
-              <em>No registered domain aliases</em>
+            <td colspan="2" class="text-center">
+              <em>No domain aliases found</em>
             </td>
           </tr>
         <% end %>
-        <% DomainAlias.all.each do |domain_alias| %>
+        <% @domain_aliases.each do |domain_alias| %>
           <tr>
-            <td>
-              <input type="checkbox">
-            </td>
             <td>
               <strong><%= link_to domain_alias.alias, domain_alias_path(domain_alias) %></strong>
             </td>

@@ -7,11 +7,23 @@
 <% content_for :section do %>Domain <%= @domain.domain %><% end %>
 
 <div class="pull-right">
-  <% if current_user.can? :update, @domain %>
-    <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary btn-sm' do %>
-      <i class="fa fa-pencil"></i>
+  <div class="btn-group">
+    <% if current_user.can? :update, @domain %>
+      <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary btn-sm', :title => 'Edit domain', :data => {:toggle => 'tooltip'}  do %>
+        <i class="fa fa-pencil"></i>
+      <% end %>
     <% end %>
-  <% end %>
+    <% if current_user.can? :destroy, @domain %>
+      <%= link_to domain_path(@domain),
+                            :method => :delete,
+                            :title => 'Delete domain',
+                            data: { confirm: 'Are you sure you want to delete this domain?',
+                                    :toggle => 'tooltip' },
+                            :class => 'btn btn-secondary btn-sm' do %>
+        <i class="fa fa-trash"></i>
+      <% end %>
+    <% end %>
+  </div>
 </div>
 
 <p>
@@ -19,12 +31,53 @@
 </p>
 
 <div class="title-heading">
+  <h3>Domain aliases</h3>
+</div>
+
+<div class="pull-right">
+  <% if current_user.can? :create, DomainAlias %>
+    <%= link_to new_domain_alias_path(:params => {:domain => @domain.domain}),
+                            :class => 'btn btn-secondary btn-sm',
+                            :title => 'Add domain alias',
+                            :data => { :toggle => 'tooltip' } do %>
+      <i class="fa fa-plus"></i>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col-xs-6">
+    <% if @domain_aliases.any? %>
+      <table class="th table">
+        <thead>
+          <tr>
+            <th>Alias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @domain_aliases.each do |domain_alias| %>
+            <tr>
+              <td><%= link_to domain_alias.alias, domain_alias_path(domain_alias) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <em>No domain aliases found</em>
+    <% end %>
+  </div>
+</div>
+
+<div class="title-heading">
   <h3>Emails</h3>
 </div>
 
 <div class="pull-right">
   <% if current_user.can? :create, Email %>
-    <%= link_to new_domain_email_path(@domain), :class => 'btn btn-secondary btn-sm' do %>
+        <%= link_to new_domain_email_path(@domain.domain),
+                            :class => 'btn btn-secondary btn-sm',
+                            :title => 'Add email',
+                            :data => { :toggle => 'tooltip' } do %>
       <i class="fa fa-plus"></i>
     <% end %>
   <% end %>
@@ -34,7 +87,6 @@
   <table class="th table">
     <thead>
       <tr>
-        <th><input type="checkbox"></th>
         <th>Email</th>
         <th>Members</th>
       </tr>
@@ -42,7 +94,6 @@
     <tbody>
       <% @domain.emails.each do |email| %>
         <tr>
-          <td><input type="checkbox"></td>
           <td>
             <%= link_to email, email_path(email) %>
           </td>
@@ -58,5 +109,5 @@
     </tbody>
   </table>
 <% else %>
-  <em>No active emails</em>
+  <em>No emails found</em>
 <% end %>
