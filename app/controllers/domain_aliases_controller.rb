@@ -5,9 +5,6 @@ class DomainAliasesController < ApplicationController
 
   layout "dashboard"
 
-  #~ def index
-  #~ end
-
   def create
     authorize! :create, DomainAlias
 
@@ -48,8 +45,7 @@ class DomainAliasesController < ApplicationController
     redirect_to domains_path(:anchor => 'domain_aliases')
   end
 
-  # Allowed parameters
-  protected
+  private
   def domain_alias_params
     params.require(:domain_alias).permit(:alias,
                                           :domain)

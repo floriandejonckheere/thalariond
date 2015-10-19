@@ -1,64 +1,52 @@
 class EmailAliasesController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource
 
   layout "dashboard"
 
-  # GET /emailaliases
-  def index
-    authorize! :list, EmailAlias
-  end
-
-  # POST /emailaliases
   def create
     authorize! :create, EmailAlias
 
-    @emailalias = EmailAlias.new(emailalias_params)
-    if @emailalias.save
-      redirect_to emailaliases_path
+    @email_alias = EmailAlias.new(email_alias_params)
+    if @email_alias.save
+      redirect_to mail_path(:anchor => 'email_aliases')
     else
       render 'new'
     end
   end
 
-  # GET /emailaliases/new
   def new
     authorize! :create, EmailAlias
-    @emailalias = EmailAlias.new
   end
 
-  # GET /emailaliases/:id/edit
   def edit
-    @emailalias = EmailAlias.find(params[:id])
-    authorize! :update, @emailalias
+    authorize! :update, @email_alias
   end
 
-  # PUT/PATCH /emailaliases/:id
-  def update
-    @emailalias = EmailAlias.find(params[:id])
-    authorize! :update, @emailalias
+  def show
+    authorize! :read, @email_alias
+  end
 
-    if @emailalias.update(emailalias_params)
-      redirect_to emails_path
+  def update
+    authorize! :update, @email_alias
+
+    if @email_alias.update(email_alias_params)
+      redirect_to email_alias_path(@email_alias)
     else
       render 'edit'
     end
   end
 
-  # DELETE /emailaliases/:id
   def destroy
-    @emailalias = EmailAlias.find(params[:id])
-    authorize! :destroy, @emailalias
+    authorize! :destroy, @email_alias
 
-    @emailalias.destroy
-
-    redirect_to emails_path
+    @email_alias.destroy
+    redirect_to mail_path(:anchor => 'email_aliases')
   end
 
-  # Allowed parameters
-  protected
-  def emailalias_params
+  private
+  def email_alias_params
      params.require(:email_alias).permit(:alias,
                                           :mail)
   end

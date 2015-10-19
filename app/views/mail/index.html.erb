@@ -6,95 +6,128 @@
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
   </li>
   <li class="nav-item">
-    <a href="#participated" class="nav-link" role="tab" data-toggle="tab">Participated</a>
+    <a href="#emails" class="nav-link" role="tab" data-toggle="tab">Emails</a>
   </li>
   <li class="nav-item">
-    <a href="#owned" class="nav-link" role="tab" data-toggle="tab">Owned</a>
+    <a href="#email_aliases" class="nav-link" role="tab" data-toggle="tab">Aliases</a>
   </li>
 </ul>
-
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="all">
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
           <th>Email</th>
-          <th>Members</th>
+          <th>Type</th>
         </tr>
       </thead>
       <tbody>
-        <% Email.all.each do |email| %>
-          <% if current_user.can? :read, email %>
-            <tr>
-              <td>
-                <input type="checkbox">
-              </td>
-              <td>
-                <%= link_to email, email_path(email) %>
-              </td>
-              <td>
-                None
-              </td>
-            </tr>
-          <% end %>
+        <% if @emails.empty? and @email_aliases.empty? %>
+          <tr>
+            <td colspan="2">
+              <em>No emails or email aliases found</em>
+            </td>
+          </tr>
+        <% end %>
+        <% (@emails + @email_aliases).sort.each do |email| %>
+          <tr>
+            <td>
+              <% if email.is_a?(Email) %>
+                <strong><%= link_to email.to_s, domain_email_path(email.domain, email) %></strong>
+              <% else %>
+                <strong><%= link_to email.alias, email_alias_path(email) %></strong>
+              <% end %>
+            </td>
+            <td>
+              <%= email.is_a?(Email) ? 'Email' : 'Email alias' %>
+            </td>
+          </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-  <div role="tabpanel" class="tab-pane fade in" id="participated">
+  <div role="tabpanel" class="tab-pane fade in" id="emails">
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
           <th>Email</th>
+          <th>Owner</th>
+          <th>Status</th>
           <th>Members</th>
         </tr>
       </thead>
       <tbody>
-        <% Email.all.reject { |email| !email.permission_group.users.include?(current_user) }.each do |email| %>
-          <% if current_user.can? :read, email %>
-            <tr>
+        <% @emails.each do |email| %>
+          <tr>
+            <td>
+              <strong><%= link_to email, domain_email_path(email.domain, email) %></strong>
+            </td>
+            <% if email.permission_group.nil? %>
+              <td colspan="2">
+                <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
+              </td>
+            <% else %>
               <td>
-                <input type="checkbox">
+                <% if email.permission_group.owner.nil? %>
+                  <em>No current owner</em>
+                <% else %>
+                  <%= link_to email.permission_group.owner.display_name, user_path(email.owner) %>
+                <% end %>
               </td>
               <td>
-                <%= link_to email, email_path(email) %>
+                <% if email.permission_group.owner == current_user %>
+                  Owner
+                <% elsif email.permission_group.users.include?(current_user) %>
+                  Member
+                <% else %>
+                  Not a member
+                <% end %>
               </td>
               <td>
-                None
+                <%= email.permission_group.users.count %> members
               </td>
-            </tr>
-          <% end %>
+            <% end %>
+          </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-  <div role="tabpanel" class="tab-pane fade in" id="owned">
+  <div role="tabpanel" class="tab-pane fade in" id="email_aliases">
+    <div class="pull-right">
+      <% if current_user.can? :create, EmailAlias %>
+            <%= link_to new_email_alias_path,
+                                :class => 'btn btn-secondary btn-sm',
+                                :title => 'Add email alias',
+                                :data => { :toggle => 'tooltip' } do %>
+          <i class="fa fa-plus"></i>
+        <% end %>
+      <% end %>
+    </div>
     <table class="th table">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
-          <th>Email</th>
-          <th>Members</th>
+          <th>Email alias</th>
+          <th>Destination email</th>
         </tr>
       </thead>
       <tbody>
-        <% Email.all.reject { |email| email.permission_group.owner != current_user }.each do |email| %>
-          <% if current_user.can? :read, email %>
-            <tr>
-              <td>
-                <input type="checkbox">
-              </td>
-              <td>
-                <%= link_to email, email_path(email) %>
-              </td>
-              <td>
-                None
-              </td>
-            </tr>
-          <% end %>
+        <% if @email_aliases.empty? %>
+          <tr>
+            <td colspan="2" class="text-center">
+              <em>No email aliases found</em>
+            </td>
+          </tr>
+        <% end %>
+        <% @email_aliases.each do |email_alias| %>
+          <tr>
+            <td>
+              <strong><%= link_to email_alias.alias, email_alias_path(email_alias) %></strong>
+            </td>
+            <td>
+              <%= email_alias.mail %>
+            </td>
+          </tr>
         <% end %>
       </tbody>
     </table>

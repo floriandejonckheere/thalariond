@@ -17,9 +17,9 @@
     }
 
     &.active {
-      border-bottom: 4px solid $primary-color;
+      border-bottom: 4px solid $brand-primary;
 
-      color: $primary-color;
+      color: $brand-primary;
       font-family: 'Roboto Medium', 'Roboto Light', sans-serif;
     }
   }

@@ -28,7 +28,7 @@ class DomainsController < ApplicationController
   end
 
   def edit
-    authorize! :create, @domain
+    authorize! :update, @domain
   end
 
   def show
@@ -53,7 +53,7 @@ class DomainsController < ApplicationController
     redirect_to domains_path
   end
 
-  protected
+  private
   def domain_params
      params.require(:domain).permit(:domain)
   end

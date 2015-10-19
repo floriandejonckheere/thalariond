@@ -1,7 +1,7 @@
 class Domain < ActiveRecord::Base
   has_paper_trail
 
-  validates :domain, presence: true, uniqueness: true, format: { with: /\./ }
+  validates :domain, presence: true, uniqueness: true
   validate :validate_domain_not_alias
 
   has_many :emails, -> { uniq }, :dependent => :destroy

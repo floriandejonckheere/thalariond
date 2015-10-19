@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :services
   resources :roles
   resources :domains do
-    resources :emails, :shallow => true
+    resources :emails, :except => :index
   end
   resources :domain_aliases, :controller => 'domain_aliases', :except => :index
   resources :email_aliases, :controller => 'email_aliases', :except => :index

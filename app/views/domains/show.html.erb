@@ -74,7 +74,7 @@
 
 <div class="pull-right">
   <% if current_user.can? :create, Email %>
-        <%= link_to new_domain_email_path(@domain.domain),
+        <%= link_to new_domain_email_path(@domain),
                             :class => 'btn btn-secondary btn-sm',
                             :title => 'Add email',
                             :data => { :toggle => 'tooltip' } do %>
@@ -88,6 +88,7 @@
     <thead>
       <tr>
         <th>Email</th>
+        <th>Owner</th>
         <th>Members</th>
       </tr>
     </thead>
@@ -95,15 +96,24 @@
       <% @domain.emails.each do |email| %>
         <tr>
           <td>
-            <%= link_to email, email_path(email) %>
+            <%= link_to email, domain_email_path(@domain, email) %>
           </td>
-          <td>
-            <% if email.permission_group.nil? %>
+          <% if email.permission_group.nil? %>
+            <td colspan="2">
               <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
-            <% else %>
+            </td>
+          <% else %>
+            <td>
+              <% if email.permission_group.owner.nil? %>
+                <em>No current owner</em>
+              <% else %>
+                <%= link_to email.permission_group.owner.display_name, user_path(email.owner) %>
+              <% end %>
+            </td>
+            <td>
               <%= email.permission_group.users.count %> members
-            <% end %>
-          </td>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

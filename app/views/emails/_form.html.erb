@@ -1,4 +1,4 @@
-<%= form_for @email do |f| %>
+<%= form_for [@domain, @email] do |f| %>
   <% if @email.errors.any? %>
   <div class="alert alert-danger">
     <strong><%= pluralize(@email.errors.count, 'error') %> prohibited this email from being saved:</strong>
@@ -16,15 +16,6 @@
         :placeholder => :mail,
         :class => 'form-control',
         :id => 'mail',
-        :required => 'true' %>
-  </fieldset>
-
-  <fieldset class="form-group">
-    <label for="domain">Domain</label>
-    <%= f.text_field :domain,
-        :placeholder => :domain,
-        :class => 'form-control',
-        :id => 'domain',
         :required => 'true' %>
   </fieldset>
 

@@ -7,11 +7,23 @@
 <% content_for :section do %>Email <%= @email %><% end %>
 
 <div class="pull-right">
-  <% if current_user.can? :update, @email %>
-    <%= link_to edit_email_path(@email), :class => 'btn btn-secondary' do %>
-      <i class="fa fa-pencil"></i>
+  <div class="btn-group">
+    <% if current_user.can? :update, @email %>
+      <%= link_to edit_domain_email_path(@domain, @email), :class => 'btn btn-secondary btn-sm', :title => 'Edit email', :data => {:toggle => 'tooltip'}  do %>
+        <i class="fa fa-pencil"></i>
+      <% end %>
     <% end %>
-  <% end %>
+    <% if current_user.can? :destroy, @email %>
+      <%= link_to domain_email_path(@domain, @email),
+                            :method => :delete,
+                            :title => 'Delete email',
+                            data: { confirm: 'Are you sure you want to delete this email?',
+                                    :toggle => 'tooltip' },
+                            :class => 'btn btn-secondary btn-sm' do %>
+        <i class="fa fa-trash"></i>
+      <% end %>
+    <% end %>
+  </div>
 </div>
 
 <p>
@@ -22,7 +34,7 @@
   <h3>Members</h3>
 </div>
 
-<% if @email.permission_group.nil? %>
+<% if @permission_group.nil? %>
   <div class="alert alert-danger">
     <strong><i class="fa fa-exclamation-triangle"></i> Email account does not have an associated permission group.</strong>
   </div>
@@ -30,9 +42,9 @@
     Please create a group named <em><%= @email %></em> to allow access control.
   </p>
 <% else %>
-  <% if @email.permission_group.users.any? %>
+  <% if @permission_group.users.any? %>
     <ul>
-      <% @email.permission_group.users.each do |user| %>
+      <% @permission_group.users.each do |user| %>
         <li><%= link_to user.display_name, user_path(user) %>
       <% end %>
     </ul>

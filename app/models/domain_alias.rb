@@ -1,13 +1,13 @@
 class DomainAlias < ActiveRecord::Base
   has_paper_trail
 
-  validates :alias, presence: true, uniqueness: true, format: { with: /\./ }
-  validates :domain, presence: true, format: { with: /\./ }
+  validates :alias, presence: true, uniqueness: true
+  validates :domain, presence: true
   validate :validate_no_loops
 
   def validate_no_loops
     errors.add(:alias, "can't be a managed domain") if Domain.find_by(domain: self.alias)
-    errors.add(:alias, "can't be an alias domain") unless DomainAlias.find_by(alias: self.domain).nil?
+    errors.add(:domain, "can't be an domain alias") unless DomainAlias.find_by(alias: self.domain).nil?
     errors.add(:alias, "can't be aliased to itself") if self.alias == self.domain
   end
 

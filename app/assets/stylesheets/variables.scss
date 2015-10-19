@@ -17,13 +17,13 @@ $line-color: rgba(0, 0, 0, 0.1);
  *
  * */
 $brand-primary: #F34541;
+$input-border-focus: $brand-primary;
 
 
-$primary-color: #F34541;
-$secondary-color: #4CAF50;
-
-$bg-color-1: #06B17C;
-$bg-color-2: #FA7E4C;
-$bg-color-3: #C59D35;
-
-$fg-color-1: #FFFFFF;
+/**
+ * Some more colours
+ * #4CAF50
+ * #06B17C
+ * #FA7E4C
+ * #C59D35
+ * */

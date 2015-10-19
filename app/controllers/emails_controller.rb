@@ -1,64 +1,57 @@
 class EmailsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource :domain
+  load_resource :email, :through => :domain
 
   layout "dashboard"
 
-  # POST /emails
   def create
     authorize! :create, Email
 
-    @email = Email.new(email_params_new)
+    @email = @domain.emails.build(params[:email])
     if @email.save
-      redirect_to domain_emails_path(@email.domain)
+      redirect_to domain_email_path(@domain, @email)
     else
       render 'new'
     end
   end
 
-  # GET /emails/new
   def new
     authorize! :create, Email
-    @email = Email.new
+
+    @email = @domain.emails.build
   end
 
-  # GET /emails/:id/edit
   def edit
-    @email = Email.find(params[:id])
     authorize! :update, @email
   end
 
-  # PUT/PATCH /emails/:id
+  def show
+    authorize! :read, @email
+    @email_aliases = EmailAlias.where(mail: @email.mail)
+    @permission_group = Group.find_by(name: @email.to_s)
+  end
+
   def update
-    @email = Email.find(params[:id])
     authorize! :update, @email
 
-    if @email.update(email_params_update)
-      redirect_to domain_emails_path(@email.domain)
+    if @email.update(email_params)
+      redirect_to domain_email_path(@domain, @email)
     else
       render 'edit'
     end
   end
 
-  # DELETE /emails/:id
   def destroy
-    @email = Email.find(params[:id])
     authorize! :destroy, @email
 
     @email.destroy
-
-    redirect_to domain_emails_path(@email.domain)
+    redirect_to domain_email_path(@domain, @email)
   end
 
-  # Allowed parameters
-  protected
-  def email_params_new
-     params.require(:email).permit(:mail,
-                                    :domain_id)
-  end
-  protected
-  def email_params_update
+  private
+  def email_params
      params.require(:email).permit(:mail)
   end
 end
