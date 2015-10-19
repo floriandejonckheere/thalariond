@@ -8,12 +8,12 @@
 
 <div class="pull-right">
   <div class="btn-group">
-    <% if current_user.can? :update, @domain_alias %>
+    <% if can? :update, @domain_alias %>
       <%= link_to edit_domain_alias_path(@domain_alias), :class => 'btn btn-secondary btn-sm', :title => 'Edit domain alias', :data => {:toggle => 'tooltip'} do %>
         <i class="fa fa-pencil"></i>
       <% end %>
     <% end %>
-    <% if current_user.can? :destroy, @domain_alias %>
+    <% if can? :destroy, @domain_alias %>
       <%= link_to domain_alias_path(@domain_alias),
                             :method => :delete,
                             :title => 'Delete domain alias',

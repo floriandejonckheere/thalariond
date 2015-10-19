@@ -25,7 +25,7 @@
       <tbody>
         <% if @emails.empty? and @email_aliases.empty? %>
           <tr>
-            <td colspan="2">
+            <td colspan="2" class="text-center">
               <em>No emails or email aliases found</em>
             </td>
           </tr>
@@ -64,7 +64,7 @@
               <strong><%= link_to email, domain_email_path(email.domain, email) %></strong>
             </td>
             <% if email.permission_group.nil? %>
-              <td colspan="2">
+              <td colspan="2" class="text-center">
                 <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
               </td>
             <% else %>
@@ -85,7 +85,7 @@
                 <% end %>
               </td>
               <td>
-                <%= email.permission_group.users.count %> members
+                <%= pluralize(email.permission_group.users.count, 'member') %>
               </td>
             <% end %>
           </tr>
@@ -95,8 +95,8 @@
   </div>
   <div role="tabpanel" class="tab-pane fade in" id="email_aliases">
     <div class="pull-right">
-      <% if current_user.can? :create, EmailAlias %>
-            <%= link_to new_email_alias_path,
+      <% if can? :create, EmailAlias %>
+        <%= link_to new_email_alias_path,
                                 :class => 'btn btn-secondary btn-sm',
                                 :title => 'Add email alias',
                                 :data => { :toggle => 'tooltip' } do %>

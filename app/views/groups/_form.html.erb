@@ -10,59 +10,38 @@
   </div>
   <% end %>
 
-  <div class="row">
-    <h5>Group details</h5>
-    <div class="two columns align-right">
-      Name
-    </div>
-    <div class="eight columns">
-      <div id="section-edit" class="<%= 'hidden' unless @group.name.nil? %>">
-        <%= f.text_field :name,
-            :placeholder => :name,
-            :class => 'u-full-width lowercase',
-            :required => 'true' %>
-      </div>
-      <div id="section-show" class="<%= 'hidden' if @group.name.nil? %>">
-        <p>
-          <strong><%= @group.name %></strong>
-          <a href="javascript:void(0);" id="button-edit" data-property="name" class="button button-small">Edit</a>
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="two columns align-right">
-      Display name
-    </div>
-    <div class="eight columns">
-      <%= f.text_field :display_name,
-          :placeholder => :display_name,
-          :class => 'u-full-width' %>
-    </div>
-  </div>
-
-  <% if params[:action] == 'edit' %>
-    <div class="row">
-      <h5>Members</h5>
-      <div class="five columns">
-        <% if @group.users.length == 0 %>
-          <p><em>No members</em></p>
-        <% end %>
-        <table class="u-full-width">
-          <% @group.users.each do |user| %>
-            <tr>
-              <td><%= link_to user.first_name + ' ' + user.last_name, user_path(user) %></td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
-      <div class="five columns">
-      </div>
+  <% if permission_group? %>
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> This group has an associated email account. Changing the name of this group will void access control on the email account.
     </div>
   <% end %>
 
-  <div class="row">
-    <%= f.submit 'Save',
-            :class => 'button button-primary-color' %>
+  <fieldset class="form-group">
+    <label for="name">Name</label>
+    <%= f.text_field :name,
+        :placeholder => :name,
+        :class => 'form-control',
+        :id => 'name',
+        :required => 'true' %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <label for="display_name">Display name</label>
+    <%= f.text_field :display_name,
+        :placeholder => :display_name,
+        :class => 'form-control',
+        :id => 'display_name',
+        :required => 'true' %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <label for="owner">Owner</label><br>
+    <%= f.collection_select(:owner, @group.users.all, :id, :display_name, {:include_blank => true}) %>
+  </fieldset>
+
+  <div class="title-heading">
+    <h3>Members</h3>
+  </div>
+
+  <%= f.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>

@@ -2,14 +2,14 @@
 <% content_for :section do %>Domains<% end %>
 
 <div class="pull-right">
-  <% if (current_user.can? :create, Domain or current_user.can? :create, DomainAlias) %>
+  <% if (can? :create, Domain or can? :create, DomainAlias) %>
     <div class="btn-group">
       <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-plus"></i>
       </button>
       <div class="dropdown-menu">
-        <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if current_user.can? :create, Domain %>
-        <%= link_to 'Domain alias', new_domain_alias_path, :class => 'dropdown-item' if current_user.can? :create, DomainAlias %>
+        <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if can? :create, Domain %>
+        <%= link_to 'Domain alias', new_domain_alias_path, :class => 'dropdown-item' if can? :create, DomainAlias %>
       </div>
     </div>
   <% end %>
@@ -39,7 +39,7 @@
       <tbody>
         <% if @domains.empty? and @domain_aliases.empty? %>
           <tr>
-            <td colspan="2">
+            <td colspan="2" class="text-center">
               <em>No domains or domain aliases found</em>
             </td>
           </tr>

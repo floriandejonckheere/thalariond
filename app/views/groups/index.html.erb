@@ -1,6 +1,16 @@
 <% content_for :title do   %>Accounts<% end %>
 <% content_for :section do %>Groups<% end %>
 
+<div class="pull-right">
+  <% if can? :create, Group %>
+    <%= link_to new_group_path,
+                            :class => 'btn btn-secondary btn-sm',
+                            :title => 'Add group',
+                            :data => { :toggle => 'tooltip' } do %>
+      <i class="fa fa-plus"></i>
+    <% end %>
+  <% end %>
+</div>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
@@ -22,19 +32,17 @@
           <th>Status</th>
           <th>Owner</th>
           <th>Members</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <% if !Group.any? %>
+        <% if @groups.nil? %>
           <tr>
-            <td>
-              <em>No registered groups</em>
+            <td colspan="4" class="text-center">
+              <em>No groups found</em>
             </td>
           </tr>
-        <% end %>
-        <% Group.all.each do |group| %>
-          <% if current_user.can? :read, group %>
+        <% else %>
+          <% @groups.each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -45,39 +53,119 @@
                 <% elsif group.users.include? current_user %>
                   Member
                 <% else %>
-                  -
+                  Not a member
                 <% end %>
               </td>
               <td>
                 <% if group.owner %>
                   <%= link_to group.owner.display_name, user_path(group.owner) %>
                 <% else %>
-                  -
+                  <em>No current owner</em>
                 <% end %>
               </td>
               <td>
-                <%= group.users.count %>
-              </td>
-              <td>
-                <% if can? :update, group %>
-                  <%= link_to 'Manage', edit_group_path(group),
-                        :class => 'button button-small' %>
-                <% end %>
+                <%= pluralize(group.users.count, 'member') %>
               </td>
             </tr>
           <% end %>
         <% end %>
       </tbody>
     </table>
-
-    <% if can? :create, Group %>
-      <%= link_to 'Add', new_group_path, :class => 'button button-primary-color u-pull-right' %>
-    <% end %>
   </div>
   <div role="tabpanel" class="tab-pane fade in" id="member">
-    member
+    <table class="th table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @groups.select { |g| g.users.include? current_user }.empty? %>
+          <tr>
+            <td colspan="4" class="text-center">
+              <em>No groups found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @groups.select { |g| g.users.include? current_user }.each do |group| %>
+            <tr>
+              <td>
+                <strong><%= link_to group.display_name, group_path(group) %></strong>
+              </td>
+              <td>
+                <% if group.owner == current_user %>
+                  Owner
+                <% elsif group.users.include? current_user %>
+                  Member
+                <% else %>
+                  Not a member
+                <% end %>
+              </td>
+              <td>
+                <% if group.owner %>
+                  <%= link_to group.owner.display_name, user_path(group.owner) %>
+                <% else %>
+                  <em>No current owner</em>
+                <% end %>
+              </td>
+              <td>
+                <%= pluralize(group.users.count, 'member') %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
   <div role="tabpanel" class="tab-pane fade in" id="owner">
-    owner
+    <table class="th table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @groups.select { |g| g.owner == current_user }.empty? %>
+          <tr>
+            <td colspan="4" class="text-center">
+              <em>No groups found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @groups.select { |g| g.owner == current_user }.each do |group| %>
+            <tr>
+              <td>
+                <strong><%= link_to group.display_name, group_path(group) %></strong>
+              </td>
+              <td>
+                <% if group.owner == current_user %>
+                  Owner
+                <% elsif group.users.include? current_user %>
+                  Member
+                <% else %>
+                  Not a member
+                <% end %>
+              </td>
+              <td>
+                <% if group.owner %>
+                  <%= link_to group.owner.display_name, user_path(group.owner) %>
+                <% else %>
+                  <em>No current owner</em>
+                <% end %>
+              </td>
+              <td>
+                <%= pluralize(group.users.count, 'member') %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

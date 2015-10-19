@@ -6,9 +6,6 @@ class DomainsController < ApplicationController
   layout "dashboard"
 
   def index
-    authorize! [:list, :read], Domain
-    authorize! [:list, :read], DomainAlias
-
     @domain_aliases = DomainAlias.accessible_by(current_ability)
   end
 

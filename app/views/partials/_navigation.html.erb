@@ -22,7 +22,7 @@
         </li>
       <% end %>
       <div class="title-main m-t">Accounts</div>
-      <% if current_user.can? :list, User %>
+      <% if can? :list, User %>
         <li class="nav-item">
           <%= link_to users_path, :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
             Users

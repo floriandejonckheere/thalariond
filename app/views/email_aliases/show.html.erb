@@ -8,12 +8,12 @@
 
 <div class="pull-right">
   <div class="btn-group">
-    <% if current_user.can? :update, @email_alias %>
+    <% if can? :update, @email_alias %>
       <%= link_to edit_email_alias_path(@email_alias), :class => 'btn btn-secondary btn-sm', :title => 'Edit email alias', :data => {:toggle => 'tooltip'} do %>
         <i class="fa fa-pencil"></i>
       <% end %>
     <% end %>
-    <% if current_user.can? :destroy, @email_alias %>
+    <% if can? :destroy, @email_alias %>
       <%= link_to email_alias_path(@email_alias),
                             :method => :delete,
                             :title => 'Delete email alias',

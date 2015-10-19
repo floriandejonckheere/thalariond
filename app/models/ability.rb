@@ -84,7 +84,6 @@ class Ability
 
   # Administrator access
   def administrator
-    operator
     can :manage, :all
   end
 

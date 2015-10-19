@@ -1,14 +1,9 @@
-<span class="u-pull-right">
-  <% if can? :update, @group %>
-    <%= link_to 'Edit', edit_group_path(@group), :class => 'button' %>
-  <% end %>
-  <% if can? :destroy, @group %>
-    <%= link_to 'Delete', group_path(@group),
-        :method => :delete,
-        data: { confirm: 'Are you sure you want to delete this user?' },
-        :class => 'button' %>
-  <% end %>
-</span>
-<h4>Edit <%= @group.display_name %></h4>
-<hr>
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Accounts</li>
+    <li><%= link_to 'Groups', groups_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Group <%= @group.name %><% end %>
+
 <%= render 'form' %>

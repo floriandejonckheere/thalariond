@@ -21,4 +21,8 @@ class Domain < ActiveRecord::Base
     return self.domain <=> domain.alias if domain.is_a?(DomainAlias)
     self.domain <=> domain.domain
   end
+
+  def before_save
+    self.domain.downcase!
+  end
 end

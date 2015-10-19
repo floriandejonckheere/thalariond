@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   has_paper_trail
 
   validates :name, presence: true, uniqueness: true
+  validates :display_name, presence: true
 
   # Membership
   has_and_belongs_to_many :users, unique: true
@@ -21,18 +22,22 @@ class Group < ActiveRecord::Base
     h['displayName'] = self.display_name if self.display_name?
     h['owner'] = "uid=#{self.owner.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}" if self.owner != nil
     # Members
-    if self.users.length > 0
+    if self.users.any?
       h['member'] = []
       self.users.each do |u|
         h['member'] << "uid=#{u.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}"
       end
     end
-    if self.services.length > 0
+    if self.services.any?
       h['member'] = []
       self.services.each do |s|
         h['member'] << "uid=#{s.uid},ou=Services,#{Rails.application.config.ldap['base_dn']}"
       end
     end
     return h
+  end
+
+  def before_save
+    self.name.downcase!
   end
 end

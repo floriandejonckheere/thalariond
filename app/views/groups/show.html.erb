@@ -1,63 +1,72 @@
-<span class="u-pull-right">
-  <% if can? :update, @group %>
-    <%= link_to 'Edit', edit_group_path(@group), :class => 'button' %>
-  <% end %>
-  <% if can? :destroy, @group %>
-    <%= link_to 'Delete', group_path(@group),
-                          :method => :delete,
-                          data: { confirm: 'Are you sure you want to delete this group?' },
-                          :class => 'button button-danger' %>
-  <% end %>
-</span>
-<h4><%= @group.display_name %></h4>
-<hr>
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Accounts</li>
+    <li><%= link_to 'Groups', groups_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Group <%= @group.name %><% end %>
 
-<div class="row">
-  <h5>Group details</h5>
-  <p>
-    <div class="row">
-      <div class="two columns">
-        Name
-      </div>
-      <div class="eight columns">
-        <strong><%= @group.name %></strong>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns">
-        Description
-      </div>
-      <div class="eight columns">
-        <%= @group.display_name %>
-      </div>
-    </div>
-  </p>
-</div>
-
-<div class="row">
-  <h5>Members</h5>
-  <p>
-    <div class="six columns">
-      <% if @group.users.length == 0 %>
-        <p><em>No members</em></p>
-      <% else %>
-        <table class="u-full-width">
-          <thead>
-            <tr>
-              <td><strong>Name</strong></td>
-              <td class="align-right"><strong>Status</strong></td>
-            </tr>
-          </thead>
-          <tbody>
-            <% @group.users.each do |user| %>
-              <tr>
-                <td><%= link_to user.display_name, user_path(user) %></td>
-                <td class="align-right"><%= @group.owner == user ? 'Owner' : 'Member' %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+<div class="pull-right">
+  <div class="btn-group">
+    <% if can? :update, @group %>
+      <%= link_to edit_group_path(@group), :class => 'btn btn-secondary btn-sm', :title => 'Edit group', :data => {:toggle => 'tooltip'}  do %>
+        <i class="fa fa-pencil"></i>
       <% end %>
-    </div>
-  </p>
+    <% end %>
+    <% if can? :destroy, @group %>
+      <%= link_to group_path(@group),
+                            :method => :delete,
+                            :title => 'Delete group',
+                            data: { confirm: 'Are you sure you want to delete this group?',
+                                    :toggle => 'tooltip' },
+                            :class => 'btn btn-secondary btn-sm' do %>
+        <i class="fa fa-trash"></i>
+      <% end %>
+    <% end %>
+  </div>
 </div>
+
+
+<p>
+  <strong>Name</strong>: <%= @group.name %><br>
+  <strong>Display name</strong>: <%= @group.display_name %><br>
+  <strong>Owner</strong>:
+    <% if @group.owner %>
+      <%= @group.owner.display_name %>
+    <% else %>
+      <em>No current owner</em>
+    <% end %>
+</p>
+
+<div class="title-heading">
+  <h3>Members</h3>
+</div>
+
+<table class="th table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @group.users.nil? %>
+      <tr>
+        <td colspan="3" class="text-center">
+          <em>No members found</em>
+        </td>
+      </tr>
+    <% else %>
+      <% @group.users.each do |member| %>
+        <tr>
+          <td><%= link_to member.display_name, user_path(member) %></td>
+          <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
+          <td>
+            Actions
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

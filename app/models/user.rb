@@ -74,4 +74,9 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def before_save
+    self.uid.downcase!
+    self.email.downcase!
+  end
 end

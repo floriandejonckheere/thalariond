@@ -34,4 +34,8 @@ class Service < ActiveRecord::Base
   def active_for_authentication?
     super && self.enabled
   end
+
+  def before_save
+    self.uid.downcase!
+  end
 end

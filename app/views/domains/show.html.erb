@@ -8,12 +8,12 @@
 
 <div class="pull-right">
   <div class="btn-group">
-    <% if current_user.can? :update, @domain %>
+    <% if can? :update, @domain %>
       <%= link_to edit_domain_path(@domain), :class => 'btn btn-secondary btn-sm', :title => 'Edit domain', :data => {:toggle => 'tooltip'}  do %>
         <i class="fa fa-pencil"></i>
       <% end %>
     <% end %>
-    <% if current_user.can? :destroy, @domain %>
+    <% if can? :destroy, @domain %>
       <%= link_to domain_path(@domain),
                             :method => :delete,
                             :title => 'Delete domain',
@@ -35,7 +35,7 @@
 </div>
 
 <div class="pull-right">
-  <% if current_user.can? :create, DomainAlias %>
+  <% if can? :create, DomainAlias %>
     <%= link_to new_domain_alias_path(:params => {:domain => @domain.domain}),
                             :class => 'btn btn-secondary btn-sm',
                             :title => 'Add domain alias',
@@ -47,7 +47,9 @@
 
 <div class="row">
   <div class="col-xs-6">
-    <% if @domain_aliases.any? %>
+    <% if @domain_aliases.nil? %>
+      <em>No domain aliases found</em>
+    <% else %>
       <table class="th table">
         <thead>
           <tr>
@@ -62,8 +64,6 @@
           <% end %>
         </tbody>
       </table>
-    <% else %>
-      <em>No domain aliases found</em>
     <% end %>
   </div>
 </div>
@@ -73,7 +73,7 @@
 </div>
 
 <div class="pull-right">
-  <% if current_user.can? :create, Email %>
+  <% if can? :create, Email %>
         <%= link_to new_domain_email_path(@domain),
                             :class => 'btn btn-secondary btn-sm',
                             :title => 'Add email',
@@ -99,7 +99,7 @@
             <%= link_to email, domain_email_path(@domain, email) %>
           </td>
           <% if email.permission_group.nil? %>
-            <td colspan="2">
+            <td colspan="2" class="text-center">
               <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
             </td>
           <% else %>
@@ -111,7 +111,7 @@
               <% end %>
             </td>
             <td>
-              <%= email.permission_group.users.count %> members
+              <%= pluralize(email.permission_group.users.count, 'member') %>
             </td>
           <% end %>
         </tr>

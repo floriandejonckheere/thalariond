@@ -8,12 +8,12 @@
 
 <div class="pull-right">
   <div class="btn-group">
-    <% if current_user.can? :update, @email %>
+    <% if can? :update, @email %>
       <%= link_to edit_domain_email_path(@domain, @email), :class => 'btn btn-secondary btn-sm', :title => 'Edit email', :data => {:toggle => 'tooltip'}  do %>
         <i class="fa fa-pencil"></i>
       <% end %>
     <% end %>
-    <% if current_user.can? :destroy, @email %>
+    <% if can? :destroy, @email %>
       <%= link_to domain_email_path(@domain, @email),
                             :method => :delete,
                             :title => 'Delete email',
@@ -42,6 +42,9 @@
     Please create a group named <em><%= @email %></em> to allow access control.
   </p>
 <% else %>
+  <div class="alert alert-info">
+    This email account has an associated <strong><%= link_to 'permission group', group_path(@email.permission_group) %></strong>
+  </div>
   <% if @permission_group.users.any? %>
     <ul>
       <% @permission_group.users.each do |user| %>
@@ -49,6 +52,6 @@
       <% end %>
     </ul>
   <% else %>
-    <em>No active emails</em>
+    <center><em>No active emails</em></center>
   <% end %>
 <% end %>

@@ -19,6 +19,13 @@ $line-color: rgba(0, 0, 0, 0.1);
 $brand-primary: #F34541;
 $input-border-focus: $brand-primary;
 
+/**
+ * Bootstrap hacks
+ * */
+.alert.alert-info a {
+  color: #31708F;
+}
+
 
 /**
  * Some more colours

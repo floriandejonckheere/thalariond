@@ -55,4 +55,8 @@ class Email < ActiveRecord::Base
     return self.mail <=> email.alias if email.is_a?(EmailAlias)
     self.mail <=> email.mail
   end
+
+  def before_save
+    self.mail.downcase!
+  end
 end
