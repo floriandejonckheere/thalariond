@@ -14,13 +14,6 @@
           Home
         <% end %>
       </li>
-      <% if current_user.has_role? :administrator %>
-        <li class="nav-item">
-          <%= link_to dashboard_path, :class => (controller?('dashboard') ? 'nav-link active' : 'nav-link') do %>
-            Dashboard
-          <% end %>
-        </li>
-      <% end %>
       <div class="title-main m-t">Accounts</div>
       <% if can? :list, User %>
         <li class="nav-item">

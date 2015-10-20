@@ -32,7 +32,7 @@
   <strong>Display name</strong>: <%= @group.display_name %><br>
   <strong>Owner</strong>:
     <% if @group.owner %>
-      <%= @group.owner.display_name %>
+      <%= link_to @group.owner.display_name, user_path(@group.owner) %>
     <% else %>
       <em>No current owner</em>
     <% end %>
