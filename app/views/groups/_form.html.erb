@@ -36,7 +36,7 @@
 
   <fieldset class="form-group">
     <label for="owner">Owner</label><br>
-    <%= f.collection_select(:owner, @group.users.all, :id, :display_name, {:include_blank => true}) %>
+    <%= f.collection_select(:user_id, @group.users.all, :id, :display_name, {:include_blank => true}) %>
   </fieldset>
 
   <div class="title-heading">
