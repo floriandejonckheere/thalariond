@@ -11,8 +11,9 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :uid, presence: true, uniqueness: true, format: { with: /[a-z_\-0-9]{3,}/ }
+  validate :validate_users_services_unique
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
-  validate :email_outside_managed_domains
+  validate :validate_email_outside_managed_domains
   validates :first_name, presence: true
 
   # Role-based ACL
@@ -22,7 +23,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :groups, unique: true
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
   #~ validates_associated :owned_groups
-  validate :owned_groups_included_in_groups
+  validate :validate_owned_groups_included_in_groups
 
   ## Methods
   def has_role?(role_sym)
@@ -53,27 +54,23 @@ class User < ActiveRecord::Base
     end
   end
 
-  def display_roles
-    self.roles.map(&:display_name).join ', '
-  end
-
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
     super && self.enabled
   end
 
   ## Validations
-  def email_outside_managed_domains
-    if Domain.find_by(domain: email.split('@')[1]).present?
-      errors.add(:email, "can't be inside a registered domain")
-    end
+  def validate_users_services_unique
+    errors.add(:uid, "is already taken by a service") if Service.find_by(uid: self.uid).present?
   end
 
-  def owned_groups_included_in_groups
+  def validate_email_outside_managed_domains
+    errors.add(:email, "can't be inside a registered domain") if Domain.find_by(domain: email.split('@')[1]).present?
+  end
+
+  def validate_owned_groups_included_in_groups
     owned_groups.each do |g|
-      if !groups.include? g
-        errors.add(:owned_groups, 'must be included in groups')
-      end
+      errors.add(:owned_groups, 'must be included in groups') if !groups.include? g
     end
   end
 

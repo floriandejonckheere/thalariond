@@ -1,0 +1,67 @@
+<%= form_for @service do |f| %>
+  <% if @service.errors.any? %>
+  <div class="alert alert-danger">
+    <strong><%= pluralize(@service.errors.count, 'error') %> prohibited this service from being saved:</strong>
+    <ul>
+    <% @service.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+
+  <fieldset class="form-group">
+    <label for="uid">Username</label>
+    <%= f.text_field :uid,
+        :placeholder => :username,
+        :class => 'form-control',
+        :id => 'uid',
+        :required => 'true' %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <label for="display_name">Display name</label>
+    <%= f.text_field :display_name,
+        :placeholder => :display_name,
+        :class => 'form-control',
+        :id => 'display_name',
+        :required => 'true' %>
+  </fieldset>
+
+  <div class="title-heading">
+    <h3>Password</h3>
+  </div>
+  <% if params[:action] == 'edit' %>
+  <% else params[:action] == 'new' %>
+    <fieldset class="form-group">
+      <label for="password">Password</label>
+      <div class="th password">
+        <%= @service.password %>
+      </div>
+      <%= f.hidden_field :password,
+          :placeholder => :password,
+          :id => 'password',
+          :required => 'true' %>
+      <%= f.hidden_field :password_confirmation,
+          :placeholder => :password_confirmation,
+          :id => 'password_confirmation',
+          :required => 'true' %>
+    </fieldset>
+  <% end %>
+
+  <% if can? :update, @service %>
+    <div class="title-heading">
+      <h3>Authorization</h3>
+    </div>
+
+    <% Role.all.each do |role| %>
+      <div class="checkbox-container">
+        <%= check_box_tag "service[role_ids][]", role.id, @service.roles.include?(role) %>
+        <%= role.display_name %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= f.submit 'Save', :class => 'btn btn-primary' %>
+<% end %>

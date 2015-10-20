@@ -1,0 +1,45 @@
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Accounts</li>
+    <li><%= link_to 'Services', services_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Service <%= @service.display_name %><% end %>
+
+<div class="pull-right">
+  <div class="btn-group">
+    <% if can? :update, @service %>
+      <%= link_to edit_service_path(@service), :class => 'btn btn-secondary btn-sm', :title => 'Edit service', :data => {:toggle => 'tooltip'}  do %>
+        <i class="fa fa-pencil"></i>
+      <% end %>
+    <% end %>
+    <% if can? :destroy, @service %>
+      <%= link_to service_path(@service),
+                            :method => :delete,
+                            :title => 'Delete service',
+                            data: { confirm: 'Are you sure you want to delete this service?',
+                                    :toggle => 'tooltip' },
+                            :class => 'btn btn-secondary btn-sm' do %>
+        <i class="fa fa-trash"></i>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<p>
+  <strong>Username</strong>: <%= @service.uid %><br>
+  <strong>Display name</strong>: <%= @service.display_name %>
+</p>
+
+<div class="title-heading">
+  <h3>Authorization</h3>
+</div>
+
+<p>
+  <% if @service.roles.any? %>
+    <%= @service.display_name %> has been assigned the following roles:
+    <strong><%= @service.roles.map { |r| r.display_name }.join ', ' %></strong>
+  <% else %>
+    <em><%= @service.display_name %> does not have any assigned roles</em>
+  <% end %>
+</p>

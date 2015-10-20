@@ -8,6 +8,7 @@ class Service < ActiveRecord::Base
 
   # Validations
   validates :uid, presence: true, uniqueness: true
+  validate :validate_users_services_unique
   validates :display_name, presence: true
 
   # Role-based ACL
@@ -30,6 +31,11 @@ class Service < ActiveRecord::Base
     return h
   end
 
+  # Validations
+  def validate_users_services_unique
+    errors.add(:uid, "is already taken by a user") if User.find_by(uid: self.uid).present?
+  end
+
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
     super && self.enabled
@@ -37,5 +43,9 @@ class Service < ActiveRecord::Base
 
   def before_save
     self.uid.downcase!
+  end
+
+  def self.generate_token(length = 50)
+    SecureRandom.urlsafe_base64(length).tr('lIO0', 'sxyz')
   end
 end

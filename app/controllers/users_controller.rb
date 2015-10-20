@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def create
     authorize! :create, User
 
-    password_length = 8
+    password_length = Rails.application.config.devise.password_length.first
     password = Devise.friendly_token.first(password_length)
 
     parameters = user_params
@@ -78,7 +78,6 @@ class UsersController < ApplicationController
                                   :email,
                                   :password,
                                   :password_confirmation,
-                                  :roles,
                                   role_ids: [])
   end
 end

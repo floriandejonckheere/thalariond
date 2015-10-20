@@ -1,13 +1,13 @@
 <% content_for :title do   %>Accounts<% end %>
-<% content_for :section do %>Users<% end %>
+<% content_for :section do %>Services<% end %>
 
 <%= render 'partials/messages' %>
 
 <div class="pull-right">
-  <% if can? :create, User %>
-    <%= link_to new_user_path,
+  <% if can? :create, Service %>
+    <%= link_to new_service_path,
                             :class => 'btn btn-secondary btn-sm',
-                            :title => 'Add user',
+                            :title => 'Add service',
                             :data => { :toggle => 'tooltip' } do %>
       <i class="fa fa-plus"></i>
     <% end %>
@@ -26,32 +26,28 @@
       <thead>
         <tr>
           <th>Username</th>
-          <th>Name</th>
-          <th>Email</th>
+          <th>Display name</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <% if @users.empty? %>
+        <% if @services.empty? %>
           <tr>
             <td colspan="4" class="text-center">
-              <em>No users found</em>
+              <em>No services found</em>
             </td>
           </tr>
         <% else %>
-          <% @users.each do |user| %>
+          <% @services.each do |service| %>
             <tr>
               <td>
-                <%= user.uid %>
+                <%= service.uid %>
               </td>
               <td>
-                <strong><%= link_to user.display_name, user_path(user) %></strong>
+                <strong><%= link_to service.display_name, service_path(service) %></strong>
               </td>
               <td>
-                <%= user.email %>
-              </td>
-              <td>
-                <%= user.enabled ? 'Enabled' : 'Disabled' %>
+                <%= service.enabled ? 'Enabled' : 'Disabled' %>
               </td>
             </tr>
           <% end %>

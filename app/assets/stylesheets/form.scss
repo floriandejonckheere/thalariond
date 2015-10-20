@@ -1,0 +1,18 @@
+/**
+ * Form controls
+ *
+ * */
+
+.th.password {
+  @extend code;
+
+  display: block;
+
+  padding: 1rem;
+  border: 1px solid $light-grey;
+  border-radius: $border-radius;
+
+  background: white;
+
+  font-size: 1rem;
+}
