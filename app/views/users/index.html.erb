@@ -1,43 +1,62 @@
-<% if can? :create, User %>
-  <span class="u-pull-right"><%= link_to 'Add', new_user_path, :class => 'button button-primary-color' %></span>
-<% end %>
-<h4>Users</h4>
-<hr>
+<% content_for :title do   %>Accounts<% end %>
+<% content_for :section do %>Users<% end %>
 
 <%= render 'partials/messages' %>
 
-<table class="u-full-width">
-  <thead>
-    <tr>
-      <th>uid</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>State</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% User.all.each do |user| %>
-      <tr>
-        <td>
-          <strong><%= user.uid %></strong>
-        </td>
-        <td>
-          <div class="row">
-            <div class="two columns">
-              <%= image_tag user.gravatar_url, :class => 'avatar' %>
-            </div>
-            <div class="ten columns">
-              <strong><%= link_to user.display_name, user_path(user) %></strong>
-              <br>
-              <% if user.roles.any? %>
-                <em><%= user.display_roles %></em>
-              <% end %>
-            </div>
-          </div>
-        </td>
-        <td><%= user.email %></td>
-        <td><%= user.access_locked? ? 'Disabled' : 'Enabled' %></td>
-      </tr>
+<div class="pull-right">
+  <% if can? :create, User %>
+    <%= link_to new_user_path,
+                            :class => 'btn btn-secondary btn-sm',
+                            :title => 'Add user',
+                            :data => { :toggle => 'tooltip' } do %>
+      <i class="fa fa-plus"></i>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+</div>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
+  </li>
+</ul>
+
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="all">
+    <table class="th table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @users.nil? %>
+          <tr>
+            <td colspan="4" class="text-center">
+              <em>No users found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @users.each do |user| %>
+            <tr>
+              <td>
+                <%= user.uid %>
+              </td>
+              <td>
+                <strong><%= link_to user.display_name, user_path(user) %></strong>
+              </td>
+              <td>
+                <%= user.email %>
+              </td>
+              <td>
+                <%= user.enabled ? 'Enabled' : 'Disabled' %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

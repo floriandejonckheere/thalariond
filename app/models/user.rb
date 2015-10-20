@@ -46,9 +46,11 @@ class User < ActiveRecord::Base
   end
 
   def display_name
-    name = self.first_name
-    name << ' ' + self.last_name if self.last_name?
-    return name
+    if self.last_name?
+      "#{self.first_name} #{self.last_name}"
+    else
+      self.first_name
+    end
   end
 
   def display_roles

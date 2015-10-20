@@ -1,3 +1,9 @@
-<h4>Add user</h4>
-<hr>
+<% content_for :title do   %>
+  <ol class="th breadcrumb">
+    <li>Accounts</li>
+    <li><%= link_to 'Users', users_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>New user<% end %>
+
 <%= render 'form' %>

@@ -10,127 +10,88 @@
   </div>
   <% end %>
 
-  <div class="row">
-    <h5>Personal details</h5>
-  </div>
 
-  <div class="row">
-    <div class="one column">
-      <a href="https://www.gravatar.com/" class="hint-top" data-hint="Change your avatar on Gravatar.com">
-        <%= image_tag @user.gravatar_url, :class => 'avatar avatar-xl' %>
-      </a>
-    </div>
-    <div class="eleven columns">
-      <div class="row">
-        <div class="two columns align-right">
-          Username
-        </div>
-        <div class="eight columns">
-          <div id="section-edit" class="<%= 'hidden' unless @user.uid.nil? %>">
-            <%= f.text_field :uid,
-                :placeholder => :username,
-                :class => 'u-full-width lowercase',
-                :required => 'true' %>
-          </div>
-          <div id="section-show" class="<%= 'hidden' if @user.uid.nil? %>">
-            <p>
-              <strong><%= @user.uid %></strong>
-              <% unless @user.uid == 'admin' %>
-                <a href="javascript:void(0);" id="button-edit" data-property="username" class="button button-small">Edit</a>
-              <% end %>
-            </p>
-          </div>
-        </div>
-      </div>
+  <fieldset class="form-group">
+    <label for="uid">Username</label>
+    <%= f.text_field :uid,
+        :placeholder => :username,
+        :class => 'form-control',
+        :id => 'uid',
+        :required => 'true' %>
+  </fieldset>
 
-      <div class="row">
-        <div class="two columns align-right">
-          Full name
-        </div>
-        <div class="four columns">
-          <%= f.text_field :first_name,
-              :placeholder => :first_name,
-              :class => 'u-full-width',
-              :required => 'true' %>
-        </div>
-        <div class="four columns">
-          <%= f.text_field :last_name,
-              :placeholder => :last_name,
-              :class => 'u-full-width' %>
-        </div>
-      </div>
+  <fieldset class="form-group">
+    <label for="first_name">First name</label>
+    <%= f.text_field :first_name,
+        :placeholder => :first_name,
+        :class => 'form-control',
+        :id => 'first_name',
+        :required => 'true' %>
+  </fieldset>
 
-      <div class="row">
-        <div class="two columns align-right">
-          Email
-        </div>
-        <div class="eight columns">
-          <%= f.email_field :email,
-              :placeholder => :email,
-              :class => 'u-full-width',
-              :required => 'true' %>
-        </div>
-      </div>
+  <fieldset class="form-group">
+    <label for="last_name">Last name</label>
+    <%= f.text_field :last_name,
+        :placeholder => :last_name,
+        :class => 'form-control',
+        :id => 'last_name' %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <label for="email">Email</label>
+    <%= f.email_field :email,
+        :placeholder => :email,
+        :class => 'form-control',
+        :id => 'email',
+        :required => 'true' %>
+  </fieldset>
+
+  <% if params[:action] == 'edit' %>
+    <div class="title-heading">
+      <h3>Password</h3>
     </div>
 
-    <% if params[:action] == 'edit' %>
-      <div class="row">
-        <h5>Password</h5>
-        <p>Leave this section blank if you want the password to remain unchanged.</p>
-      </div>
+    <p>Leave this section blank if you want the password to remain unchanged.</p>
 
-      <div class="row">
-        <div class="two columns align-right">
-          New password
-        </div>
-        <div class="eight columns">
-          <%= f.password_field :password,
-              :placeholder => 'New password',
-              :class => 'u-full-width',
-              autocomplete: "off" %>
-        </div>
-      </div>
+    <fieldset class="form-group">
+      <label for="password">New password</label>
+      <%= f.password_field :password,
+          :placeholder => :password,
+          :class => 'form-control',
+          :id => 'password',
+          :autocomplete => 'off' %>
+    </fieldset>
 
-      <div class="row">
-        <div class="two columns align-right">
-          Confirm
-        </div>
-        <div class="eight columns">
-          <%= f.password_field :password_confirmation,
-              :placeholder => 'Confirm new password',
-              :class => 'u-full-width',
-              autocomplete: "off" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <% if can? :assign, @user %>
-    <div class="row">
-      <h5>Authorization</h5>
-    </div>
-
-    <div class="row">
-      <div class="six columns">
-        <% current_user.roles.each do |role| %>
-          <p><strong><%= role.display_name %></strong></p>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="six columns">
-        <% Role.all.each do |role| %>
-        <div class="checkbox-container">
-          <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>
-          <%= role.display_name %>
-        </div>
-        <% end %>
-      </div>
-    </div>
+    <fieldset class="form-group">
+      <label for="password_confirmation">Confirm new password</label>
+      <%= f.password_field :password_confirmation,
+          :placeholder => :password_confirmation,
+          :class => 'form-control',
+          :id => 'password_confirmation',
+          :autocomplete => 'off' %>
+    </fieldset>
   <% end %>
 
-  <div class="row">
-    <%= f.submit 'Save',
-            :class => 'button button-primary-color' %>
+  <% if can? :update, @user %>
+    <div class="title-heading">
+      <h3>Authorization</h3>
+    </div>
+
+    <h4>Assigned roles</h4>
+    <ul>
+      <% current_user.roles.each do |role| %>
+        <li><%= role.display_name %></li>
+      <% end %>
+    </ul>
+
+    <h4>Roles</h4>
+    <% Role.all.each do |role| %>
+      <div class="checkbox-container">
+        <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>
+        <%= role.display_name %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= f.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>

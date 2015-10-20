@@ -44,6 +44,7 @@ class GroupsController < ApplicationController
   def destroy
     authorize! :destroy, @group
 
+    flash[:info] = "Group deleted"
     @group.destroy
     redirect_to groups_path
   end

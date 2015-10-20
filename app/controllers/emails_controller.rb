@@ -46,6 +46,7 @@ class EmailsController < ApplicationController
   def destroy
     authorize! :destroy, @email
 
+    flash[:info] = "Email deleted"
     @email.destroy
     redirect_to domain_email_path(@domain, @email)
   end

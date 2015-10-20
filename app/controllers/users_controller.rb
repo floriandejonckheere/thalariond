@@ -1,18 +1,15 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource
 
   layout "dashboard"
 
   # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
 
-  # GET /users
   def index
-    authorize! :list, User
   end
 
-  # POST /users
   def create
     authorize! :create, User
 
@@ -31,27 +28,19 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/new
   def new
     authorize! :create, User
-    @user = User.new
   end
 
-  # GET /users/:id/edit
   def edit
-    @user = User.find(params[:id])
     authorize! :update, @user
   end
 
-  # GET /users/:id
   def show
-    @user = User.find(params[:id])
     authorize! :read, @user
   end
 
-  # PUT/PATCH /users/:id
   def update
-    @user = User.find(params[:id])
     authorize! :update, @user
 
     parameters = user_params
@@ -65,23 +54,21 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/:id
   def destroy
-    @user = User.find(params[:id])
     authorize! :destroy, @user
 
-    # Prevent deletion of admin account
-    if @user.uid == 'admin'
-      flash[:user] = "Admin account cannot be deleted"
+    # Prevent deletion of all admin accounts
+    if (@user.has_role? :administrator and User.select { |u| u.has_role? :administrator}.count == 1)
+      flash[:danger] = "At least one admin account must be present"
     else
+      flash[:info] = "Account '#{@user.display_name}' deleted"
       @user.destroy
     end
 
     redirect_to users_path
   end
 
-  # Allowed parameters
-  protected
+  private
   def user_params
      params.require(:user).permit(:uid,
                                   :first_name,

@@ -66,6 +66,7 @@ class ServicesController < ApplicationController
     @service = Service.find(params[:id])
     authorize! :destroy, @service
 
+    flash[:info] = "Service deleted"
     @service.destroy
 
     redirect_to services_path

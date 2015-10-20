@@ -1,6 +1,8 @@
 <% content_for :title do   %>Accounts<% end %>
 <% content_for :section do %>Groups<% end %>
 
+<%= render 'partials/messages' %>
+
 <div class="pull-right">
   <% if can? :create, Group %>
     <%= link_to new_group_path,

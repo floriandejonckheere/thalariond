@@ -1,6 +1,8 @@
 <% content_for :title do   %>Mail<% end %>
 <% content_for :section do %>Domains<% end %>
 
+<%= render 'partials/messages' %>
+
 <div class="pull-right">
   <% if (can? :create, Domain or can? :create, DomainAlias) %>
     <div class="btn-group">
