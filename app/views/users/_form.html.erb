@@ -77,14 +77,6 @@
       <h3>Authorization</h3>
     </div>
 
-    <h4>Assigned roles</h4>
-    <ul>
-      <% current_user.roles.each do |role| %>
-        <li><%= role.display_name %></li>
-      <% end %>
-    </ul>
-
-    <h4>Roles</h4>
     <% Role.all.each do |role| %>
       <div class="checkbox-container">
         <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>

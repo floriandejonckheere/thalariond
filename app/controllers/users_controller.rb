@@ -38,6 +38,8 @@ class UsersController < ApplicationController
 
   def show
     authorize! :read, @user
+
+    @events = AuthEvent.where(:user => @user)
   end
 
   def update
