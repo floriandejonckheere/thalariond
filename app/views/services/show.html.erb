@@ -26,10 +26,16 @@
   </div>
 </div>
 
-<p>
-  <strong>Username</strong>: <%= @service.uid %><br>
-  <strong>Display name</strong>: <%= @service.display_name %>
-</p>
+<table class="th attribute-table">
+  <tr>
+    <td>Username</td>
+    <td><%= @service.uid %></td>
+  </tr>
+  <tr>
+    <td>Display name</td>
+    <td><%= @service.display_name %></td>
+  </tr>
+</table>
 
 <div class="title-heading">
   <h3>Authorization</h3>

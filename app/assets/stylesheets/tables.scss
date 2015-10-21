@@ -11,3 +11,14 @@
   }
 
 }
+
+.th.attribute-table tr {
+  td {
+    @extend .p-x;
+  }
+
+  td:first-child {
+    @extend .text-right;
+    color: $grey;
+  }
+}

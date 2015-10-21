@@ -26,9 +26,13 @@
   </div>
 </div>
 
-<p>
-  <strong>Alias</strong>: <%= @domain_alias.alias %>
-</p>
-<p>
-  <strong>Destination domain</strong>: <%= @domain_alias.domain %>
-</p>
+<table class="th attribute-table">
+  <tr>
+    <td>Alias</td>
+    <td><%= @domain_alias.alias %></td>
+  </tr>
+  <tr>
+    <td>Destionation domain</td>
+    <td><%= @domain_alias.domain %></td>
+  </tr>
+</table>

@@ -27,16 +27,26 @@
 </div>
 
 
-<p>
-  <strong>Name</strong>: <%= @group.name %><br>
-  <strong>Display name</strong>: <%= @group.display_name %><br>
-  <strong>Owner</strong>:
-    <% if @group.owner %>
-      <%= link_to @group.owner.display_name, user_path(@group.owner) %>
-    <% else %>
-      <em>No current owner</em>
-    <% end %>
-</p>
+<table class="th attribute-table">
+  <tr>
+    <td>Name</td>
+    <td><%= @group.name %></td>
+  </tr>
+  <tr>
+    <td>Display name</td>
+    <td><%= @group.display_name %></td>
+  </tr>
+  <tr>
+    <td>Owner</td>
+    <td>
+      <% if @group.owner %>
+        <%= link_to @group.owner.display_name, user_path(@group.owner) %>
+      <% else %>
+        <em>No current owner</em>
+      <% end %>
+    </td>
+  </tr>
+</table>
 
 <div class="title-heading">
   <h3>Members</h3>

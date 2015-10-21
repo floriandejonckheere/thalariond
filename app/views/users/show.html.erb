@@ -35,30 +35,20 @@
   <h3>Personal details</h3>
 </div>
 
-<div class="row">
-  <div class="col-xs-2">
-    <strong>Username</strong>
-  </div>
-  <div class="col-xs-4">
-    <%= @user.uid %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-2">
-    <strong>Full name</strong>
-  </div>
-  <div class="col-xs-4">
-    <%= @user.display_name %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-2">
-    <strong>Email</strong>
-  </div>
-  <div class="col-xs-4">
-    <%= @user.email %>
-  </div>
-</div>
+<table class="th attribute-table">
+  <tr>
+    <td>Username</td>
+    <td><%= @user.uid %></td>
+  </tr>
+  <tr>
+    <td>Full name</td>
+    <td><%= @user.display_name %></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%= @user.email %></td>
+  </tr>
+</table>
 
 <div class="title-heading">
   <h3>Authorization</h3>

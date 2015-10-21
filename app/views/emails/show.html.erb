@@ -26,9 +26,16 @@
   </div>
 </div>
 
-<p>
-  <strong>Email</strong>: <%= @email %>
-</p>
+<table class="th attribute-table">
+  <tr>
+    <td>Email</td>
+    <td><%= @email %></td>
+  </tr>
+  <tr>
+    <td>Domain</td>
+    <td><%= link_to @email.domain.domain, domain_path(@email.domain) %></td>
+  </tr>
+</table>
 
 <div class="title-heading">
   <h3>Members</h3>

@@ -26,9 +26,13 @@
   </div>
 </div>
 
-<p>
-  <strong>Alias</strong>: <%= @email_alias.alias %>
-</p>
-<p>
-  <strong>Destination email</strong>: <%= @email_alias.mail %>
-</p>
+<table class="th attribute-table">
+  <tr>
+    <td>Alias</td>
+    <td><%= @email_alias.alias %></td>
+  </tr>
+  <tr>
+    <td>Destination email</td>
+    <td><%= @email_alias.mail %></td>
+  </tr>
+</table>
