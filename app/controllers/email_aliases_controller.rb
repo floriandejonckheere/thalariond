@@ -41,7 +41,7 @@ class EmailAliasesController < ApplicationController
   def destroy
     authorize! :destroy, @email_alias
 
-    flash[:info] = "Email alias deleted"
+    flash[:info] = "Email alias '#{@email_alias.alias}' deleted"
     @email_alias.destroy
     redirect_to mail_path(:anchor => 'email_aliases')
   end

@@ -46,7 +46,7 @@ class DomainsController < ApplicationController
   def destroy
     authorize! :destroy, @domain
 
-    flash[:info] = "Domain deleted"
+    flash[:info] = "Domain '#{@domain.domain}' deleted"
     @domain.destroy
     redirect_to domains_path
   end

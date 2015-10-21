@@ -1,12 +1,36 @@
 class EmailAlias < ActiveRecord::Base
   has_paper_trail
 
+  before_save :sanitize_attributes
+
   validates :alias, presence: true, uniqueness: true
   validates :mail, presence: true
-  validates_format_of :alias, :with => /\A[^@]+@[^@]+\Z/
-  validates_format_of :mail, :with => /\A[^@]+@[^@]+\Z/
+  validates_format_of :alias, :with => /\A[^@]+@[^@]+\Z/, length: { in: 3..254 }
+  validates_format_of :mail, :with => /\A[^@]+@[^@]+\Z/, length: { in: 3..254 }
+  validate :validate_mail_total_length
+  validate :validate_domain_length
   validate :validate_no_loops
   validate :validate_managed_alias_domain
+
+
+  # Methods
+  # Callbacks
+  def sanitize_attributes
+    self.alias.downcase!
+    self.mail.downcase!
+  end
+
+
+  # Validations
+  def validate_mail_total_length
+    errors.add(:alias_local_part, "can't be longer than 64 characters") if self.alias.split('@')[0].length > 64
+    errors.add(:mail_local_part, "can't be longer than 64 characters") if self.mail.split('@')[0].length > 64
+  end
+
+  def validate_domain_length
+    errors.add(:alias_domain, "can't be longer than 253 characters") if self.alias.split('@')[1].length > 253
+    errors.add(:mail_domain, "can't be longer than 253 characters") if self.mail.split('@')[1].length > 253
+  end
 
   def validate_no_loops
     errors.add(:mail, "can't be an email alias") unless EmailAlias.find_by(alias: self.mail).nil?
@@ -22,6 +46,8 @@ class EmailAlias < ActiveRecord::Base
     end
   end
 
+
+  # Overrides
   def to_ldap
     h = {}
     h['alias'] = self.alias
@@ -33,10 +59,5 @@ class EmailAlias < ActiveRecord::Base
   def <=>(email_alias)
     return self.alias <=> email_alias.mail if email_alias.is_a?(Email)
     self.alias <=> email_alias.alias
-  end
-
-  def before_save
-    self.alias.downcase!
-    self.mail.downcase!
   end
 end

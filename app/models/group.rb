@@ -1,8 +1,10 @@
 class Group < ActiveRecord::Base
   has_paper_trail
 
+  before_save :sanitize_attributes
+
   validates :name, presence: true, uniqueness: true
-  validates :display_name, presence: true
+  validates :display_name, presence: true, length: { maximum: 256 }
 
   # Membership
   has_and_belongs_to_many :users, unique: true
@@ -15,6 +17,13 @@ class Group < ActiveRecord::Base
   has_and_belongs_to_many :services, unique: true
 
   # Methods
+  # Callbacks
+  def sanitize_attributes
+    self.name.downcase!
+  end
+
+  # Validations
+  # Overrides
   def to_ldap
     h = {}
     h['cn'] = self.name
@@ -35,9 +44,5 @@ class Group < ActiveRecord::Base
       end
     end
     return h
-  end
-
-  def before_save
-    self.name.downcase!
   end
 end

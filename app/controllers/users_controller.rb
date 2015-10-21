@@ -63,7 +63,7 @@ class UsersController < ApplicationController
     if (@user.has_role? :administrator and User.select { |u| u.has_role? :administrator}.count == 1)
       flash[:danger] = "At least one admin account must be present"
     else
-      flash[:info] = "Account '#{@user.display_name}' deleted"
+      flash[:info] = "User '#{@user.display_name}' deleted"
       @user.destroy
     end
 

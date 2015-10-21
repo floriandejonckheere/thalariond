@@ -41,7 +41,7 @@ class DomainAliasesController < ApplicationController
   def destroy
     authorize! :destroy, @domain_alias
 
-    flash[:info] = "Domain alias deleted"
+    flash[:info] = "Domain alias '#{@domain_alias.alias}' deleted"
     @domain_alias.destroy
     redirect_to domains_path(:anchor => 'domain_aliases')
   end

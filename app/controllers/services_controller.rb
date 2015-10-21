@@ -49,7 +49,7 @@ class ServicesController < ApplicationController
   def destroy
     authorize! :destroy, @service
 
-    flash[:info] = "Service deleted"
+    flash[:info] = "Service '#{@service.display_name}' deleted"
     @service.destroy
 
     redirect_to services_path

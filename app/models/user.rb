@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   include Gravtastic
   gravtastic
 
+  before_save :sanitize_attributes
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :recoverable,
           :trackable, :validatable, :lockable, :confirmable
 
-  # Validations
   validates :uid, presence: true, uniqueness: true, format: { with: /[a-z_\-0-9]{3,}/ }
   validate :validate_users_services_unique
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
@@ -19,13 +20,12 @@ class User < ActiveRecord::Base
   # Role-based ACL
   has_and_belongs_to_many :roles, unique: true
 
-  # Groups
   has_and_belongs_to_many :groups, unique: true
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
   #~ validates_associated :owned_groups
   validate :validate_owned_groups_included_in_groups
 
-  ## Methods
+  # Methods
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
   end
@@ -35,17 +35,6 @@ class User < ActiveRecord::Base
   end
   delegate :can?, :cannot?, to: :ability
 
-  def to_ldap
-    h = {}
-    h['uid'] = self.uid
-    h['objectClass'] = 'userAccount'
-    h['givenName'] = self.first_name
-    h['sn'] = self.last_name if self.last_name?
-    h['mail'] = self.email
-    h['enabled'] = self.active_for_authentication?
-    return h
-  end
-
   def display_name
     if self.last_name?
       "#{self.first_name} #{self.last_name}"
@@ -54,12 +43,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Overrides Devise's active_for_authentication?
-  def active_for_authentication?
-    super && self.enabled
+  # Callbacks
+  def sanitize_attributes
+    self.uid.downcase!
+    self.email.downcase!
   end
 
-  ## Validations
+  # Validations
   def validate_users_services_unique
     errors.add(:uid, "is already taken by a service") if Service.find_by(uid: self.uid).present?
   end
@@ -74,8 +64,19 @@ class User < ActiveRecord::Base
     end
   end
 
-  def before_save
-    self.uid.downcase!
-    self.email.downcase!
+  # Overrides
+  def to_ldap
+    h = {}
+    h['uid'] = self.uid
+    h['objectClass'] = 'userAccount'
+    h['givenName'] = self.first_name
+    h['sn'] = self.last_name if self.last_name?
+    h['mail'] = self.email
+    h['enabled'] = self.active_for_authentication?
+    return h
+  end
+
+  def active_for_authentication?
+    super && self.enabled
   end
 end
