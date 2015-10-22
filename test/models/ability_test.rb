@@ -135,9 +135,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'operator' do
-    assert u('operator').is_a? User
-    assert u('operator-mail').has_role? :mail
-
     assert u('operator').can? :list, User
     assert u('operator').can? :read, User
     assert u('operator').can? :update, User
@@ -148,12 +145,45 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'operator_mail' do
+    assert u('operator-mail').has_role? :mail
+
     assert u('operator-mail').can? :list, Email
     assert u('operator-mail').can? :read, Email
     assert u('operator-mail').can? :update, Email
     assert u('operator-mail').can? :list, EmailAlias
     assert u('operator-mail').can? :read, EmailAlias
     assert u('operator-mail').can? :update, EmailAlias
+  end
+
+  test 'master' do
+    assert u('master').can? :create, User
+    assert u('master').can? :assign, User
+    assert u('master').can? :destroy, User
+    assert u('master').can? :create, Service
+    assert u('master').can? :assign, Service
+    assert u('master').can? :destroy, Service
+    assert u('master').can? :create, Group
+    assert u('master').can? :destroy, Group
+  end
+
+  test 'master_mail' do
+    assert u('master-mail').has_role? :mail
+
+    assert u('master-mail').can? :create, Domain
+    assert u('master-mail').can? :update, Domain
+    assert u('master-mail').can? :destroy, Domain
+    assert u('master-mail').can? :create, DomainAlias
+    assert u('master-mail').can? :update, DomainAlias
+    assert u('master-mail').can? :destroy, DomainAlias
+
+    assert u('master-mail').can? :create, Email
+    assert u('master-mail').can? :destroy, Email
+    assert u('master-mail').can? :create, EmailAlias
+    assert u('master-mail').can? :destroy, EmailAlias
+  end
+
+  test 'admin' do
+    assert u('admin').can? :manager, :all
   end
 
 end
