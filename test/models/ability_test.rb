@@ -134,4 +134,26 @@ class UserTest < ActiveSupport::TestCase
     assert s('service3-mail').can? :read, e('user3@example.com')
   end
 
+  test 'operator' do
+    assert u('operator').is_a? User
+    assert u('operator-mail').has_role? :mail
+
+    assert u('operator').can? :list, User
+    assert u('operator').can? :read, User
+    assert u('operator').can? :update, User
+    assert u('operator').can? :update, Service
+    assert u('operator').can? :list, Group
+    assert u('operator').can? :read, Group
+    assert u('operator').can? :update, Group
+  end
+
+  test 'operator_mail' do
+    assert u('operator-mail').can? :list, Email
+    assert u('operator-mail').can? :read, Email
+    assert u('operator-mail').can? :update, Email
+    assert u('operator-mail').can? :list, EmailAlias
+    assert u('operator-mail').can? :read, EmailAlias
+    assert u('operator-mail').can? :update, EmailAlias
+  end
+
 end

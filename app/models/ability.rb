@@ -57,7 +57,7 @@ class Ability
       service
     end
     can [:list, :read, :update], User
-    can [:list, :read, :update], Service
+    can :update, Service
     can [:list, :read, :update], Group
 
     if @account.has_role? :mail
