@@ -28,6 +28,8 @@ class EmailAlias < ActiveRecord::Base
   end
 
   def validate_domain_length
+    return if self.alias.split('@')[1].nil?
+    return if self.mail.split('@')[1].nil?
     errors.add(:alias_domain, "can't be longer than 253 characters") if self.alias.split('@')[1].length > 253
     errors.add(:mail_domain, "can't be longer than 253 characters") if self.mail.split('@')[1].length > 253
   end

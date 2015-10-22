@@ -1,19 +1,7 @@
-admin-com:
-  mail: admin
-  domain: example-com
+user1-2-mail:
+  mail: user1-2
+  domain: example-domain
 
-admin-org:
-  mail: admin
-  domain: example-org
-
-john-com:
-  mail: john
-  domain: example-com
-
-jane-com:
-  mail: jane
-  domain: example-com
-
-jake-com:
-  mail: jake
-  domain: example-com
+user3-mail:
+  mail: user3
+  domain: example-domain

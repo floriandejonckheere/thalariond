@@ -1,8 +1,8 @@
 class EmailsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_resource :domain
-  load_resource :email, :through => :domain
+  load_and_authorize_resource :domain
+  load_and_authorize_resource :email, :through => :domain
 
   layout "dashboard"
 

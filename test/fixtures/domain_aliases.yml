@@ -1,7 +1,0 @@
-alias-com:
-  alias: alias.example.com
-  domain: example.com
-
-alias-org:
-  alias: alias.example.org
-  domain: example.org

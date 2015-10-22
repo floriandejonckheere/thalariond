@@ -1,7 +1,8 @@
 class DomainsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_resource
+  load_and_authorize_resource
+  skip_authorization_check :only => :index
 
   layout "dashboard"
 
@@ -10,9 +11,6 @@ class DomainsController < ApplicationController
   end
 
   def create
-    authorize! :create, Domain
-
-    @domain = Domain.new(domain_params)
     if @domain.save
       redirect_to domains_path
     else
@@ -21,21 +19,16 @@ class DomainsController < ApplicationController
   end
 
   def new
-    authorize! :create, Domain
   end
 
   def edit
-    authorize! :update, @domain
   end
 
   def show
-    authorize! :read, @domain
     @domain_aliases = DomainAlias.where(domain: @domain.domain)
   end
 
   def update
-    authorize! :update, @domain
-
     if @domain.update(domain_params)
       redirect_to domain_path(@domain)
     else
@@ -44,8 +37,6 @@ class DomainsController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @domain
-
     flash[:info] = "Domain '#{@domain.domain}' deleted"
     @domain.destroy
     redirect_to domains_path

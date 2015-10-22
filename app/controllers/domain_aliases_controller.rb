@@ -1,14 +1,11 @@
 class DomainAliasesController < ApplicationController
   before_filter :authenticate_user!
 
-  load_resource
+  load_and_authorize_resource
 
   layout "dashboard"
 
   def create
-    authorize! :create, DomainAlias
-
-    @domain_alias = DomainAlias.new(domain_alias_params)
     if @domain_alias.save
       redirect_to domains_path(:anchor => 'domain_aliases')
     else
@@ -17,20 +14,15 @@ class DomainAliasesController < ApplicationController
   end
 
   def new
-    authorize! :create, DomainAlias
   end
 
   def edit
-    authorize! :update, @domain_alias
   end
 
   def show
-    authorize! :read, @domain_alias
   end
 
   def update
-    authorize! :update, @domain_alias
-
     if @domain_alias.update(domain_alias_params)
       redirect_to domain_alias_path(@domain_alias)
     else
@@ -39,8 +31,6 @@ class DomainAliasesController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @domain_alias
-
     flash[:info] = "Domain alias '#{@domain_alias.alias}' deleted"
     @domain_alias.destroy
     redirect_to domains_path(:anchor => 'domain_aliases')

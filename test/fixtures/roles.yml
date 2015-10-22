@@ -1,1 +1,24 @@
 # Roles are defined in db/seed.rb
+user:
+  name: user
+  display_name: User
+
+service:
+  name: service
+  display_name: Service
+
+mail:
+  name: mail
+  display_name: Mail
+
+operator:
+  name: operator
+  display_name: Operator
+
+master:
+  name: master
+  display_name: Master
+
+administrator:
+  name: administrator
+  display_name: System Administrator

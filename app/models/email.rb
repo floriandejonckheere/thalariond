@@ -9,7 +9,7 @@ class Email < ActiveRecord::Base
   belongs_to :domain, -> { uniq }
 
   validates :mail, presence: true, format: { with: /[^@]*/ }, length: { in: 1..64 }
-  validates :validate_mail_total_length
+  validate :validate_mail_total_length
   validates :domain, presence: true
   validates_uniqueness_of :mail, scope: :domain
   validate :validate_email_not_alias
@@ -18,6 +18,10 @@ class Email < ActiveRecord::Base
   # Methods
   def permission_group
     Group.find_by(name: self.to_s)
+  end
+
+  def permission_group?
+    Group.find_by(name: self.to_s).present?
   end
 
 

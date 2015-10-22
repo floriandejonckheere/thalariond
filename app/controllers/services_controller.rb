@@ -1,7 +1,8 @@
 class ServicesController < ApplicationController
   before_filter :authenticate_user!
 
-  load_resource
+  load_and_authorize_resource
+  skip_authorization_check :only => :index
 
   layout "dashboard"
 
@@ -11,9 +12,6 @@ class ServicesController < ApplicationController
   end
 
   def create
-    authorize! :create, Service
-
-    @service = Service.new(service_params)
     if @service.save
       redirect_to @service
     else
@@ -22,23 +20,17 @@ class ServicesController < ApplicationController
   end
 
   def new
-    authorize! :create, Service
-
     password = Service.generate_token
     @service = Service.new(:password => password, :password_confirmation => password)
   end
 
   def edit
-    authorize! :update, @service
   end
 
   def show
-    authorize! :read, @service
   end
 
   def update
-    authorize! :update, @service
-
     if @service.update(service_params)
       redirect_to @service
     else
@@ -47,8 +39,6 @@ class ServicesController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @service
-
     flash[:info] = "Service '#{@service.display_name}' deleted"
     @service.destroy
 

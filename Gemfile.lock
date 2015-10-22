@@ -60,7 +60,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (6.0.2)
-    cancan (1.6.10)
+    cancancan (1.13.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -72,6 +72,7 @@ GEM
     daemons-rails (1.2.1)
       daemons
       multi_json (~> 1.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
       bcrypt (~> 3.0)
@@ -194,9 +195,10 @@ PLATFORMS
 DEPENDENCIES
   bootstrap!
   byebug
-  cancan
+  cancancan (~> 1.10)
   coffee-rails (~> 4.1.0)
   daemons-rails
+  database_cleaner
   devise
   font-awesome-sass (~> 4.4.0)
   gravtastic

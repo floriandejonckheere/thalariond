@@ -1,31 +1,86 @@
-john:
-  uid: john
-  first_name: John
-  last_name: Doe
-  email: john.doe@example.net
-  roles:
-    - user
+guest:
+  uid: guest
+  first_name: Guest
+  email: guest@example.net
 
-jane:
-  uid: jane
-  first_name: Jane
-  last_name: Doe
-  email: jane.doe@example.net
-  roles:
-    - user
-
-jake:
-  uid: jake
-  first_name: Jake
-  last_name: Doe
-  email: jake.doe@example.net
-  roles:
-    - user
-
-foo:
-  uid: foo
-  first_name: Foo
-  last_name: Bar
-  email: foo.bar@example.net
+admin:
+  uid: admin
+  first_name: Administrator
+  email: admin@example.net
   roles:
     - administrator
+
+user1:
+  uid: user1
+  first_name: User 1
+  email: user1@example.net
+  roles:
+    - user
+
+user1_mail:
+  uid: user1-mail
+  first_name: User 1 (mail)
+  email: user1-mail@example.net
+  roles:
+    - user
+    - mail
+
+user2:
+  uid: user2
+  first_name: User 2
+  email: user2@example.net
+  roles:
+    - user
+
+user2_mail:
+  uid: user2-mail
+  first_name: User 2 (mail)
+  email: user2-mail@example.net
+  roles:
+    - user
+    - mail
+
+user3:
+  uid: user3
+  first_name: User 3
+  email: user3@example.net
+  roles:
+    - user
+
+user3_mail:
+  uid: user3-mail
+  first_name: User 3 (mail)
+  email: user3-mail@example.net
+  roles:
+    - user
+    - mail
+
+operator:
+  uid: operator
+  first_name: Operator
+  email: operator@example.net
+  roles:
+    - operator
+
+operator_mail:
+  uid: operator-mail
+  first_name: Operator (mail)
+  email: operator-mail@example.net
+  roles:
+    - operator
+    - mail
+
+master:
+  uid: master
+  first_name: Master
+  email: master@example.net
+  roles:
+    - master
+
+master_mail:
+  uid: master-mail
+  first_name: Master (mail)
+  email: master-mail@example.net
+  roles:
+    - master
+    - mail

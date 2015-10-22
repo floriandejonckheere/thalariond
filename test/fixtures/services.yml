@@ -1,19 +1,38 @@
-postfix:
-  uid: postfix
-  display_name: Postfix MTA
+service1:
+  uid: service1
+  display_name: Service 1
+  roles:
+    - service
+
+service1-mail:
+  uid: service1-mail
+  display_name: Service 1 (mail)
   roles:
     - service
     - mail
 
-dovecot:
-  uid: dovecot
-  display_name: Dovecot IMAP Server
+service2:
+  uid: service2
+  display_name: Service 2
+  roles:
+    - service
+
+service2-mail:
+  uid: service2-mail
+  display_name: Service 2 (mail)
   roles:
     - service
     - mail
 
-client:
-  uid: client
-  display_name: Service Client
+service3:
+  uid: service3
+  display_name: Service 3
   roles:
     - service
+
+service3-mail:
+  uid: service3-mail
+  display_name: Service 3 (mail)
+  roles:
+    - service
+    - mail

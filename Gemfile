@@ -17,8 +17,8 @@ gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'paper_trail', '~> 4.0.0'
 # Devise authentication
 gem 'devise'
-# CanCan authorization
-gem 'cancan'
+# CanCanCan authorization
+gem 'cancancan', '~> 1.10'
 # LDAP server
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
 # Daemons for LDAP server
@@ -65,6 +65,9 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # Ensure clean database
+  gem 'database_cleaner'
 end
 
 group :production do

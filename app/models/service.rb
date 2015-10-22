@@ -25,6 +25,11 @@ class Service < ActiveRecord::Base
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }
   end
 
+  def ability
+    @ability ||= Ability.new(self)
+  end
+  delegate :can?, :cannot?, to: :ability
+
   def self.generate_token(length = 50)
     SecureRandom.urlsafe_base64(length).tr('lIO0', 'sxyz')
   end

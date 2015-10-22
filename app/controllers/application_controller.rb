@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # Check if authorization is performed for every controller action
+  check_authorization :unless => :devise_controller?
+
   # CanCan bug, see https://github.com/ryanb/cancan/issues/835#issuecomment-18663815
   before_filter do
     resource = controller_name.singularize.to_sym
@@ -17,4 +20,10 @@ class ApplicationController < ActionController::Base
       :user_agent => request.user_agent
     }
   end
+
+  # CanCanCan Access Denied
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to home_path, flash[:danger] => exception.message
+  end
+
 end
