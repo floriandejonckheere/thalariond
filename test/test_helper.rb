@@ -22,12 +22,12 @@ class ActiveSupport::TestCase
     Group.find_by(:name => name)
   end
 
-  def m(mail, domain)
-    Mail.find_by(:mail => mail, :domain.domain => domain)
+  def e(email)
+    Email.find_by(:mail => email.split('@')[0], :domain => Domain.find_by(:domain => email.split('@')[1]))
   end
 
-  def ma(mail_alias)
-    MailAlias.find_by(:alias => mail_alias)
+  def ea(email_alias)
+    EmailAlias.find_by(:alias => email_alias)
   end
 
   def d(domain)

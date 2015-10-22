@@ -17,7 +17,7 @@ user1:
   roles:
     - user
 
-user1_mail:
+user1-mail:
   uid: user1-mail
   first_name: User 1 (mail)
   email: user1-mail@example.net
@@ -32,7 +32,7 @@ user2:
   roles:
     - user
 
-user2_mail:
+user2-mail:
   uid: user2-mail
   first_name: User 2 (mail)
   email: user2-mail@example.net
@@ -47,7 +47,7 @@ user3:
   roles:
     - user
 
-user3_mail:
+user3-mail:
   uid: user3-mail
   first_name: User 3 (mail)
   email: user3-mail@example.net
@@ -62,7 +62,7 @@ operator:
   roles:
     - operator
 
-operator_mail:
+operator-mail:
   uid: operator-mail
   first_name: Operator (mail)
   email: operator-mail@example.net
@@ -77,7 +77,7 @@ master:
   roles:
     - master
 
-master_mail:
+master-mail:
   uid: master-mail
   first_name: Master (mail)
   email: master-mail@example.net

@@ -1,3 +1,7 @@
+user1:
+  mail: user1
+  domain: example-domain
+
 user1-2-mail:
   mail: user1-2
   domain: example-domain

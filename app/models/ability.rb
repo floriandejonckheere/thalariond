@@ -43,9 +43,9 @@ class Ability
     can [:list, :read], DomainAlias
     can :read, Email do |email|
       if @account.is_a? User
-        (email.permission_group? && email.permission_group.users.include?(@account))
+        email.permission_group.users.include? @account if email.permission_group?
       elsif @account.is_a? Service
-        (email.permission_group? && email.permission_group.services.include?(@account))
+        email.permission_group.services.include? @account if email.permission_group?
       end
     end
   end
@@ -61,10 +61,8 @@ class Ability
     can [:list, :read, :update], Group
 
     if @account.has_role? :mail
-      can [:list, :read], Domain
-      can [:list, :read], DomainAlias
-      can [:list, :read, :update], Mail
-      can [:list, :read, :update], MailAlias
+      can [:list, :read, :update], Email
+      can [:list, :read, :update], EmailAlias
     end
   end
 
@@ -77,8 +75,8 @@ class Ability
     if @account.has_role? :mail
       can [:create, :update, :destroy], Domain
       can [:create, :update, :destroy], DomainAlias
-      can [:create, :destroy], Mail
-      can [:create, :destroy], MailAlias
+      can [:create, :destroy], Email
+      can [:create, :destroy], EmailAlias
     end
   end
 
