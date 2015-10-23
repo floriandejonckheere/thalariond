@@ -31,6 +31,12 @@
   </p>
 </div>
 
+<% if can? :update, @user and not @user.confirmed? %>
+  <div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> This user's email address has not been confirmed yet.
+  </div>
+<% end %>
+
 <div class="title-heading">
   <h3>Personal details</h3>
 </div>

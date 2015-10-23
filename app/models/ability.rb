@@ -3,6 +3,7 @@ class Ability
 
   # Guidelines:
   # :list must always be applied on classes, not on elements
+  # :toggle is enabling/disabling accounts
 
   def initialize(account)
     if account && account.roles
@@ -57,8 +58,8 @@ class Ability
     elsif @account.is_a? Service
       service
     end
-    can [:list, :read, :update], User
-    can :update, Service
+    can [:list, :read, :update, :toggle], User
+    can [:update, :toggle], Service
     can [:list, :read, :update], Group
 
     if @account.has_role? :mail

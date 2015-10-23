@@ -51,7 +51,13 @@
                 <%= user.email %>
               </td>
               <td>
-                <%= user.enabled ? 'Enabled' : 'Disabled' %>
+                <% if not user.confirmed? %>
+                  <%= link_to user_path(user) do %>
+                    <i class="fa fa-exclamation-triangle" data-toggle="tooltip" title="Unconfirmed email"></i>
+                  <% end %>
+                <% else %>
+                  <%= user.enabled ? 'Enabled' : 'Disabled' %>
+                <% end %>
               </td>
             </tr>
           <% end %>
