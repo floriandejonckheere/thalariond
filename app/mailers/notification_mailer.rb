@@ -20,6 +20,24 @@ class NotificationMailer < ApplicationMailer
     mail(:to => user.email, :subject => @notification.title)
   end
 
+  def role_assigned(user, role)
+    @role = role
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Role assigned',
+                                          :text => "Your account has been granted the role #{role.display_name}.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
+  def role_removed(user, role)
+    @role = role
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Role removed',
+                                          :text => "The role #{role.display_name} has been removed from your account.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
   def account_created(user)
     @user = user
     @notification = Notification.create!(:user => user,

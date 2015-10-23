@@ -23,15 +23,6 @@ class Group < ActiveRecord::Base
     self.name.downcase!
   end
 
-  def notify_access_granted(user)
-    NotificationMailer.group_access_granted(user, self).deliver_now
-  end
-
-  def notify_access_revoked(user)
-    NotificationMailer.group_access_revoked(user, self).deliver_now
-  end
-
-
   # Validations
   # Overrides
   def to_ldap

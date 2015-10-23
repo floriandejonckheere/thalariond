@@ -20,9 +20,11 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
 
   # Role-based ACL
-  has_and_belongs_to_many :roles, unique: true
+  has_and_belongs_to_many :roles, unique: true, :after_add => :notify_role_assigned,
+                                                :after_remove => :notify_role_removed
 
-  has_and_belongs_to_many :groups, unique: true
+  has_and_belongs_to_many :groups, unique: true, :after_add => :notify_access_granted,
+                                                :after_remove => :notify_access_revoked
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
   validate :validate_owned_groups_included_in_groups
 
@@ -52,12 +54,28 @@ class User < ActiveRecord::Base
     self.email.downcase!
   end
 
+  def notify_role_assigned(role)
+    NotificationMailer.role_assigned(self, role).deliver_later
+  end
+
+  def notify_role_removed(role)
+    NotificationMailer.role_removed(self, role).deliver_later
+  end
+
+  def notify_access_granted(group)
+    NotificationMailer.group_access_granted(self, group).deliver_later
+  end
+
+  def notify_access_revoked(group)
+    NotificationMailer.group_access_revoked(self, group).deliver_later
+  end
+
   def notify_account_created
-    NotificationMailer.account_created(self).deliver_now
+    NotificationMailer.account_created(self).deliver_later
   end
 
   def notify_account_deleted
-    NotificationMailer.account_deleted(self).deliver_now
+    NotificationMailer.account_deleted(self).deliver_later
   end
 
   # Validations
