@@ -68,6 +68,7 @@ class UsersController < ApplicationController
                                   :first_name,
                                   :last_name,
                                   :email,
+                                  :enabled,
                                   :password,
                                   :password_confirmation,
                                   role_ids: [])

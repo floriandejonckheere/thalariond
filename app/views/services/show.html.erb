@@ -35,7 +35,19 @@
     <td>Display name</td>
     <td><%= @service.display_name %></td>
   </tr>
+  <tr>
+    <td>State</td>
+    <td><%= @service.enabled ? 'Enabled' : 'Disabled' %></td>
+  </tr>
 </table>
+
+<% if can? :update, @service and not @service.enabled? %>
+  <p>
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
+    </div>
+  </p>
+<% end %>
 
 <div class="title-heading">
   <h3>Authorization</h3>

@@ -28,7 +28,6 @@
           <th>Username</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -55,8 +54,11 @@
                   <%= link_to user_path(user) do %>
                     <i class="fa fa-exclamation-triangle" data-toggle="tooltip" title="Unconfirmed email"></i>
                   <% end %>
-                <% else %>
-                  <%= user.enabled ? 'Enabled' : 'Disabled' %>
+                <% end %>
+                <% if not user.enabled? %>
+                  <%= link_to user_path(user) do %>
+                    <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
+                  <% end %>
                 <% end %>
               </td>
             </tr>

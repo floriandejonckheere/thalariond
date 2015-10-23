@@ -50,6 +50,22 @@
     </fieldset>
   <% end %>
 
+  <% if can? :assign, @user %>
+    <div class="title-heading">
+      <h3>Account state</h3>
+    </div>
+
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot be used for signin in using any authentication backend
+    </div>
+
+    <fieldset class="form-group text-center">
+      <%= f.check_box :enabled,
+          :id => 'enabled',
+          :class => 'form-control toggle-switch' %>
+    </fieldset>
+  <% end %>
+
   <% if can? :update, @service %>
     <div class="title-heading">
       <h3>Authorization</h3>

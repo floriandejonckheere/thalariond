@@ -13,6 +13,8 @@ end
 gem 'font-awesome-sass', '~> 4.4.0'
 # Bootstrap 4 Alpha
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
+# Bootstrap switch
+gem 'bootstrap-switch-rails'
 # Paper Trail auditing
 gem 'paper_trail', '~> 4.0.0'
 # Devise authentication

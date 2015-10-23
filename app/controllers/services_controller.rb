@@ -49,6 +49,7 @@ class ServicesController < ApplicationController
   def service_params
      params.require(:service).permit(:uid,
                                   :display_name,
+                                  :enabled,
                                   :password,
                                   :password_confirmation,
                                   role_ids: [])

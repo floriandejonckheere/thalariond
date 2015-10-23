@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require tether
 //= require bootstrap-sprockets
+//= require bootstrap-switch
 //= require turbolinks
 //= require_tree .
 
@@ -31,6 +32,8 @@ var ready = function() {
     window.location.hash = this.hash;
     $('html,body').scrollTop(scrollmem);
   });
+
+  $(".toggle-switch").bootstrapSwitch();
 
 };
 

@@ -27,7 +27,6 @@
         <tr>
           <th>Username</th>
           <th>Display name</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +46,11 @@
                 <strong><%= link_to service.display_name, service_path(service) %></strong>
               </td>
               <td>
-                <%= service.enabled ? 'Enabled' : 'Disabled' %>
+                <% if not service.enabled? %>
+                  <%= link_to service_path(service) do %>
+                    <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
+                  <% end %>
+                <% end %>
               </td>
             </tr>
           <% end %>

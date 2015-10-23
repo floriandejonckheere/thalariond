@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
   validate :validate_owned_groups_included_in_groups
 
-  has_many :notifications
+  has_many :notifications, :dependent => :destroy
 
   # Methods
   def has_role?(role_sym)
