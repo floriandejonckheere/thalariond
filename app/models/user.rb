@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   gravtastic
 
   before_save :sanitize_attributes
+  after_create :notify_account_created
+  before_destroy :notify_account_deleted
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -48,6 +50,14 @@ class User < ActiveRecord::Base
   def sanitize_attributes
     self.uid.downcase!
     self.email.downcase!
+  end
+
+  def notify_account_created
+    NotificationMailer.account_created(self).deliver_now
+  end
+
+  def notify_account_deleted
+    NotificationMailer.account_deleted(self).deliver_now
   end
 
   # Validations

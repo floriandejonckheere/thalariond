@@ -20,4 +20,22 @@ class NotificationMailer < ApplicationMailer
     mail(:to => user.email, :subject => @notification.title)
   end
 
+  def account_created(user)
+    @user = user
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Account created',
+                                          :text => "The account '#{user.uid}' for #{user.display_name} has been created.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
+  def account_deleted(user)
+    @user = user
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Account deleted',
+                                          :text => "The account '#{user.uid}' has been deleted.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
 end
