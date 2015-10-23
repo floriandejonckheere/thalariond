@@ -56,4 +56,22 @@ class NotificationMailer < ApplicationMailer
     mail(:to => user.email, :subject => @notification.title)
   end
 
+  def account_locked(user)
+    @user = user
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Account locked',
+                                          :text => "Your account has been locked.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
+  def account_unlocked(user)
+    @user = user
+    @notification = Notification.create!(:user => user,
+                                          :priority => 0,
+                                          :title => 'Account unlocked',
+                                          :text => "Your account has been unlocked.")
+    mail(:to => user.email, :subject => @notification.title)
+  end
+
 end

@@ -78,6 +78,14 @@ class User < ActiveRecord::Base
     NotificationMailer.account_deleted(self).deliver_later
   end
 
+  def notify_account_locked
+    NotificationMailer.account_locked(self).deliver_later
+  end
+
+  def notify_account_unlocked
+    NotificationMailer.account_unlocked(self).deliver_later
+  end
+
   # Validations
   def validate_users_services_unique
     errors.add(:uid, "is already taken by a service") if Service.find_by(uid: self.uid).present?
@@ -107,5 +115,15 @@ class User < ActiveRecord::Base
 
   def active_for_authentication?
     super && self.enabled
+  end
+
+  def enabled=(value)
+    super(value)
+    p "\n\n\n\n#{value}\n\n\n\n"
+    if self.enabled
+      notify_account_unlocked
+    else
+      notify_account_locked
+    end
   end
 end
