@@ -14,6 +14,14 @@
           Home
         <% end %>
       </li>
+      <li class="nav-item">
+        <%= link_to notifications_path, :class => (controller?('notifications') ? 'nav-link active' : 'nav-link') do %>
+          <div class="pull-right">
+            <span class="th label label-pill label-default"><%= current_user.notifications.select { |n| not n.read }.count %></span>
+          </div>
+          Notifications
+        <% end %>
+      </li>
       <div class="title-main m-t">Accounts</div>
       <% if can? :list, User %>
         <li class="nav-item">
@@ -24,7 +32,7 @@
       <% else %>
         <li class="nav-item">
           <%= link_to user_path(current_user), :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
-            My Account<%= params[:action] %>
+            My Account
           <% end %>
         </li>
       <% end %>

@@ -36,6 +36,7 @@ class Ability
       (@account.groups & user.groups).count > 0
     end
     can :update, Group, :owner => @account
+    can [:read, :destroy], Notification, :user_id => @account.id
   end
 
   def mail

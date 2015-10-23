@@ -7,7 +7,8 @@ class Group < ActiveRecord::Base
   validates :display_name, presence: true, length: { maximum: 256 }
 
   # Membership
-  has_and_belongs_to_many :users, unique: true
+  has_and_belongs_to_many :users, unique: true, :after_add => :notify_access_granted,
+                                                :after_remove => :notify_access_revoked
 
   # Ownership
   belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
@@ -21,6 +22,15 @@ class Group < ActiveRecord::Base
   def sanitize_attributes
     self.name.downcase!
   end
+
+  def notify_access_granted(user)
+    NotificationMailer.group_access_granted(user, self).deliver_now
+  end
+
+  def notify_access_revoked(user)
+    NotificationMailer.group_access_revoked(user, self).deliver_now
+  end
+
 
   # Validations
   # Overrides

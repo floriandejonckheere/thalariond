@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:sessions => 'sessions'}, :skip => [:registrations]
   devise_for :services, :controllers => {:sessions => 'sessions'}, :skip => [:registrations, :session, :password]
 
+  resources :notifications, :only => [:index, :show, :destroy]
   resources :groups
   resources :users
   resources :services

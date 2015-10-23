@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014132044) do
+ActiveRecord::Schema.define(version: 20151020105640) do
 
   create_table "auth_events", force: :cascade do |t|
     t.text     "component",  null: false
@@ -84,6 +84,17 @@ ActiveRecord::Schema.define(version: 20151014132044) do
   end
 
   add_index "groups_users", ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "priority",   default: 0,     null: false
+    t.text     "title",                      null: false
+    t.text     "text",                       null: false
+    t.boolean  "read",       default: false, null: false
+    t.integer  "user_id"
+    t.datetime "timestamp",                  null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",         null: false

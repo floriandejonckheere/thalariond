@@ -22,8 +22,9 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :groups, unique: true
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
-  #~ validates_associated :owned_groups
   validate :validate_owned_groups_included_in_groups
+
+  has_many :notifications
 
   # Methods
   def has_role?(role_sym)

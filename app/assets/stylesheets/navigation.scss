@@ -38,3 +38,8 @@
     color: $light-grey;
   }
 }
+
+.nav-link.active .th.label-default {
+  background-color: white;
+  color: $gray-light;
+}

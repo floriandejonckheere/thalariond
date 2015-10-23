@@ -14,7 +14,18 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Mailer root URL
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { :host => 'thalarion.be' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address => 'thalarion.be',
+    :port => 587,
+    :domain => 'thalarion.be',
+    :user_name => 'thalarion@thalarion.be',
+    :password => 'aJkwmmER2pyC3Q2PWgD2XWFB4d9Wrc',
+    :authentication => 'plain',
+    :enable_starttls_auto => true
+  }
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
