@@ -8,34 +8,54 @@ module LDAPServer
 
     def to_account(dn)
       dn = LDAP::Server::DN.new(dn)
-      if dn.find_one(:ou) == 'users'
+      case dn.find_first(:ou)
+      when 'users'
         return User.find_by(uid: dn.find_one(:uid))
-      else
+      when 'service'
         return Service.find_by(uid: dn.find_one(:uid))
+      else
+        nil
       end
     end
 
     def simple_bind(version, bind_dn, password)
       bind_dn.downcase! if bind_dn
 
+      basedn = Rails.application.config.ldap['base_dn']
+
       # Authentication is required
-      if not bind_dn or not bind_dn.end_with?(Rails.application.config.ldap['base_dn'])
+      if not bind_dn or
+          not bind_dn.end_with?(Rails.application.config.ldap['base_dn']) or
+          not password
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
       end
-      raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless password
 
       dn = LDAP::Server::DN.new(bind_dn)
-      # Bind DN is either "uid=UID,ou=users|services,BASE_DN" or an email address (see LDAP.md)
-      if dn.find_one(:uid).nil?
-        # Email
-        raise LDAP::ResultError::UnwillingToPerform, "Invalid bind DN" if not dn.find(:dc).length == 3
-        raise LDAP::ResultError::UnwillingToPerform, "Invalid bind DN" if dn.find_one(:mail).nil?
-        domain = Domain.find_by(domain: dn.find_one(:dc))
+      if dn.end_with?("ou=users,#{basedn}")
+        # Bind user
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn.find_first(:uid).nil?
+        user = User.find_by(uid: dn.find_first(:uid))
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if (user.nil? or not user.valid_password?(password))
+        return true
+      elsif dn.end_with?("ou=services,#{basedn}")
+        # Bind service
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn.find_first(:uid).nil?
+        service = Service.find_by(uid: dn.find_first(:uid))
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if (service.nil? or not service.valid_password?(password))
+        return true
+      elsif dn.end_with?("ou=mail,#{basedn}")
+        # Bind email
+        raise LDAP::ResultError::UnwillingToPerform, "Invalid bind DN" unless dn.equal_format?("mail=,dc=,ou=Mail,#{basedn}")
+        domain = Domain.find_by(domain: dn.find_first(:dc))
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if domain.nil?
-        email = domain.emails.find_by(mail: dn.find_one(:mail))
+        email = domain.emails.find_by(mail: dn.find_first(:mail))
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if email.nil?
-        group = Group.find_by(name: email.mail + '@' + domain.domain)
-        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if group.nil?
+        group = Group.find_by(name: "#{email.mail}@#{domain.domain}")
+        if group.nil?
+          # Email exists, but group doesn't
+          @connection.opt[:logger].error "Email #{email} does not have a permission group"
+          raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
+        end
 
         group.users.each do |user|
           return if user.valid_password?(password)
@@ -44,14 +64,16 @@ module LDAPServer
           return if service.valid_password?(password)
         end
         raise LDAP::ResultError::InvalidCredentials, "Invalid credentials"
+      elsif dn.end_with?("ou=groups,#{Rails.application.config.ldap['base_dn']}")
+        # Bind user in group
+        raise LDAP::ResultError::UnwillingToPerform, "Invalid bind DN" unless dn.equal_format?("uid=,cn=,ou=Groups,#{basedn}")
+        group = Group.find_by(name: dn.find_first(:cn))
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if group.nil?
+        user = group.users.find_by(uid: dn.find_first(:uid))
+        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if (user.nil? or not user.valid_password?(password))
+        return true
       else
-        # User|Service
-        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if dn.find_one(:ou).nil?
-        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless ['users', 'services'].include?(dn.find_one(:ou))
-
-        account = to_account(bind_dn)
-        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" if account.blank?
-        raise LDAP::ResultError::InvalidCredentials, "Invalid credentials" unless account.valid_password?(password)
+        raise LDAP::ResultError::UnwillingToPerform, "Invalid bind DN"
       end
     end
 

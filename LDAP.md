@@ -8,7 +8,7 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                   |
       +-----------+-----------+-------------+
       |           |           |             |
- ou=Groups   ou=Services   ou=Users    ou=Domains
+ ou=Groups   ou=Services   ou=Users      ou=Mail
       |                                     |
  +------------+                 +-----------+-----------+
  |            |                 |           |           |
@@ -67,40 +67,40 @@ Groups with a name that corresponds to a managed email address are called *permi
 
 ## Mail
 
-Perform a search with base DN `ou=Domains,dc=thalarion,dc=be` to list all managed domains and aliases. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
+Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all managed domains and aliases. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
 
 The results are of the following format:
 
 ```
-dn: dc=mydomain.com,ou=Domains,dc=thalarion,dc=be
+dn: dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmailDomain
 dc: mydomain.com
 
-dn: dc=aliasdomain.com,ou=Domains,dc=thalarion,dc=be
+dn: dc=aliasdomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmailDomainAlias
 alias: aliasdomain.com
 dc: mydomain.com
 ```
 
-Perform a search with base DN `dc=mydomain.com,ou=Domains,dc=thalarion,dc=be` to list all vmails and aliases of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
+Perform a search with base DN `dc=mydomain.com,ou=Mail,dc=thalarion,dc=be` to list all vmails and aliases of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
 
 ```
-dn: mail=admin,dc=mydomain.com,ou=Domains,dc=thalarion,dc=be
+dn: mail=admin,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmail
 mail: admin
 
-dn: mail=aliasmail,dc=mydomain.com,ou=Domains,dc=thalarion,dc=be
+dn: mail=aliasmail,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmailAlias
 alias: aliasmail
 mail: admin
 ```
 
-To support templated dovecot authentication binds, a client can bind against `mail=mymail,dc=mydomain.com,ou=Domains,dc=thalarion,dc=be`. In this mode, the provided password is checked against the passwords of all users in the permission group.
+To support templated dovecot authentication binds, a client can bind against `mail=mymail,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be`. In this mode, the provided password is checked against the passwords of all users in the permission group.
 
 The results are of the following format:
 
 ```
-dn: mail=admin,dc=mydomain.com,ou=Domains,dc=thalarion,dc=be
+dn: mail=admin,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 mail: admin
 
 ```
