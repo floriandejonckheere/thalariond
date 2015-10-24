@@ -52,31 +52,49 @@
   <h3>Members</h3>
 </div>
 
-<table class="th table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @group.users.nil? %>
+<div class="col-xs-8">
+  <table class="th table">
+    <thead>
       <tr>
-        <td colspan="3" class="text-center">
-          <em>No members found</em>
-        </td>
+        <th>Name</th>
+        <th>Status</th>
       </tr>
-    <% else %>
-      <% @group.users.each do |member| %>
+    </thead>
+    <tbody>
+      <% if @group.users.empty? %>
         <tr>
-          <td><%= link_to member.display_name, user_path(member) %></td>
-          <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
-          <td>
-            Actions
+          <td colspan="3" class="text-center">
+            <em>No members found</em>
           </td>
         </tr>
+      <% else %>
+        <% @group.users.each do |member| %>
+          <tr>
+            <td><%= link_to member.display_name, user_path(member) %></td>
+            <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
+            <td>
+              <% if @group.owner != member %>
+                <%= link_to group_user_path(@group, :id => member.id), method: :delete, :title => 'Remove member', :data => { :toggle => 'tooltip' } do %>
+                  <i class="fa fa-times"></i>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+
+<% if can? :update, @group %>
+  <% if (@users - @group.users).any? %>
+    <div class="col-xs-4">
+      <%= form_for :user, url: group_users_path(@group) do |f| %>
+        <label class="th dropdown">
+          <%= f.select :id, @users.reject { |u| @group.users.include? u }.collect { |u| [ u.display_name, u.id ] } %>
+        </label>
+        <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

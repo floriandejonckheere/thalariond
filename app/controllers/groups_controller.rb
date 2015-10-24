@@ -24,6 +24,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @users = User.accessible_by(current_ability)
   end
 
   def update

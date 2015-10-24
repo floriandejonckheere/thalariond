@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
   # Role-based ACL
   has_and_belongs_to_many :roles, unique: true, :after_add => :notify_role_assigned,
                                                 :after_remove => :notify_role_removed
-
   has_and_belongs_to_many :groups, unique: true, :after_add => :notify_access_granted,
                                                 :after_remove => :notify_access_revoked
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'

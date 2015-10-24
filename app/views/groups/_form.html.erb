@@ -37,7 +37,9 @@
   <% if action?('edit') %>
     <fieldset class="form-group">
       <label for="owner">Owner</label><br>
-      <%= f.collection_select(:user_id, @group.users.all, :id, :display_name, {:include_blank => true}) %>
+      <label class="th dropdown">
+        <%= f.collection_select(:user_id, @group.users.all, :id, :display_name, {:include_blank => true}) %>
+      </label>
     </fieldset>
   <% end %>
 
