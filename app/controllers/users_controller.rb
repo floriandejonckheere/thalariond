@@ -43,6 +43,12 @@ class UsersController < ApplicationController
     parameters.delete('password') if parameters['password'].blank?
     parameters.delete('password_confirmation') if parameters['password_confirmation'].blank?
 
+    # Prevent disabling of all admin accounts
+    if (@user.has_role? :administrator and User.select { |u| u.has_role? :administrator and u.enabled?}.count == 1)
+      flash[:danger] = "At least one admin account must be enabled"
+      parameters.delete('enabled')
+    end
+
     if @user.update(parameters)
       redirect_to @user
     else
