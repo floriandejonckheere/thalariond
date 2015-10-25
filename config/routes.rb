@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
   resources :services do
     resources :roles, :controller => 'service_roles', :only => [:create, :destroy]
+    post :reset, :on => :member
   end
 
   resources :domains do

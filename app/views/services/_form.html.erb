@@ -30,15 +30,17 @@
   </fieldset>
 
   <div class="title-heading">
-    <h3>Password</h3>
+    <h3>Secret token</h3>
   </div>
   <% if params[:action] == 'edit' %>
+    <%= link_to 'Reset secret token', reset_service_path(@service),
+                                  :method => :post,
+                                  :class => 'btn btn-secondary',
+                                  :data => { :confirm => 'Are you sure you wish to reset the secret token? This will void the current one.' } %>
   <% else params[:action] == 'new' %>
     <fieldset class="form-group">
       <label for="password">Password</label>
-      <div class="th password">
-        <%= @service.password %>
-      </div>
+      <div class="th password"><%= @service.password %></div>
       <%= f.hidden_field :password,
           :placeholder => :password,
           :id => 'password',
@@ -70,7 +72,7 @@
 <% end %>
 
 
-<% if can? :assign, @service %>
+<% if can? :assign, @service and action? 'edit' %>
   <div class="title-heading">
     <h3>Authorization</h3>
   </div>

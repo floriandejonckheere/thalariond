@@ -45,13 +45,19 @@ class ServicesController < ApplicationController
     redirect_to services_path
   end
 
+  def reset
+    authorize! :update, @service
+
+    @service_secret = Service.generate_token
+    @service.update!(:password => @service_secret, :password_confirmation => @service_secret)
+  end
+
   private
   def service_params
      params.require(:service).permit(:uid,
                                   :display_name,
                                   :enabled,
                                   :password,
-                                  :password_confirmation,
-                                  role_ids: [])
+                                  :password_confirmation)
   end
 end

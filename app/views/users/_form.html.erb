@@ -91,7 +91,7 @@
   <%= form.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>
 
-<% if can? :assign, @user %>
+<% if can? :assign, @user and action? 'edit' %>
   <div class="title-heading">
     <h3>Authorization</h3>
   </div>
