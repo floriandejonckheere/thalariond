@@ -31,14 +31,14 @@ html {
 }
 
 .dashboard-container {
-  margin-top: 3rem;
+  padding: (3 * $spacer) 0;
 }
 
 nav {
-  margin-top: 2rem;
+  padding: (2 * $spacer) 0;
 
   .nav {
-    padding-left: 1rem;
+    padding-left: $spacer;
   }
 
   font-family: 'Roboto Light', sans-serif;

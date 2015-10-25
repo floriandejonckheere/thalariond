@@ -9,9 +9,15 @@ Rails.application.routes.draw do
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]
   end
-  resources :users
-  resources :services
+
   resources :roles
+  resources :users do
+    resources :roles, :controller => 'user_roles', :only => [:create, :destroy]
+  end
+  resources :services do
+    resources :roles, :controller => 'service_roles', :only => [:create, :destroy]
+  end
+
   resources :domains do
     resources :emails, :except => :index
   end

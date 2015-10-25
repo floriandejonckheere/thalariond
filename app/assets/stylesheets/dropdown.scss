@@ -5,7 +5,7 @@
 
 .th.dropdown {
   select {
-    padding: $btn-padding-y-sm $btn-padding-x-sm;
+    padding: $btn-padding-y-sm $btn-padding-x-lg $btn-padding-y-sm $btn-padding-x-sm;
     font-size: $font-size-sm;
 
     color: $btn-secondary-color;
@@ -31,6 +31,6 @@
   color: $btn-secondary-color;
 
   position:absolute;
-  right: $btn-padding-x;
+  right: $btn-padding-x-sm;
   top: $btn-padding-y;
 }

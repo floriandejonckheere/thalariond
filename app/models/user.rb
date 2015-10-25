@@ -118,11 +118,13 @@ class User < ActiveRecord::Base
 
   def enabled=(value)
     super(value)
-    p "\n\n\n\n#{value}\n\n\n\n"
-    if self.enabled
-      notify_account_unlocked
-    else
-      notify_account_locked
+
+    if self.enabled != self.enabled_was
+      if self.enabled
+        notify_account_unlocked
+      else
+        notify_account_locked
+      end
     end
   end
 end

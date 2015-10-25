@@ -4,7 +4,15 @@ class UserTest < ActiveSupport::TestCase
 
   test 'base' do
     assert u('user1').can? :list, Service
+    assert u('user1').cannot? :create, Service
+    assert u('user1').cannot? :update, Service
+    assert u('user1').cannot? :assign, Service
+    assert u('user1').cannot? :destroy, Service
     assert s('service1').can? :list, Service
+    assert s('service1').cannot? :create, Service
+    assert s('service1').cannot? :update, Service
+    assert s('service1').cannot? :assign, Service
+    assert s('service1').cannot? :destroy, Service
     Service.all.each do |service|
       assert u('user1').can? :read, service
       assert s('service1').can? :read, service
@@ -138,6 +146,7 @@ class UserTest < ActiveSupport::TestCase
     assert u('operator').can? :list, User
     assert u('operator').can? :read, User
     assert u('operator').can? :update, User
+    assert u('operator').cannot? :assign, User
     assert u('operator').can? :update, Service
     assert u('operator').can? :list, Group
     assert u('operator').can? :read, Group
@@ -159,9 +168,11 @@ class UserTest < ActiveSupport::TestCase
     assert u('master').can? :create, User
     assert u('master').can? :assign, User
     assert u('master').can? :destroy, User
+
     assert u('master').can? :create, Service
     assert u('master').can? :assign, Service
     assert u('master').can? :destroy, Service
+
     assert u('master').can? :create, Group
     assert u('master').can? :destroy, Group
   end
@@ -172,12 +183,14 @@ class UserTest < ActiveSupport::TestCase
     assert u('master-mail').can? :create, Domain
     assert u('master-mail').can? :update, Domain
     assert u('master-mail').can? :destroy, Domain
+
     assert u('master-mail').can? :create, DomainAlias
     assert u('master-mail').can? :update, DomainAlias
     assert u('master-mail').can? :destroy, DomainAlias
 
     assert u('master-mail').can? :create, Email
     assert u('master-mail').can? :destroy, Email
+
     assert u('master-mail').can? :create, EmailAlias
     assert u('master-mail').can? :destroy, EmailAlias
   end

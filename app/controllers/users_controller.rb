@@ -70,7 +70,6 @@ class UsersController < ApplicationController
                                   :email,
                                   :enabled,
                                   :password,
-                                  :password_confirmation,
-                                  role_ids: [])
+                                  :password_confirmation)
   end
 end

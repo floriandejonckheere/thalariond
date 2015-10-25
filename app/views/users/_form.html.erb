@@ -1,4 +1,4 @@
-<%= form_for @user do |f| %>
+<%= form_for @user do |form| %>
   <% if @user.errors.any? %>
   <div class="alert alert-danger">
     <strong><%= pluralize(@user.errors.count, 'error') %> prohibited this user from being saved:</strong>
@@ -13,7 +13,7 @@
 
   <fieldset class="form-group">
     <label for="uid">Username</label>
-    <%= f.text_field :uid,
+    <%= form.text_field :uid,
         :placeholder => :username,
         :class => 'form-control',
         :id => 'uid',
@@ -22,7 +22,7 @@
 
   <fieldset class="form-group">
     <label for="first_name">First name</label>
-    <%= f.text_field :first_name,
+    <%= form.text_field :first_name,
         :placeholder => :first_name,
         :class => 'form-control',
         :id => 'first_name',
@@ -31,7 +31,7 @@
 
   <fieldset class="form-group">
     <label for="last_name">Last name</label>
-    <%= f.text_field :last_name,
+    <%= form.text_field :last_name,
         :placeholder => :last_name,
         :class => 'form-control',
         :id => 'last_name' %>
@@ -39,7 +39,7 @@
 
   <fieldset class="form-group">
     <label for="email">Email</label>
-    <%= f.email_field :email,
+    <%= form.email_field :email,
         :placeholder => :email,
         :class => 'form-control',
         :id => 'email',
@@ -56,7 +56,7 @@
     </div>
 
     <fieldset class="form-group text-center">
-      <%= f.check_box :enabled,
+      <%= form.check_box :enabled,
           :id => 'enabled',
           :class => 'form-control toggle-switch' %>
     </fieldset>
@@ -71,7 +71,7 @@
 
     <fieldset class="form-group">
       <label for="password">New password</label>
-      <%= f.password_field :password,
+      <%= form.password_field :password,
           :placeholder => :password,
           :class => 'form-control',
           :id => 'password',
@@ -80,26 +80,62 @@
 
     <fieldset class="form-group">
       <label for="password_confirmation">Confirm new password</label>
-      <%= f.password_field :password_confirmation,
+      <%= form.password_field :password_confirmation,
           :placeholder => :password_confirmation,
           :class => 'form-control',
           :id => 'password_confirmation',
           :autocomplete => 'off' %>
     </fieldset>
   <% end %>
+  <br>
+  <%= form.submit 'Save', :class => 'btn btn-primary' %>
+<% end %>
 
-  <% if can? :update, @user %>
-    <div class="title-heading">
-      <h3>Authorization</h3>
+<% if can? :assign, @user %>
+  <div class="title-heading">
+    <h3>Authorization</h3>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-8">
+      <table class="th table">
+        <thead>
+          <tr>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @user.roles.empty? %>
+            <tr>
+              <td class="text-center">
+                <em>No roles assigned</em>
+              </td>
+            </tr>
+          <% else %>
+            <% @user.roles.each do |role| %>
+              <tr>
+                <td><%= role.display_name %></td>
+                <td>
+                  <%= link_to user_role_path(@user, :id => role.id), method: :delete, :title => 'Remove role', :data => { :toggle => 'tooltip' } do %>
+                    <i class="fa fa-times"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
 
-    <% Role.all.each do |role| %>
-      <div class="checkbox-container">
-        <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %>
-        <%= role.display_name %>
+    <% if (Role.all - @user.roles).any? %>
+      <div class="col-xs-4">
+        <%= form_for :role, url: user_roles_path(@user) do |role_form| %>
+          <label class="th dropdown">
+            <%= role_form.select :id, Role.all.reject { |r| @user.roles.include? r }.collect { |r| [ r.display_name, r.id ] } %>
+          </label>
+          <%= role_form.submit 'Add', :class => "btn btn-sm btn-secondary" %>
+        <% end %>
       </div>
     <% end %>
-  <% end %>
-
-  <%= f.submit 'Save', :class => 'btn btn-primary' %>
+  </div>
 <% end %>
