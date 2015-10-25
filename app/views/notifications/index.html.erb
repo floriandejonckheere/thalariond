@@ -48,6 +48,14 @@
               <td>
                 <%= time_ago_in_words(notification.timestamp) %> ago
               </td>
+              <td>
+                <%= link_to notification_path(notification),
+                          :method => :delete,
+                          :title => 'Delete notification',
+                          data: { :toggle => 'tooltip' } do %>
+                  <i class="fa fa-times"></i>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <% end %>
