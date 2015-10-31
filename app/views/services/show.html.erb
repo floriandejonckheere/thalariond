@@ -61,3 +61,36 @@
     <em><%= @service.display_name %> does not have any assigned roles</em>
   <% end %>
 </p>
+
+<div class="title-heading">
+  <h3>Groups</h3>
+</div>
+
+<div class="row">
+  <div class="col-xs-8">
+    <% if @service.groups.select { |g| can? :read, g }.empty? %>
+      <em>No groups found</em>
+    <% else %>
+      <table class="th table">
+        <thead>
+          <th>Group</th>
+          <th>Owner</th>
+        </thead>
+        <tbody>
+          <% @service.groups.select { |g| can? :read, g }.each do |group| %>
+            <tr>
+              <td><%= link_to group.display_name, group_path(group) %></td>
+              <td>
+                <% if group.owner %>
+                  <%= link_to group.owner.display_name, user_path(group.owner) %>
+                <% else %>
+                  <em>No current owner</em>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>

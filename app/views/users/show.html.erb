@@ -80,6 +80,35 @@
 </p>
 
 <div class="title-heading">
+  <h3>Groups</h3>
+</div>
+
+<div class="row">
+  <div class="col-xs-8">
+    <% if @user.groups.select { |g| can? :read, g }.empty? %>
+      <em>No groups found</em>
+    <% else %>
+      <table class="th table">
+        <thead>
+          <th>Group</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          <% @user.groups.select { |g| can? :read, g }.each do |group| %>
+            <tr>
+              <td><%= link_to group.display_name, group_path(group) %></td>
+              <td>
+                <%= group.owner == @user ? 'Owner' : 'Member' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+<div class="title-heading">
   <h3>Recent activity</h3>
 </div>
 
