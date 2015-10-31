@@ -25,8 +25,6 @@ gem 'cancancan', '~> 1.10'
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
 # Daemons for LDAP server
 gem 'daemons-rails'
-# Gravatar
-gem 'gravtastic'
 
 gem 'rails', '4.2.2'
 # Use sqlite3 as the database for Active Record

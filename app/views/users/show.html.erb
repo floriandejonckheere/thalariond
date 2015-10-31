@@ -56,14 +56,6 @@
     <td>State</td>
     <td><%= @user.enabled ? 'Enabled' : 'Disabled' %></td>
   </tr>
-  <tr>
-    <td>Avatar</td>
-    <td>
-      <a href="https://www.gravatar.com">
-        <%= image_tag @user.gravatar_url, :title => 'Change this avatar on gravatar.com', :data => { :toggle => 'tooltip' } %>
-      </a>
-    </td>
-  </tr>
 </table>
 
 <div class="title-heading">
