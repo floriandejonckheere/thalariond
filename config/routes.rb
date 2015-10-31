@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :notifications, :only => [:index, :show, :destroy]
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]
+    resources :services, :controller => 'group_services', :only => [:create, :destroy]
   end
 
   resources :roles

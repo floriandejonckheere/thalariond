@@ -21,7 +21,7 @@ class SessionsController < Devise::SessionsController
                         :result => false,
                         :ip => request.remote_ip,
                         :agent => request.user_agent,
-                        :user_id => User.find_by(uid: request.filtered_parameters["user"]["uid"]).id)
+                        :user_id => nil)
     end
   end
 

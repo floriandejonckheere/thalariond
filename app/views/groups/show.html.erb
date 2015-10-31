@@ -26,77 +26,135 @@
   </div>
 </div>
 
-
-<table class="th attribute-table">
-  <tr>
-    <td>Name</td>
-    <td><%= @group.name %></td>
-  </tr>
-  <tr>
-    <td>Display name</td>
-    <td><%= @group.display_name %></td>
-  </tr>
-  <tr>
-    <td>Owner</td>
-    <td>
-      <% if @group.owner %>
-        <%= link_to @group.owner.display_name, user_path(@group.owner) %>
-      <% else %>
-        <em>No current owner</em>
-      <% end %>
-    </td>
-  </tr>
-</table>
+<div class="row">
+  <table class="th attribute-table">
+    <tr>
+      <td>Name</td>
+      <td><%= @group.name %></td>
+    </tr>
+    <tr>
+      <td>Display name</td>
+      <td><%= @group.display_name %></td>
+    </tr>
+    <tr>
+      <td>Owner</td>
+      <td>
+        <% if @group.owner %>
+          <%= link_to @group.owner.display_name, user_path(@group.owner) %>
+        <% else %>
+          <em>No current owner</em>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
 
 <div class="title-heading">
   <h3>Members</h3>
 </div>
 
-<div class="col-xs-8">
-  <table class="th table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @group.users.empty? %>
+<div class="row">
+  <div class="col-xs-8">
+    <table class="th table">
+      <thead>
         <tr>
-          <td colspan="3" class="text-center">
-            <em>No members found</em>
-          </td>
+          <th>Name</th>
+          <th>Status</th>
         </tr>
-      <% else %>
-        <% @group.users.each do |member| %>
+      </thead>
+      <tbody>
+        <% if @group.users.empty? %>
           <tr>
-            <td><%= link_to member.display_name, user_path(member) %></td>
-            <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
-            <td>
-              <% if @group.owner != member %>
-                <%= link_to group_user_path(@group, :id => member.id), method: :delete, :title => 'Remove member', :data => { :toggle => 'tooltip' } do %>
-                  <i class="fa fa-times"></i>
-                <% end %>
-              <% end %>
+            <td colspan="3" class="text-center">
+              <em>No members found</em>
             </td>
           </tr>
+        <% else %>
+          <% @group.users.each do |member| %>
+            <tr>
+              <td><%= link_to member.display_name, user_path(member) %></td>
+              <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
+              <% if can? :update, @group %>
+                <td>
+                  <% if @group.owner != member %>
+                    <%= link_to group_user_path(@group, :id => member.id), method: :delete, :title => 'Remove member', :data => { :toggle => 'tooltip' } do %>
+                      <i class="fa fa-times"></i>
+                    <% end %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
+  <% if can? :update, @group %>
+    <% if (@users - @group.users).any? %>
+      <div class="col-xs-4">
+        <%= form_for :user, url: group_users_path(@group) do |f| %>
+          <label class="th dropdown">
+            <%= f.select :id, @users.reject { |u| @group.users.include? u }.collect { |u| [ u.display_name, u.id ] } %>
+          </label>
+          <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
+        <% end %>
+      </div>
+    <% else %>
+      <em>All visible users belong to this group</em>
+    <% end %>
+  <% end %>
 </div>
 
-<% if can? :update, @group %>
-  <% if (@users - @group.users).any? %>
-    <div class="col-xs-4">
-      <%= form_for :user, url: group_users_path(@group) do |f| %>
-        <label class="th dropdown">
-          <%= f.select :id, @users.reject { |u| @group.users.include? u }.collect { |u| [ u.display_name, u.id ] } %>
-        </label>
-        <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
-      <% end %>
-    </div>
-  <% else %>
-    <em>All visible users belong to this group</em>
+<div class="title-heading">
+  <h3>Services</h3>
+</div>
+
+<div class="row">
+  <div class="col-xs-8">
+    <table class="th table">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @group.services.empty? %>
+          <tr>
+            <td colspan="3" class="text-center">
+              <em>No services found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @group.services.each do |service| %>
+            <tr>
+              <td><%= link_to service.display_name, service_path(service) %></td>
+              <% if can? :update, @group %>
+                <td>
+                  <%= link_to group_service_path(@group, :id => service.id), method: :delete, :title => 'Remove service', :data => { :toggle => 'tooltip' } do %>
+                    <i class="fa fa-times"></i>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if can? :update, @group %>
+    <% if (@services - @group.services).any? %>
+      <div class="col-xs-4">
+        <%= form_for :service, url: group_services_path(@group) do |f| %>
+          <label class="th dropdown">
+            <%= f.select :id, @services.reject { |u| @group.services.include? u }.collect { |u| [ u.display_name, u.id ] } %>
+          </label>
+          <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
+        <% end %>
+      </div>
+    <% else %>
+      <em>All services belong to this group</em>
+    <% end %>
   <% end %>
-<% end %>
+</div>

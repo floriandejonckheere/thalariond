@@ -1,7 +1,9 @@
 class NotificationsController < ApplicationController
   before_filter :authenticate_user!
 
-  load_and_authorize_resource
+  load_resource
+  authorize_resource :except => :index
+  skip_authorization_check :only => :index
 
   layout "dashboard"
 

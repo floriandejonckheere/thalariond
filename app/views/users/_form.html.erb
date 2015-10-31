@@ -61,8 +61,7 @@
           :class => 'form-control toggle-switch' %>
     </fieldset>
   <% end %>
-
-  <% if params[:action] == 'edit' %>
+  <% if action?('edit', 'update') %>
     <div class="title-heading">
       <h3>Password</h3>
     </div>

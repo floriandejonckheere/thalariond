@@ -6,6 +6,8 @@ class GroupsController < ApplicationController
 
   layout "dashboard"
 
+  # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
+
   def index
   end
 
@@ -25,6 +27,7 @@ class GroupsController < ApplicationController
 
   def show
     @users = User.accessible_by(current_ability)
+    @services = Service.accessible_by(current_ability)
   end
 
   def update

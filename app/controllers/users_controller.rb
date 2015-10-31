@@ -9,7 +9,6 @@ class UsersController < ApplicationController
   # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
 
   def index
-    @users = User.accessible_by(current_ability)
   end
 
   def create
@@ -22,6 +21,7 @@ class UsersController < ApplicationController
 
     @user = User.new(parameters)
     if @user.save
+      flash[:info] = 'Account created'
       redirect_to @user
     else
       render 'new'
@@ -50,6 +50,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update(parameters)
+      flash[:info] = 'Account updated'
       redirect_to @user
     else
       render 'edit'

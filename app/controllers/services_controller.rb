@@ -13,6 +13,7 @@ class ServicesController < ApplicationController
 
   def create
     if @service.save
+      flash[:info] = 'Account created'
       redirect_to @service
     else
       render 'new'
@@ -32,6 +33,7 @@ class ServicesController < ApplicationController
 
   def update
     if @service.update(service_params)
+      flash[:info] = 'Account updated'
       redirect_to @service
     else
       render 'edit'

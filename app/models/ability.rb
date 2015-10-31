@@ -19,9 +19,7 @@ class Ability
 
   def service
     base
-    can :read, Group do |group|
-      group.services.include? @account
-    end
+    can :read, Group, :services => { :id => @service.id }
     can :read, User do |user|
       (@account.groups & user.groups).count > 0
     end
@@ -30,9 +28,7 @@ class Ability
   def user
     base
     can [:read, :update], User, :id => @account.id
-    can :read, Group do |group|
-      group.users.include? @account
-    end
+    can :read, Group, :users => { :id => @account.id }
     can :read, User do |user|
       (@account.groups & user.groups).count > 0
     end
@@ -44,18 +40,18 @@ class Ability
     can [:list, :read], Domain
     can [:list, :read], DomainAlias
     can :read, Email do |email|
-      if @account.is_a? User
+      if user?
         email.permission_group.users.include? @account if email.permission_group?
-      elsif @account.is_a? Service
+      elsif service?
         email.permission_group.services.include? @account if email.permission_group?
       end
     end
   end
 
   def operator
-    if @account.is_a? User
+    if user?
       user
-    elsif @account.is_a? Service
+    elsif service?
       service
     end
     can [:list, :read, :update, :toggle], User
@@ -84,5 +80,14 @@ class Ability
 
   def administrator
     can :manage, :all
+  end
+
+  # Helpers
+  def user?
+    @account.is_a? User
+  end
+
+  def service?
+    @account.is_a? Service
   end
 end
