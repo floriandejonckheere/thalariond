@@ -13,7 +13,7 @@ class UserRolesController < ApplicationController
       @user.roles << @role
     end
 
-    redirect_to @user
+    redirect_to edit_user_path(@user)
   end
 
   def destroy
@@ -22,6 +22,6 @@ class UserRolesController < ApplicationController
     @role = Role.find(params[:id])
 
     @user.roles.delete @role
-    redirect_to @user
+    redirect_to edit_user_path(@user)
   end
 end

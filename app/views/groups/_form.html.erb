@@ -34,7 +34,7 @@
         :required => 'true' %>
   </fieldset>
 
-  <% if action?('edit') %>
+  <% if action?('edit', 'update') and @group.users.any? %>
     <fieldset class="form-group">
       <label for="owner">Owner</label><br>
       <label class="th dropdown">
@@ -42,10 +42,6 @@
       </label>
     </fieldset>
   <% end %>
-
-  <div class="title-heading">
-    <h3>Members</h3>
-  </div>
 
   <%= f.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>

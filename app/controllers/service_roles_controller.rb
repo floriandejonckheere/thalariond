@@ -12,7 +12,7 @@ class ServiceRolesController < ApplicationController
       @service.roles << @role
     end
 
-    redirect_to @service
+    redirect_to edit_service_path(@service)
   end
 
   def destroy
@@ -21,6 +21,6 @@ class ServiceRolesController < ApplicationController
     @role = Role.find(params[:id])
 
     @service.roles.delete @role
-    redirect_to @service
+    redirect_to edit_service_path(@service)
   end
 end
