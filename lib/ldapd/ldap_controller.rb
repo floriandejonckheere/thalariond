@@ -89,11 +89,13 @@ class LDAPController
     baseObject.downcase!
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-    # TODO: list readable users for accounts that cannot? :list, User
-    raise LDAP::ResultError::InsufficientAccessRights if request.connection.account.cannot? :list, User
 
     User.all.each do |user|
+      next if request.connection.account.cannot? :read, user
       user_hash = user.to_ldap
+
+      user_hash.delete 'group' if request.connection.account.cannot? :update, user
+
       result = LDAP::Server::Filter.run(filter, user_hash)
       request.send_SearchResultEntry("uid=#{user_hash['uid']},#{baseObject}", user_hash) if result
     end
@@ -103,11 +105,13 @@ class LDAPController
     baseObject.downcase!
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-    # TODO: list readable services for accounts that cannot? :list, Service
-    raise LDAP::ResultError::InsufficientAccessRights if request.connection.account.cannot? :list, Service
 
     Service.all.each do |service|
+      next if request.connection.account.cannot? :read, service
       service_hash = service.to_ldap
+
+      service_hash.delete 'group' if request.connection.account.cannot? :update, service
+
       result = LDAP::Server::Filter.run(filter, service_hash)
       request.send_SearchResultEntry("uid=#{service_hash['uid']},#{baseObject}", service_hash) if result
     end
@@ -120,7 +124,7 @@ class LDAPController
 
     Group.accessible_by(request.connection.ability).each do |group|
       group_hash = group.to_ldap
-
+      p group_hash
       result = LDAP::Server::Filter.run(filter, group_hash)
       request.send_SearchResultEntry("cn=#{group_hash['cn']},#{baseObject}", group_hash) if result
     end
