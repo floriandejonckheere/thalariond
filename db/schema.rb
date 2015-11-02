@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151020105640) do
+ActiveRecord::Schema.define(version: 20151031090650) do
 
   create_table "auth_events", force: :cascade do |t|
     t.text     "component",  null: false
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20151020105640) do
     t.string   "display_name"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "order"
   end
 
   add_index "roles", ["name"], name: "index_roles_on_name", unique: true

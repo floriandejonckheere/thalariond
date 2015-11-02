@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserTest < ActiveSupport::TestCase
+class AbilityTest < ActiveSupport::TestCase
 
   test 'base' do
     assert u('user1').can? :list, Service

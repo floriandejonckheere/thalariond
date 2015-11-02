@@ -8,10 +8,23 @@ Thalariond is a suite of services that offers a flexible solution for centralize
 
 ```
 $ bundle install
-$ rake db:setup # Creates and seed the initial database
+$ rake db:create        # Create database
+$ rake db:migrate       # Create tables
+$ rake db:seed          # Create roles
+$ rake db:create_admin  # Create admin account
 ```
 
 A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seed.rb`.
+
+# Testing
+
+```
+$ rake db:create RAILS_ENV=test
+$ rake db:migrate RAILS_ENV=test
+$ rake db:fixtures:load RAILS_ENV=test
+
+$ rake test RAILS_ENV=test
+```
 
 # Configuration
 
