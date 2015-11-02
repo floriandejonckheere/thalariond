@@ -16,7 +16,7 @@ ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(File.join(r
 require File.join(root, 'lib', 'ldapd')
 include LDAPd
 
-server = LDAPd::Server.new(root)
+server = LDAPd::Server.new
 
 Signal.trap('TERM') do
   server.stop

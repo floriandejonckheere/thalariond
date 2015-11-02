@@ -69,7 +69,7 @@ class Email < ActiveRecord::Base
   def to_ldap
     h = {}
     h['mail'] = self.mail
-    h['objectClass'] = 'vmail'
+    h['objectClass'] = 'mailAccount'
     return h
   end
 

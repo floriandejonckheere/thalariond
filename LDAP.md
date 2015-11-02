@@ -17,18 +17,20 @@ The base dn is specified in `config/ldap.yml`. The directory structure is as fol
                                           mail=user
 
 ```
-Every access to the LDAP database must be authenticated using a simple bind. Anonymous bind is not supported. Binding is supported for the trees `ou=Services`, `ou=Users` and `ou=Mail`. The first two map directly onto their ActiveModel counterparts, the latter uses the given password to find a User or Service in an email permission group.
+Every access to the LDAP database must be authenticated using a simple bind. Anonymous bind and SASL bind are not supported.
+Binding is supported for the trees `ou=Services`, `ou=Users`, `ou=Groups` and `ou=Mail`. The first two map directly onto their ActiveModel counterparts, the latter two use the given password to find a User or Service in the group (or in the permission group for emails).
 
 All subtrees can be queried.
 
 ## Users
 
-Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all accessible users. Scope is ignored. All user attributes can be used for filtering, but currently multiple filter conditions are not supported.
-The results are of the following structure, empty attributes will be ommitted.
+Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all accessible users. Scope is ignored. All user attributes can be used for filtering, multiple filters are supported.
+Consider the following example:
 
 ```
 dn: uid=user,ou=Users,dc=thalarion,dc=be
 uid: user
+objectClass: userAccount
 givenName: Administrator
 sn: Administrator
 mail: admin@example.com
@@ -42,14 +44,15 @@ Analogous to `ou=Users`, this subtree is used for services. By default, all serv
 ```
 dn: uid=service,ou=Services,dc=thalarion,dc=be
 uid: service
+objectClass: serviceAccount
 displayName: Service
 enabled: true
 ```
 
 ## Groups
 
-Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All attributes can be used for filtering, but currently multiple filter conditions are not supported. The `member` attribute(s) are only visible if the user has the appropriate permissions (owner of group or higher privileged user). The owner is always listed in both the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
-The results are of the following format:
+Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported. The owner is always listed in both the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
+Consider the following example:
 
 ```
 dn: cn=group,ou=Groups,dc=thalarion,dc=be
@@ -66,31 +69,32 @@ Groups with a name that corresponds to a managed email address are called *permi
 
 ## Mail
 
-Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all accessible managed domains and aliases. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data attribute. Multiple filter conditions are not supported. The DN of managed domain is not split into separate `domainComponent`s.
-
-The results are of the following format:
+Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all accessible managed domains and aliases. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported.
+The DN of managed domain is not split into separate `domainComponent`s.
+Alias domain always point from the `alias` to the `dc`.
+Consider the following example:
 
 ```
 dn: dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmailDomain
+objectClass: domain
 dc: mydomain.com
 
 dn: dc=aliasdomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmailDomainAlias
+objectClass: domainAlias
 alias: aliasdomain.com
 dc: mydomain.com
 ```
 
-Perform a search with base DN `dc=mydomain.com,ou=Mail,dc=thalarion,dc=be` to list all accessible vmails and aliases of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
+Perform a search with base DN `dc=mydomain.com,ou=Mail,dc=thalarion,dc=be` to list all accessible vmails and aliases of the managed domain. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported.
 
 ```
 dn: mail=admin,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmail
+objectClass: mailAccount
 mail: admin
 
 dn: mail=aliasmail,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmailAlias
-alias: aliasmail
+alias: mailAliasAccount
 mail: admin
 ```
 

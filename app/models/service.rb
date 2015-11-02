@@ -50,7 +50,7 @@ class Service < ActiveRecord::Base
     h['uid'] = self.uid
     h['objectClass'] = 'serviceAccount'
     h['displayName'] = self.display_name
-    h['enabled'] = self.active_for_authentication?
+    h['enabled'] = self.active_for_authentication?.to_s
     return h
   end
 
