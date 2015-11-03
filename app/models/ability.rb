@@ -15,23 +15,22 @@ class Ability
   def base
     can [:list, :read], Service
     can [:list, :read], Role
+
+    # WARNING: User.accessible_by gives you ALL the Users, authorize each one separately
+    can :read, User, [] do |user|
+      (@account.groups & user.groups).count > 0
+    end
   end
 
   def service
     base
-    can :read, Group, :services => { :id => @service.id }
-    can :read, User do |user|
-      (@account.groups & user.groups).any?
-    end
+    can :read, Group, :services => { :id => @account.id }
   end
 
   def user
     base
     can [:read, :update], User, :id => @account.id
     can :read, Group, :users => { :id => @account.id }
-    can :read, User do |user|
-      (@account.groups & user.groups).any?
-    end
     can :update, Group, :owner => @account
     can [:read, :destroy], Notification, :user_id => @account.id
   end

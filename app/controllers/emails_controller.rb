@@ -48,11 +48,12 @@ class EmailsController < ApplicationController
 
     flash[:info] = "Email '#{@email.to_s}' deleted"
     @email.destroy
-    redirect_to domain_email_path(@domain, @email)
+    redirect_to domain_path(@domain)
   end
 
   private
   def email_params
-     params.require(:email).permit(:mail)
+     params.require(:email).permit(:mail,
+                                    :group)
   end
 end

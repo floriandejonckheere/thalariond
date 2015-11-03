@@ -9,6 +9,9 @@ admin:
   email: admin@example.net
   roles:
     - administrator
+    - master
+    - operator
+    - user
 
 user1:
   uid: user1
@@ -61,6 +64,7 @@ operator:
   email: operator@example.net
   roles:
     - operator
+    - user
 
 operator-mail:
   uid: operator-mail
@@ -68,6 +72,7 @@ operator-mail:
   email: operator-mail@example.net
   roles:
     - operator
+    - user
     - mail
 
 master:
@@ -76,6 +81,8 @@ master:
   email: master@example.net
   roles:
     - master
+    - operator
+    - user
 
 master-mail:
   uid: master-mail
@@ -83,4 +90,6 @@ master-mail:
   email: master-mail@example.net
   roles:
     - master
+    - operator
+    - user
     - mail

@@ -49,18 +49,20 @@
               <td>
                 <%= user.email %>
               </td>
-              <td>
-                <% if not user.confirmed? %>
-                  <%= link_to user_path(user) do %>
-                    <i class="fa fa-exclamation-triangle" data-toggle="tooltip" title="Unconfirmed email"></i>
+              <% if can? :update, user %>
+                <td>
+                  <% if not user.confirmed? %>
+                    <%= link_to user_path(user) do %>
+                      <i class="fa fa-exclamation-triangle" data-toggle="tooltip" title="Unconfirmed email"></i>
+                    <% end %>
                   <% end %>
-                <% end %>
-                <% if not user.enabled? %>
-                  <%= link_to user_path(user) do %>
-                    <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
+                  <% if not user.enabled? %>
+                    <%= link_to user_path(user) do %>
+                      <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </td>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         <% end %>

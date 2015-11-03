@@ -16,6 +16,9 @@ class Group < ActiveRecord::Base
   # Service membership
   has_and_belongs_to_many :services, unique: true
 
+  # Optional permission group
+  belongs_to :email, dependent: :destroy
+
   # Methods
   # Callbacks
   def sanitize_attributes

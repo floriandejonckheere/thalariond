@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
 
   # Role-based ACL
-  has_and_belongs_to_many :roles, unique: true, :after_add => :notify_role_assigned,
-                                                :after_remove => :notify_role_removed
+  has_and_belongs_to_many :roles, unique: true, :after_add => [:notify_role_assigned, :assign_lower],
+                                                :after_remove => [:notify_role_removed, :unassign_higher]
   has_and_belongs_to_many :groups, unique: true, :after_add => :notify_access_granted,
                                                 :after_remove => :notify_access_revoked
   has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
@@ -80,6 +80,20 @@ class User < ActiveRecord::Base
 
   def notify_account_unlocked
     NotificationMailer.account_unlocked(self).deliver_later
+  end
+
+  def assign_lower(role)
+    if role.order?
+      role = Role.order(:order).select { |r| r.order? and r.order < role.order }.last
+      self.roles << role if role and not self.roles.include? role
+    end
+  end
+
+  def unassign_higher(role)
+    if role.order?
+      role = Role.order(:order).select { |r| r.order? and r.order > role.order }.first
+      self.roles.delete(role) if role and self.roles.include? role
+    end
   end
 
   # Validations

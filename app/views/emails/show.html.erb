@@ -17,7 +17,7 @@
       <%= link_to domain_email_path(@domain, @email),
                             :method => :delete,
                             :title => 'Delete email',
-                            data: { confirm: 'Are you sure you want to delete this email?',
+                            data: { confirm: 'Are you sure you want to delete this email? This will delete the associated permission group too.',
                                     :toggle => 'tooltip' },
                             :class => 'btn btn-secondary btn-sm' do %>
         <i class="fa fa-trash"></i>
@@ -35,30 +35,22 @@
     <td>Domain</td>
     <td><%= link_to @email.domain.domain, domain_path(@email.domain) %></td>
   </tr>
+  <tr>
+    <td>Permission group</td>
+    <td><%= link_to @email.permission_group.display_name, group_path(@email.permission_group) %></td>
+  </tr>
 </table>
 
 <div class="title-heading">
   <h3>Members</h3>
 </div>
 
-<% if @permission_group.nil? %>
-  <div class="alert alert-danger">
-    <strong><i class="fa fa-exclamation-triangle"></i> Email account does not have an associated permission group.</strong>
-  </div>
-  <p>
-    Please create a group named <em><%= @email %></em> to allow access control.
-  </p>
+<% if @permission_group.users.any? %>
+  <ul>
+    <% @permission_group.users.each do |user| %>
+      <li><%= link_to user.display_name, user_path(user) %>
+    <% end %>
+  </ul>
 <% else %>
-  <div class="alert alert-info">
-    This email account has an associated <strong><%= link_to 'permission group', group_path(@email.permission_group) %></strong>
-  </div>
-  <% if @permission_group.users.any? %>
-    <ul>
-      <% @permission_group.users.each do |user| %>
-        <li><%= link_to user.display_name, user_path(user) %>
-      <% end %>
-    </ul>
-  <% else %>
-    <center><em>No active emails</em></center>
-  <% end %>
+  <center><em>No active emails</em></center>
 <% end %>
