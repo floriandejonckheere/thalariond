@@ -15,23 +15,22 @@ class Ability
   def base
     can [:list, :read], Service
     can [:list, :read], Role
+
+    # WARNING: User.accessible_by gives you ALL the Users, authorize each one separately
+    can :read, User, [] do |user|
+      (@account.groups & user.groups).count > 0
+    end
   end
 
   def service
     base
-    can :read, Group, :services => { :id => @service.id }
-    can :read, User do |user|
-      (@account.groups & user.groups).count > 0
-    end
+    can :read, Group, :services => { :id => @account.id }
   end
 
   def user
     base
     can [:read, :update], User, :id => @account.id
     can :read, Group, :users => { :id => @account.id }
-    can :read, User do |user|
-      (@account.groups & user.groups).count > 0
-    end
     can :update, Group, :owner => @account
     can [:read, :destroy], Notification, :user_id => @account.id
   end
@@ -39,12 +38,10 @@ class Ability
   def mail
     can [:list, :read], Domain
     can [:list, :read], DomainAlias
-    can :read, Email do |email|
-      if user?
-        email.permission_group.users.include? @account if email.permission_group?
-      elsif service?
-        email.permission_group.services.include? @account if email.permission_group?
-      end
+    if user?
+      can :read, Email, :permission_group => { :users => { :id => @account.id } }
+    elsif service?
+      can :read, Email, :permission_group => { :services => { :id => @account.id } }
     end
   end
 

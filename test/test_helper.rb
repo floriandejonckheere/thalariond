@@ -14,6 +14,10 @@ class ActiveSupport::TestCase
     User.find_by(:uid => uid)
   end
 
+  def a(uid)
+    Ability.new u(uid)
+  end
+
   def s(uid)
     Service.find_by(:uid => uid)
   end
@@ -23,7 +27,7 @@ class ActiveSupport::TestCase
   end
 
   def e(email)
-    Email.find_by(:mail => email.split('@')[0], :domain => Domain.find_by(:domain => email.split('@')[1]))
+    Email.find_by(:mail => email.split('@').first, :domain => Domain.find_by(:domain => email.split('@').last))
   end
 
   def ea(email_alias)

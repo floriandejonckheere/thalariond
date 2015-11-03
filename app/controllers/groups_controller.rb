@@ -26,8 +26,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @users = User.accessible_by(current_ability)
-    @services = Service.accessible_by(current_ability)
+    @users = User.accessible_by(current_ability).select { |u| can? :read, u }
+    @services = Service.accessible_by(current_ability).select { |s| can? :read, s }
   end
 
   def update
@@ -46,7 +46,10 @@ class GroupsController < ApplicationController
 
   private
   def group_params
-     params.require(:group).permit(:name, :display_name, :user_id)
+     params.require(:group).permit(:name,
+                                    :display_name,
+                                    :user_id,
+                                    :email_id)
   end
 
 end

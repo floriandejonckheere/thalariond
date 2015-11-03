@@ -46,19 +46,19 @@
           Groups
         <% end %>
       </li>
-      <div class="title-main m-t">Mail</div>
-      <% if can? :update, Domain %>
+      <% if can? :read, Email and can? :read, Domain %>
+        <div class="title-main m-t">Mail</div>
         <li class="nav-item">
           <%= link_to domains_path, :class => (controller?('domains', 'domain_aliases') ? 'nav-link active' : 'nav-link') do %>
             Domains
           <% end %>
         </li>
+        <li class="nav-item">
+          <%= link_to mail_path, :class => (controller?('mail', 'emails', 'email_aliases') ? 'nav-link active' : 'nav-link') do %>
+            Emails
+          <% end %>
+        </li>
       <% end %>
-      <li class="nav-item">
-        <%= link_to mail_path, :class => (controller?('mail', 'emails', 'email_aliases') ? 'nav-link active' : 'nav-link') do %>
-          Emails
-        <% end %>
-      </li>
     </ul>
   </nav>
 </div>

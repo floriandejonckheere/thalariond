@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
 
   def index
-    @users = User.all.select { |u| can? :read, u }
+    @users = User.accessible_by(current_ability).select { |u| can? :read, u }
   end
 
   def create
