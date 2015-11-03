@@ -1,4 +1,8 @@
 class DomainAlias < ActiveRecord::Base
+  # Domain aliases have two attributes: alias and domain.
+  # alias ALWAYS means the pointing domain
+  # domain ALWAYS means the pointed to domain
+
   has_paper_trail
 
   before_save :sanitize_attributes
@@ -45,7 +49,7 @@ class DomainAlias < ActiveRecord::Base
     h = {}
     h['alias'] = self.alias
     h['dc'] = self.domain
-    h['objectClass'] = 'vmailDomainAlias'
+    h['objectClass'] = 'domainAlias'
     return h
   end
 

@@ -54,7 +54,7 @@ class EmailAlias < ActiveRecord::Base
     h = {}
     h['alias'] = self.alias
     h['mail'] = self.mail
-    h['objectClass'] = 'vmailAlias'
+    h['objectClass'] = 'mailAliasAccount'
     return h
   end
 

@@ -34,7 +34,7 @@ class Domain < ActiveRecord::Base
   def to_ldap
     h = {}
     h['dc'] = self.domain
-    h['objectClass'] = 'vmailDomain'
+    h['objectClass'] = 'domain'
     return h
   end
 

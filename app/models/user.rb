@@ -105,7 +105,20 @@ class User < ActiveRecord::Base
     h['givenName'] = self.first_name
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
-    h['enabled'] = self.active_for_authentication?
+    h['enabled'] = self.active_for_authentication?.to_s
+    # TODO: roles
+    if self.groups.any?
+      h['group'] = []
+      self.groups.each do |g|
+        h['group'] << "cn=#{g.name},ou=Groups,#{Rails.application.config.ldap['base_dn']}"
+      end
+    end
+    if self.roles.any?
+      h['role'] = []
+      self.roles.each do |r|
+        h['role'] << r.name
+      end
+    end
     return h
   end
 

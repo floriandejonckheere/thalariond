@@ -2,55 +2,57 @@
 
 The base dn is specified in `config/ldap.yml`. The directory structure is as following:
 ```
-                dc=be
-                  |
-             dc=thalarion
-                  |
-      +-----------+-----------+-------------+
-      |           |           |             |
- ou=Groups   ou=Services   ou=Users      ou=Mail
-      |                                     |
- +------------+                 +-----------+-----------+
- |            |                 |           |           |
-cn=groupA  cn=groupB           ...    dc=example.com   ...
-                                            |
-                                        mail=user
+                              dc=be
+                                |
+                           dc=thalarion
+                                |
+              +-----------+-----------+-------------+
+              |           |           |             |
+         ou=Groups   ou=Services   ou=Users      ou=Mail
+              |           |           |             |
+       +------------+    ...         ...      +-----------+
+       |            |                         |           |
+    cn=groupA      ...                  dc=example.com   ...
+                                              |
+                                          mail=user
 
 ```
+Every access to the LDAP database must be authenticated using a simple bind. Anonymous bind and SASL bind are not supported.
+Binding is supported for the trees `ou=Services`, `ou=Users`, `ou=Groups` and `ou=Mail`. The first two map directly onto their ActiveModel counterparts, the latter two use the given password to find a User or Service in the group (or in the permission group for emails).
 
-Authentication is handled by binding using a user or a service (using the appropriate DN). Anonymous binding is not supported. The contents of the `ou=Users` and `ou=Groups` tree is dependant on the role of the bound user. A higher privileged user will see all users, whereas a regular user will only see himself.
-
-Similarly, `ou=Groups` contain the groups the user or service owns or is a member of.
+All subtrees can be queried.
 
 ## Users
 
-Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all (visible) users. Scope is ignored. All user attributes can be used for filtering, but currently multiple filter conditions are not supported.
-The results are of the following structure:
+Perform a search with base DN `ou=Users,dc=thalarion,dc=be` to list all accessible users. Scope is ignored. All user attributes can be used for filtering, multiple filters are supported.
+Consider the following example:
 
 ```
 dn: uid=user,ou=Users,dc=thalarion,dc=be
 uid: user
+objectClass: userAccount
 givenName: Administrator
-sn: Administrator [OPTIONAL]
+sn: Administrator
 mail: admin@example.com
 enabled: true
 ```
 
 ## Services
 
-The `ou=Services` tree is analogous to the `ou=Users` tree. It is used for binding. non-human services (such as postfix and dovecot). Additionally, it is queryable.
+Analogous to `ou=Users`, this subtree is used for services. By default, all services are readable by everyone (see `app/models/ability.rb`).
 
 ```
 dn: uid=service,ou=Services,dc=thalarion,dc=be
 uid: service
+objectClass: serviceAccount
 displayName: Service
 enabled: true
 ```
 
 ## Groups
 
-Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All (visible) attributes can be used for filtering, currently multiple filter conditions are not supported. The `member` attribute(s) are only visible if the user has the appropriate permissions (owner of group or higher privileged user). The owner is both listed in the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
-The results are of the following format:
+Perform a search with base DN `ou=Groups,dc=thalarion,dc=be` to list all owned and participated groups. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported. The owner is always listed in both the `owner` and the `member` attributes. Members include users who have access to the group and services which operate on the group (for example Postfix and Dovecot will have access to email groups).
+Consider the following example:
 
 ```
 dn: cn=group,ou=Groups,dc=thalarion,dc=be
@@ -67,31 +69,32 @@ Groups with a name that corresponds to a managed email address are called *permi
 
 ## Mail
 
-Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all managed domains and aliases. Scope is ignored. Only the `dc` attribute can be used for filtering, because it is the only data-attribute. Multiple filter conditions are obviously not supported. The DN of managed domain is not split into separate `domainComponent`s.
-
-The results are of the following format:
+Perform a search with base DN `ou=Mail,dc=thalarion,dc=be` to list all accessible managed domains and aliases. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported.
+The DN of managed domain is not split into separate `domainComponent`s.
+Alias domain always point from the `alias` to the `dc`.
+Consider the following example:
 
 ```
 dn: dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmailDomain
+objectClass: domain
 dc: mydomain.com
 
 dn: dc=aliasdomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmailDomainAlias
+objectClass: domainAlias
 alias: aliasdomain.com
 dc: mydomain.com
 ```
 
-Perform a search with base DN `dc=mydomain.com,ou=Mail,dc=thalarion,dc=be` to list all vmails and aliases of the managed domain. Scope is ignored. Only the `mail` attribute (the part before the '@') can be used for filtering. Multiple filter conditions are not supported.
+Perform a search with base DN `dc=mydomain.com,ou=Mail,dc=thalarion,dc=be` to list all accessible vmails and aliases of the managed domain. Scope is ignored. All attributes can be used for filtering, multiple filter conditions are supported.
 
 ```
 dn: mail=admin,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
-objectClass: vmail
+objectClass: mailAccount
 mail: admin
 
 dn: mail=aliasmail,dc=mydomain.com,ou=Mail,dc=thalarion,dc=be
 objectClass: vmailAlias
-alias: aliasmail
+alias: mailAliasAccount
 mail: admin
 ```
 

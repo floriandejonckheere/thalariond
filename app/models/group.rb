@@ -36,11 +36,8 @@ class Group < ActiveRecord::Base
       self.users.each do |u|
         h['member'] << "uid=#{u.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}"
       end
-    end
-    if self.services.any?
-      h['member'] = []
-      self.services.each do |s|
-        h['member'] << "uid=#{s.uid},ou=Services,#{Rails.application.config.ldap['base_dn']}"
+      self.services.each do |u|
+        h['member'] << "uid=#{u.uid},ou=Services,#{Rails.application.config.ldap['base_dn']}"
       end
     end
     return h
