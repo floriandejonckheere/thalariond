@@ -3,6 +3,28 @@
  *
  * */
 
+/* Aside navigation */
+nav {
+  padding: (2 * $spacer) 0;
+
+  .nav {
+    padding-left: $spacer;
+  }
+
+  font-family: 'Roboto Light', sans-serif;
+  font-size: .8rem;
+  font-weight: 200;
+}
+
+.logo {
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+/* Top navigation */
 .nav.nav-tabs {
   border: 0;
   border-bottom: 1px solid $line-color;

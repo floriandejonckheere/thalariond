@@ -33,23 +33,3 @@ html {
 .dashboard-container {
   padding: (3 * $spacer) 0;
 }
-
-nav {
-  padding: (2 * $spacer) 0;
-
-  .nav {
-    padding-left: $spacer;
-  }
-
-  font-family: 'Roboto Light', sans-serif;
-  font-size: .8rem;
-  font-weight: 200;
-}
-
-.logo {
-  opacity: 0.4;
-
-  &:hover {
-    opacity: 0.6;
-  }
-}
