@@ -30,8 +30,8 @@ class Service < ActiveRecord::Base
   end
   delegate :can?, :cannot?, to: :ability
 
-  def self.generate_token(length = 50)
-    SecureRandom.urlsafe_base64(length).tr('lIO0', 'sxyz')
+  def self.generate_token(length = 75)
+    SecureRandom.base64(length).tr('lIO0', 'sxyz').delete('/=+')[0..length - 1]
   end
 
   # Callbacks
