@@ -23,19 +23,18 @@
         <% end %>
       </li>
       <div class="title-main m-t">Accounts</div>
-      <% if can? :list, User %>
-        <li class="nav-item">
-          <%= link_to users_path, :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
-            Users
-          <% end %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to user_path(current_user), :class => (controller?('users') ? 'nav-link active' : 'nav-link') do %>
-            My Account
-          <% end %>
-        </li>
-      <% end %>
+      <li class="nav-item">
+        <%= link_to user_path(current_user),
+          :class => "nav-link #{current_page?(:controller => 'users', :action => 'show', :id => current_user.id) ? 'active' : ''}" do %>
+          My Account
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to users_path,
+          :class => "nav-link #{(controller?('users') and not current_page?(:controller => 'users', :action => 'show', :id => current_user.id)) ? 'active' : ''}" do %>
+          Users
+        <% end %>
+      </li>
       <li class="nav-item">
         <%= link_to services_path, :class => (controller?('services') ? 'nav-link active' : 'nav-link') do %>
           Services
