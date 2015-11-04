@@ -4,6 +4,7 @@ class Ability
   # Guidelines:
   # :list must always be applied on classes, not on elements
   # :toggle is enabling/disabling accounts
+  # :assign is assignin roles to accounts
 
   def initialize(account)
     if account && account.roles

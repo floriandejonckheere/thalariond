@@ -5,7 +5,7 @@ class ServiceRolesController < ApplicationController
   load_resource :role, :through => :service
 
   def create
-    authorize! :assign, @user
+    authorize! :assign, @service
     @role = Role.find(params[:role][:id])
 
     unless @service.roles.include? @role
@@ -16,7 +16,7 @@ class ServiceRolesController < ApplicationController
   end
 
   def destroy
-    authorize! :assign, @user
+    authorize! :assign, @service
     @service = Service.find(params[:service_id])
     @role = Role.find(params[:id])
 

@@ -46,7 +46,7 @@
         :required => 'true' %>
   </fieldset>
 
-  <% if can? :assign, @user %>
+  <% if can? :toggle, @user %>
     <div class="title-heading">
       <h3>Account state</h3>
     </div>
