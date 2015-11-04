@@ -32,6 +32,8 @@ class ServicesController < ApplicationController
   end
 
   def update
+    authorize! :toggle, @user if params[:user][:enabled]
+
     if @service.update(service_params)
       flash[:info] = 'Account updated'
       redirect_to @service
