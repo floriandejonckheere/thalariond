@@ -7,7 +7,8 @@ class Group < ActiveRecord::Base
   validates :display_name, presence: true, length: { maximum: 256 }
 
   # Membership
-  has_and_belongs_to_many :users, unique: true
+  has_and_belongs_to_many :users, unique: true, :after_add => :notify_access_granted,
+                                                :after_remove => :notify_access_revoked
 
   # Ownership
   belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
@@ -23,6 +24,24 @@ class Group < ActiveRecord::Base
   # Callbacks
   def sanitize_attributes
     self.name.downcase!
+  end
+
+  def notify_access_granted(user)
+    text = "You have been granted access to group <strong>#{self.display_name}</strong>."
+    if self.email
+      text << " This group is associated with the email address <strong>#{self.email}</strong>, which you now also have access to. Please refer to the online documentation for more information."
+    end
+    NotificationMailer.notification(Notification.create!(:user => user,
+            :title => 'Group access granted',
+            :text => text)
+    ).deliver_later
+  end
+
+  def notify_access_revoked(user)
+    NotificationMailer.notification(Notification.create!(:user => user,
+            :title => 'Group access revoked',
+            :text => "Your access to group <strong>#{self.display_name}</strong> has been revoked.")
+    ).deliver_later
   end
 
   # Validations

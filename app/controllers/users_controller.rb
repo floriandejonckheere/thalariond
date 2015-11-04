@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     @user = User.new(parameters)
     if @user.save
       flash[:info] = 'Account created'
+      @user.roles << Role.find_by(name: 'user')
       redirect_to @user
     else
       render 'new'
