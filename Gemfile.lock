@@ -1,12 +1,12 @@
 GIT
   remote: https://github.com/floriandejonckheere/ruby-ldapserver.git
-  revision: e2bf6c15f3f5ce89d453771848dc4ad4a45b5d64
+  revision: 5fb16e3f39660ae8f40718154a7d9e1e8ac64cf2
   specs:
     ruby-ldapserver (0.6.0)
 
 GIT
   remote: https://github.com/twbs/bootstrap-rubygem
-  revision: dcac6853355e9cf1df34e5931970565385220610
+  revision: c00bd6966ae0e74c7ba16f4e2450a2a7b0289694
   specs:
     bootstrap (4.0.0.alpha1)
       autoprefixer-rails (>= 6.0.3)
@@ -60,7 +60,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-switch-rails (3.3.3)
     builder (3.2.2)
-    byebug (6.0.2)
+    byebug (7.0.0)
     cancancan (1.13.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)

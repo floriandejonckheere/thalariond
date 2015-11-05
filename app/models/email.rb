@@ -62,6 +62,7 @@ class Email < ActiveRecord::Base
   def to_ldap
     h = {}
     h['mail'] = self.mail
+    h['maildrop'] = "#{self.domain.domain}/#{self.mail}/"
     h['objectClass'] = 'mailAccount'
     return h
   end
