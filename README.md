@@ -29,6 +29,9 @@ $ rake test RAILS_ENV=test
 
 # Configuration
 
+Move, copy or symlink `config/database.yml.example` to `config/database.yml`, and `config/ldap.yml.example` to `config/ldap.yml`, and apply your custom settings.
+Set the Devise secret key in `config/initializers/devise.rb`
+
 # Run
 
 To run manually, execute the following commands

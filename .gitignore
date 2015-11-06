@@ -20,3 +20,9 @@ vendor/bundle
 
 # Ignore private settings
 private/
+config/database.yml
+config/ldap.yml
+config/secrets.yml
+
+# Capistrano
+config/deploy/*

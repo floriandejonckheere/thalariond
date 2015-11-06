@@ -23,7 +23,6 @@ test:
 production:
   adapter: postgresql
   pool: 5
-#  host: <%= ENV['POSTGRESQL_PORT_5432_TCP_ADDR'] %>
   host: <%= ENV['DB_HOST'] %>
   database: <%= ENV['DB_DATABASE'] %>
   username: <%= ENV['DB_USER'] %>
