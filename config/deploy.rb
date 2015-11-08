@@ -23,8 +23,14 @@ set :deploy_to, '/opt/thalariond/thalariond/'
 # Default value for :pty is false
 # set :pty, true
 
+# capistrano-upload-config
+set :config_example_suffix, '-example'
+
+# Upload config
+before 'deploy:check:linked_files', 'config:push'
+
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/ldap.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/ldap.yml', 'config/mailer.yml')
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
