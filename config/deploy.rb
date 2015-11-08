@@ -69,12 +69,23 @@ set :rvm_ruby_version, '2.2.3@thalariond-production'
   #~ set :puma_preload_app, true
   #~ set :nginx_use_ssl, false
 
+# Capistrano Rails
+
+# Defaults to [:web]
+set :assets_roles, [:app]
+
+# Defaults to nil (no asset cleanup is performed)
+# If you use Rails 4+ and you'd like to clean up old assets after each deploy,
+# set this to the number of versions to keep
+set :keep_assets, 2
+
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :setup do
     on roles(:app) do
       execute "mkdir #{shared_path}/tmp/sockets -p"
       execute "mkdir #{shared_path}/tmp/pids -p"
+      execute "mkdir #{shared_path}/log -p"
     end
   end
 

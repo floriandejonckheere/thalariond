@@ -9,7 +9,6 @@ require 'capistrano/rvm'
 require 'capistrano/upload-config'
 require 'capistrano/puma'
 
-
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
