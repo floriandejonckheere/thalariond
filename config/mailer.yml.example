@@ -1,4 +1,5 @@
 default: &default
+  default_host_url: localhost:3000
   host: localhost
   port: 587
   domain: mydomain.com
