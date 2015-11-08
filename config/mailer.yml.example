@@ -1,0 +1,17 @@
+default: &default
+  host: localhost
+  port: 587
+  domain: mydomain.com
+  username: myapp@mydomain.com
+  password: mypassword
+  authentication: plain
+  starttls: true
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+
+test:
+  <<: *default

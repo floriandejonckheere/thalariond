@@ -24,6 +24,7 @@ module ThalariondRails
     config.active_record.raise_in_transactional_callbacks = true
 
     config.ldap = YAML.load_file("#{Rails.root.to_s}/config/ldap.yml")[Rails.env]
+    config.mailer = YAML.load_file("#{Rails.root.to_s}/config/mailer.yml")[Rails.env]
 
     config.autoload_paths += %W(#{config.root}/lib)
   end
