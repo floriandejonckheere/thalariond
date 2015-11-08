@@ -64,13 +64,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'thalarion.be' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => config.mailer.host,
-    :port => config.mailer.port,
-    :domain => config.mailer.domain,
-    :user_name => config.mailer.username,
-    :password => config.mailer.password,
-    :authentication => config.mailer.authentication,
-    :enable_starttls_auto => config.mailer.starttls
+    :address => config.mailer['host'],
+    :port => config.mailer['port'],
+    :domain => config.mailer['domain'],
+    :user_name => config.mailer['username'],
+    :password => config.mailer['password'],
+    :authentication => config.mailer['authentication'],
+    :enable_starttls_auto => config.mailer['starttls']
   }
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
