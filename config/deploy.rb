@@ -93,7 +93,6 @@ namespace :puma do
 end
 
 namespace :deploy do
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
@@ -102,5 +101,43 @@ namespace :deploy do
       # end
     end
   end
+end
+
+namespace :ldapd do
+  desc 'Print LDAP server status'
+  task :status do
+    on roles(:app), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:environment) do
+          execute :bundle, "exec lib/daemons/ldapd_ctl status", raise_on_non_zero_exit: false
+        end
+      end
+    end
+  end
+
+  desc 'Stop LDAP server'
+  task :stop do
+    on roles(:app), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:environment) do
+          execute :bundle, "exec lib/daemons/ldapd_ctl stop"
+        end
+      end
+    end
+  end
+
+  desc 'Start LDAP server'
+  task :start do
+    on roles(:app), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:rails_env) do
+          execute :bundle, "exec lib/daemons/ldapd_ctl start"
+        end
+      end
+    end
+  end
 
 end
+
+before :deploy, "ldapd:stop"
+after :deploy, "ldapd:start"
