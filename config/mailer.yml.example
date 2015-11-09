@@ -13,6 +13,9 @@ development:
 
 production:
   <<: *default
+  exception_sender: Notification <notification@mydomain.com>
+  exception_recipients:
+    - admin@mydomain.com
 
 test:
   <<: *default

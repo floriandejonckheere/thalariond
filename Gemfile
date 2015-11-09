@@ -25,6 +25,8 @@ gem 'cancancan', '~> 1.10'
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
 # Daemons for LDAP server
 gem 'daemons-rails'
+# Notify exceptions
+gem 'exception_notification'
 
 gem 'rails', '4.2.2'
 # Use sqlite3 as the database for Active Record
