@@ -101,6 +101,17 @@ namespace :deploy do
       # end
     end
   end
+
+  desc 'Seed or reseed the database with predefined values'
+  task :seed do
+    on roles(:db), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:rails_env) do
+          execute :bundle, "exec rake db:seed"
+        end
+      end
+    end
+  end
 end
 
 namespace :ldapd do
@@ -108,7 +119,7 @@ namespace :ldapd do
   task :status do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
-        with RAILS_ENV: fetch(:environment) do
+        with RAILS_ENV: fetch(:rails_env) do
           execute :bundle, "exec lib/daemons/ldapd_ctl status", raise_on_non_zero_exit: false
         end
       end
@@ -119,7 +130,7 @@ namespace :ldapd do
   task :stop do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
-        with RAILS_ENV: fetch(:environment) do
+        with RAILS_ENV: fetch(:rails_env) do
           execute :bundle, "exec lib/daemons/ldapd_ctl stop"
         end
       end

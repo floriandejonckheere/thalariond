@@ -17,6 +17,16 @@ $ rake db:create_admin  # Create admin account
 
 A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seed.rb`.
 
+# Upgrading
+
+## From 1.0 to 2.x
+
+- Roles now have an `order` attribute. Reseed the database to use the predefined values
+
+```
+$ rake db:seed
+```
+
 # Testing
 
 ```
