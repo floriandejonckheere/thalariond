@@ -3,12 +3,9 @@ class Email < ActiveRecord::Base
 
   before_save :sanitize_attributes
 
-  before_validation :create_permission_group
   before_update :update_permission_group
 
   belongs_to :domain, -> { uniq }
-
-  has_one :permission_group, class_name: 'Group', dependent: :destroy, required: true
 
   validates :mail, presence: true, format: { with: /[^@]*/ }, length: { in: 1..64 }
   validate :validate_mail_total_length
@@ -23,26 +20,12 @@ class Email < ActiveRecord::Base
     self.mail.downcase!
   end
 
-  def create_permission_group
-    email = "#{self.mail}@#{self.domain.domain}"
-
-    if Group.exists?(name: email)
-      errors[:permission_group] = "already exists"
-      return
-    end
-
-    group = Group.create!(:name => email,
-                          :display_name => "Email account for #{email}")
-
-    self.permission_group = group
-  end
-
-  def update_permission_group
-    if mail_changed?
-      permission_group.update_attributes(:name => "#{self.mail}@#{self.domain.domain}")
-      permission_group.save!
-    end
-  end
+  #~ def update_permission_group
+    #~ if mail_changed?
+      #~ permission_group.update_attributes(:name => "#{self.mail}@#{self.domain.domain}")
+      #~ permission_group.save!
+    #~ end
+  #~ end
 
 
   # Validations

@@ -34,44 +34,6 @@
 </table>
 
 <div class="title-heading">
-  <h3>Domain aliases</h3>
-</div>
-
-<div class="pull-right">
-  <% if can? :create, DomainAlias %>
-    <%= link_to new_domain_alias_path(:params => {:domain => @domain.domain}),
-                            :class => 'btn btn-secondary btn-sm',
-                            :title => 'Add domain alias',
-                            :data => { :toggle => 'tooltip' } do %>
-      <i class="fa fa-plus"></i>
-    <% end %>
-  <% end %>
-</div>
-
-<div class="row">
-  <div class="col-xs-6">
-    <% if @domain_aliases.empty? %>
-      <em>No domain aliases found</em>
-    <% else %>
-      <table class="th table">
-        <thead>
-          <tr>
-            <th>Alias</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @domain_aliases.each do |domain_alias| %>
-            <tr>
-              <td><%= link_to domain_alias.alias, domain_alias_path(domain_alias) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
-  </div>
-</div>
-
-<div class="title-heading">
   <h3>Emails</h3>
 </div>
 
@@ -124,3 +86,41 @@
 <% else %>
   <em>No emails found</em>
 <% end %>
+
+<div class="title-heading">
+  <h3>Domain aliases</h3>
+</div>
+
+<div class="pull-right">
+  <% if can? :create, DomainAlias %>
+    <%= link_to new_domain_alias_path(:params => {:domain => @domain.domain}),
+                            :class => 'btn btn-secondary btn-sm',
+                            :title => 'Add domain alias',
+                            :data => { :toggle => 'tooltip' } do %>
+      <i class="fa fa-plus"></i>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col-xs-6">
+    <% if @domain_aliases.empty? %>
+      <em>No domain aliases found</em>
+    <% else %>
+      <table class="th table">
+        <thead>
+          <tr>
+            <th>Alias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @domain_aliases.each do |domain_alias| %>
+            <tr>
+              <td><%= link_to domain_alias.alias, domain_alias_path(domain_alias) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
