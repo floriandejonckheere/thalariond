@@ -27,6 +27,13 @@ A default `admin` user is created with password `abcd1234`. Additional roles and
 $ rake db:seed
 ```
 
+- Permission groups and emails are now strongly coupled. Any missing groups can be fixed by running the following task:
+
+```
+$ rake db:fix_permission_groups
+```
+
+
 # Testing
 
 ```
