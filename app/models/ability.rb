@@ -40,9 +40,9 @@ class Ability
     can [:list, :read], Domain
     can [:list, :read], DomainAlias
     if user?
-      can :read, Email, :permission_group => { :users => { :id => @account.id } }
+      can :read, Email, :group => { :users => { :id => @account.id } }
     elsif service?
-      can :read, Email, :permission_group => { :services => { :id => @account.id } }
+      can :read, Email, :group => { :services => { :id => @account.id } }
     end
   end
 

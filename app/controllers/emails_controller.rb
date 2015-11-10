@@ -7,8 +7,6 @@ class EmailsController < ApplicationController
   layout "dashboard"
 
   def create
-    authorize! :create, Email
-
     @email = @domain.emails.build(params[:email])
     if @email.save
       redirect_to domain_email_path(@domain, @email)
@@ -18,24 +16,16 @@ class EmailsController < ApplicationController
   end
 
   def new
-    authorize! :create, Email
-
     @email = @domain.emails.build
   end
 
   def edit
-    authorize! :update, @email
   end
 
   def show
-    authorize! :read, @email
-    @email_aliases = EmailAlias.where(mail: @email.mail)
-    @permission_group = Group.find_by(name: @email.to_s)
   end
 
   def update
-    authorize! :update, @email
-
     if @email.update(email_params)
       redirect_to domain_email_path(@domain, @email)
     else
@@ -44,8 +34,6 @@ class EmailsController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @email
-
     flash[:info] = "Email '#{@email.to_s}' deleted"
     @email.destroy
     redirect_to domain_path(@domain)

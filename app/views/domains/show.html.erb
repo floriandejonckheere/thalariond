@@ -63,20 +63,20 @@
           <td>
             <%= link_to email, domain_email_path(@domain, email) %>
           </td>
-          <% if email.permission_group.nil? %>
+          <% if email.group.nil? %>
             <td colspan="2" class="text-center">
               <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
             </td>
           <% else %>
             <td>
-              <% if email.permission_group.owner.nil? %>
+              <% if email.group.owner.nil? %>
                 <em>No current owner</em>
               <% else %>
-                <%= link_to email.permission_group.owner.display_name, user_path(email.owner) %>
+                <%= link_to email.group.owner.display_name, user_path(email.owner) %>
               <% end %>
             </td>
             <td>
-              <%= pluralize(email.permission_group.users.count, 'member') %>
+              <%= pluralize(email.group.users.count, 'member') %>
             </td>
           <% end %>
         </tr>

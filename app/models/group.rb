@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   has_paper_trail
 
   before_save :sanitize_attributes
+  before_destroy :verify_no_permission_group
 
   validates :name, presence: true, uniqueness: true
   validates :display_name, presence: true, length: { maximum: 256 }
@@ -17,10 +18,20 @@ class Group < ActiveRecord::Base
   # Service membership
   has_and_belongs_to_many :services, unique: true
 
+  # Permission group
+  belongs_to :email
+
   # Methods
   # Callbacks
   def sanitize_attributes
     self.name.downcase!
+  end
+
+  def verify_no_permission_group
+    if self.email
+      errors[:base] = 'Cannot delete a permission group'
+      false
+    end
   end
 
   def notify_access_granted(user)

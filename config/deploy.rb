@@ -112,6 +112,17 @@ namespace :deploy do
       end
     end
   end
+
+  desc 'Fix missing and uncoupled permission groups'
+  task :fix_permission_groups do
+    on roles(:db), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:rails_env) do
+          execute :bundle, "exec rake db:fix_permission_groups"
+        end
+      end
+    end
+  end
 end
 
 namespace :ldapd do

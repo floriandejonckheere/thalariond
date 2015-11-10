@@ -10,7 +10,7 @@
   </div>
   <% end %>
 
-  <% if permission_group? %>
+  <% if @group.email %>
     <div class="alert alert-warning">
       <i class="fa fa-exclamation-triangle"></i> This group has an associated email account. Changing the name of this group will void access control on the email account.
     </div>

@@ -6,9 +6,9 @@
 <% end %>
 <% content_for :section do %>Email <%= @email %><% end %>
 
-<% if @email.permission_group %>
+<% if @email.group %>
   <div class="alert alert-info">
-    The permission group <strong><%= @email.permission_group.name %></strong> will be renamed when changing the email's local part.
+    The permission group <strong><%= @email.group.name %></strong> will be renamed when changing the email's local part.
   </div>
 <% end %>
 
