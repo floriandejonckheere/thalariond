@@ -159,7 +159,17 @@ namespace :ldapd do
     end
   end
 
+  desc 'Restart LDAP server'
+  task :restart do
+    on roles(:app), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:rails_env) do
+          execute :bundle, "exec lib/daemons/ldapd_ctl restart"
+        end
+      end
+    end
+  end
+
 end
 
-before :deploy, "ldapd:stop"
-after :deploy, "ldapd:start"
+after :deploy, "ldapd:restart"
