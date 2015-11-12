@@ -6,8 +6,6 @@
 <% end %>
 <% content_for :section do %>User <%= @user.display_name %><% end %>
 
-<%= render 'partials/messages' %>
-
 <div class="pull-right">
   <div class="btn-group">
     <% if can? :update, @user %>

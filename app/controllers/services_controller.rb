@@ -52,6 +52,7 @@ class ServicesController < ApplicationController
   def reset
     authorize! :update, @service
 
+    flash[:info] = "Secret token reset"
     @service_secret = Service.generate_token
     @service.update!(:password => @service_secret, :password_confirmation => @service_secret)
   end

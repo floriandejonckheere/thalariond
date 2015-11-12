@@ -1,8 +1,6 @@
 <% content_for :title do   %>Accounts<% end %>
 <% content_for :section do %>Services<% end %>
 
-<%= render 'partials/messages' %>
-
 <div class="pull-right">
   <% if can? :create, Service %>
     <%= link_to new_service_path,

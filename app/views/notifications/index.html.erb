@@ -1,8 +1,6 @@
 <% content_for :title do   %>General<% end %>
 <% content_for :section do %>Notifications<% end %>
 
-<%= render 'partials/messages' %>
-
 <div class="pull-right">
   <% if @notifications.any? %>
     <%= link_to notifications_path,

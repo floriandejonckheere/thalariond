@@ -1,8 +1,6 @@
 <% content_for :title do   %>Accounts<% end %>
 <% content_for :section do %>Users<% end %>
 
-<%= render 'partials/messages' %>
-
 <div class="pull-right">
   <% if can? :create, User %>
     <%= link_to new_user_path,
