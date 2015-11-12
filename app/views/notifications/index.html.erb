@@ -3,6 +3,17 @@
 
 <%= render 'partials/messages' %>
 
+<div class="pull-right">
+  <% if @notifications.any? %>
+    <%= link_to notifications_path,
+              :class => 'btn btn-secondary btn-sm',
+              :method => :delete,
+              :title => 'Delete all notifications',
+              data: { :toggle => 'tooltip' } do %>
+      <i class="fa fa-trash"></i>
+    <% end %>
+  <% end %>
+</div>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>

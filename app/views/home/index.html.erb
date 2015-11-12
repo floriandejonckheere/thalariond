@@ -1,6 +1,8 @@
 <% content_for :title do   %>General<% end %>
 <% content_for :section do %>Home<% end %>
 
+<%= render 'partials/messages' %>
+
 <h4>Welcome, <%= current_user.display_name %></h4>
 <p>Welcome to the Thalarion control panel. You can manage your account and relevant services from here.</p>
 <p>

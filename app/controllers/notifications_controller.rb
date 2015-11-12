@@ -22,6 +22,12 @@ class NotificationsController < ApplicationController
     redirect_to notifications_path
   end
 
+  def destroy_all
+    flash[:info] = "Notifications deleted"
+    current_user.notifications.destroy_all
+    redirect_to notifications_path
+  end
+
   private
   def group_params
      params.require(:group).permit(:name, :display_name, :user_id)

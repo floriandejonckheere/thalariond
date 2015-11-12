@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   devise_for :services, :controllers => {:sessions => 'sessions'}, :skip => [:registrations, :session, :password]
 
   resources :notifications, :only => [:index, :show, :destroy]
+  match :notifications, :to => 'notifications#destroy_all', :via => :delete
+
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]
     resources :services, :controller => 'group_services', :only => [:create, :destroy]
