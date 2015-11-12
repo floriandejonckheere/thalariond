@@ -71,7 +71,7 @@
     <fieldset class="form-group">
       <label for="password">New password</label>
       <%= form.password_field :password,
-          :placeholder => :password,
+          :placeholder => "Password (minimum #{Rails.application.config.devise.password_length.first} characters)",
           :class => 'form-control',
           :id => 'password',
           :autocomplete => 'off' %>
