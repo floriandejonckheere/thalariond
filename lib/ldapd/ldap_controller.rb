@@ -154,19 +154,22 @@ class LDAPController
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
 
-    Email.all.each do |email|
-      next if request.connection.account.cannot? :read, email
-      email_hash = email.to_ldap
+    domain = Domain.find_by(:domain => params[:domain])
+    if domain
+      domain.emails.each do |email|
+        next if request.connection.account.cannot? :read, email
+        email_hash = email.to_ldap
 
-      result = LDAP::Server::Filter.run(filter, email_hash)
-      request.send_SearchResultEntry("dc=#{email_hash['dc']},#{baseObject}", email_hash) if result
-    end
-    EmailAlias.all.each do |email_alias|
-      next if request.connection.account.cannot? :read, email_alias
-      email_alias_hash = email_alias.to_ldap
+        result = LDAP::Server::Filter.run(filter, email_hash)
+        request.send_SearchResultEntry("mail=#{email_hash['mail']},#{baseObject}", email_hash) if result
+      end
+      EmailAlias.select { |ea| ea.alias.split('@').last == params[:domain] }.each do |email_alias|
+        next if request.connection.account.cannot? :read, email_alias
+        email_alias_hash = email_alias.to_ldap
 
-      result = LDAP::Server::Filter.run(filter, email_alias_hash)
-      request.send_SearchResultEntry("alias=#{email_alias_hash['alias']},#{baseObject}", email_alias_hash) if result
+        result = LDAP::Server::Filter.run(filter, email_alias_hash)
+        request.send_SearchResultEntry("alias=#{email_alias_hash['alias']},#{baseObject}", email_alias_hash) if result
+      end
     end
   end
 
