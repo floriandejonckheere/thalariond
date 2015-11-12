@@ -44,6 +44,7 @@ class Ability
     elsif service?
       can :read, Email, :group => { :services => { :id => @account.id } }
     end
+    can [:list, :read], EmailAlias
   end
 
   def operator
