@@ -33,6 +33,8 @@ server 'thalarion.be', user: 'thalariond', roles: %w{app db}
 set :deploy_to, '/opt/thalariond/thalariond/'
 set :rvm_ruby_version, '2.2.3@thalariond-production'
 set :rails_env, 'production'
+set :rack_env, 'production'
+set :puma_env, 'production'
 set :branch, '2-0-stable'
 
 
