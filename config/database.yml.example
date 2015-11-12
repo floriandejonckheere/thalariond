@@ -20,10 +20,13 @@ test:
   <<: *default
   database: db/test.sqlite3
 
-production:
+production: &production
   adapter: postgresql
   pool: 5
   host: <%= ENV['DB_HOST'] %>
   database: <%= ENV['DB_DATABASE'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASS'] %>
+
+staging:
+  <<: *production

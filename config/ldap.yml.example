@@ -6,12 +6,16 @@ default: &default
 development:
   <<: *default
 
-production:
+production: &production
   <<: *default
   ssl_cert: ldap.cert
   ssl_key: ldap.key
   # ssl_ca_path: ca.pem
   # ssl_dhparams: dhparams.pem
+
+staging:
+  <<: *production
+  port: 2389
 
 test:
   <<: *default

@@ -15,10 +15,10 @@ class Server
   def initialize
     log_file = File.open(File.join(Rails.root, 'log', "ldapd.#{Rails.env}.log"), 'a')
     @logger = Logger.new MultiLogger.new(STDOUT, log_file)
-    if ENV['RAILS_ENV'] == 'production'
-      @logger.level = Logger::WARN
-    else
+    if ENV['RAILS_ENV'] == 'development'
       @logger.level = Logger::DEBUG
+    else
+      @logger.level = Logger::WARN
     end
   end
 

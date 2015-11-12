@@ -11,11 +11,14 @@ default: &default
 development:
   <<: *default
 
-production:
+production: &production
   <<: *default
   exception_sender: Notification <notification@mydomain.com>
   exception_recipients:
     - admin@mydomain.com
+
+staging:
+  <<: *production
 
 test:
   <<: *default
