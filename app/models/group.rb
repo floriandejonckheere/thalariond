@@ -39,17 +39,17 @@ class Group < ActiveRecord::Base
     if self.email
       text << " This group is associated with the email address <strong>#{self.email}</strong>, which you now also have access to. Please refer to the online documentation for more information."
     end
-    NotificationMailer.notification(Notification.create!(:user => user,
+    NotificationMailer.delay.notification(Notification.create!(:user => user,
             :title => 'Group access granted',
             :text => text)
-    ).deliver_later
+    )
   end
 
   def notify_access_revoked(user)
-    NotificationMailer.notification(Notification.create!(:user => user,
+    NotificationMailer.delay.notification(Notification.create!(:user => user,
             :title => 'Group access revoked',
             :text => "Your access to group <strong>#{self.display_name}</strong> has been revoked.")
-    ).deliver_later
+    )
   end
 
   # Validations

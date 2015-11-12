@@ -51,17 +51,17 @@ class User < ActiveRecord::Base
   end
 
   def notify_role_assigned(role)
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Role assigned',
             :text => "Your account has been assigned the <strong>#{role.display_name}</strong> role.")
-    ).deliver_later
+    )
   end
 
   def notify_role_removed(role)
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Role removed',
             :text => "The role <strong>#{role.display_name}</strong> has been removed from your account.")
-    ).deliver_later
+    )
   end
 
   def notify_access_granted(group)
@@ -69,45 +69,45 @@ class User < ActiveRecord::Base
     if group.email
       text << " This group is associated with the email address <strong>#{group.email}</strong>, which you now also have access to. Please refer to the online documentation for more information."
     end
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Group access granted',
             :text => text)
-    ).deliver_later
+    )
   end
 
   def notify_access_revoked(group)
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Group access revoked',
             :text => "Your access to group <strong>#{group.display_name}</strong> has been revoked.")
-    ).deliver_later
+    )
   end
 
   def notify_account_created
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Account created',
             :text => "Your account has been created. Please confirm your email address before you can sign in using the credentials below.<p><strong>Username</strong>: #{self.uid}<br><strong>Password</strong>: #{self.password}</p>")
-    ).deliver_later
+    )
   end
 
   def notify_account_deleted
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Account deleted',
             :text => "The account <strong>#{self.uid}</strong> has been deleted.")
-    ).deliver_later
+    )
   end
 
   def notify_account_locked
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Account locked',
             :text => "Your account has been locked. You cannot sign in using any connected service. Please contact your <a href='mailto:admin@thalarion.be'>system administrator</a> for more information.")
-    ).deliver_later
+    )
   end
 
   def notify_account_unlocked
-    NotificationMailer.notification(Notification.create!(:user => self,
+    NotificationMailer.delay.notification(Notification.create!(:user => self,
             :title => 'Account unlocked',
             :text => "Your account has been unlocked.")
-    ).deliver_later
+    )
   end
 
 
