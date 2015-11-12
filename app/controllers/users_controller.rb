@@ -63,6 +63,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def unlock
+    @user = User.find(params[:id])
+    authorize! :update, @user
+    @user.unlock_access!
+    redirect_to user_path(@user)
+  end
+
   def destroy
     # Prevent deletion of all admin accounts
     if (@user.has_role? :administrator and User.select { |u| u.has_role? :administrator}.count == 1)

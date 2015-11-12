@@ -169,6 +169,11 @@ class User < ActiveRecord::Base
     super && self.enabled
   end
 
+  def inactive_message
+    self.enabled? ? super : :disabled
+  end
+
+
   def enabled=(value)
     super(value)
 

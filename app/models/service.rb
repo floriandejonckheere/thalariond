@@ -5,8 +5,7 @@ class Service < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
-          :trackable, :lockable
+  devise :database_authenticatable, :trackable
 
   # Validations
   validates :uid, presence: true, uniqueness: true

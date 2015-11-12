@@ -31,10 +31,6 @@
               <%- if devise_mapping.recoverable? %>
                 <%= link_to 'Recover account', new_password_path(resource_name) %>
               <% end -%>
-              <%- if devise_mapping.lockable? %>
-                |
-                <%= link_to 'Unlock account', new_unlock_path(resource_name) %>
-              <% end -%>
               <%- if devise_mapping.confirmable? %>
                 |
                 <%= link_to 'Confirm account', new_confirmation_path(resource_name) %>

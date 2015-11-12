@@ -59,6 +59,11 @@
                       <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
                     <% end %>
                   <% end %>
+                  <% if user.access_locked? %>
+                    <%= link_to user_path(user) do %>
+                      <i class="fa fa-lock" data-toggle="tooltip" title="Account locked"></i>
+                    <% end %>
+                  <% end %>
                 </td>
               <% end %>
             </tr>

@@ -46,20 +46,34 @@
         :required => 'true' %>
   </fieldset>
 
-  <% if can? :toggle, @user %>
+  <% if can? :toggle, @user or @user.access_locked? %>
     <div class="title-heading">
       <h3>Account state</h3>
     </div>
 
-    <div class="alert alert-warning">
-      <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot be used for signin in using any authentication backend
-    </div>
+    <% if can? :toggle, @user %>
+      <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot be used for signin in using any authentication backend
+      </div>
 
-    <fieldset class="form-group text-center">
-      <%= form.check_box :enabled,
-          :id => 'enabled',
-          :class => 'form-control toggle-switch' %>
-    </fieldset>
+      <fieldset class="form-group text-center">
+        <%= form.check_box :enabled,
+            :id => 'enabled',
+            :class => 'form-control toggle-switch' %>
+      </fieldset>
+    <% end %>
+
+    <% if @user.access_locked? %>
+      <div class="alert alert-warning">
+        <i class="fa fa-lock"></i> This account is locked and cannot sign in on the panel.
+      </div>
+
+      <div class="text-center">
+        <%= link_to 'Unlock account', unlock_user_path(@user),
+                          :class => 'btn btn-secondary',
+                          :method => :post %>
+      </div>
+    <% end %>
   <% end %>
   <% if action?('edit', 'update') %>
     <div class="title-heading">
