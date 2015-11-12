@@ -48,9 +48,11 @@ class UsersController < ApplicationController
     authorize! :toggle, @user if params[:user][:enabled]
 
     # Prevent disabling of all admin accounts
-    if (@user.has_role? :administrator and User.select { |u| u.has_role? :administrator and u.enabled?}.count == 1)
-      flash[:danger] = "At least one admin account must be enabled"
-      parameters.delete('enabled')
+    if params[:user][:enabled] == "0" and
+      @user.has_role? :administrator and
+      Role.find_by(:name => 'administrator').users.count == 1
+          flash[:danger] = "At least one admin account must be enabled"
+          parameters.delete('enabled')
     end
 
     if @user.update(parameters)
