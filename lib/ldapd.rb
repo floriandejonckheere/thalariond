@@ -15,11 +15,7 @@ class Server
   def initialize
     log_file = File.open(File.join(Rails.root, 'log', "ldapd.#{Rails.env}.log"), 'a')
     @logger = Logger.new MultiLogger.new(STDOUT, log_file)
-    if ENV['RAILS_ENV'] == 'development'
-      @logger.level = Logger::DEBUG
-    else
-      @logger.level = Logger::WARN
-    end
+    @logger.level = Logger::DEBUG
   end
 
   def self.logger
@@ -58,7 +54,7 @@ class Server
 
     @server = LDAP::Server.new(opts)
 
-    @logger.info "Starting LDAPd"
+    @logger.info "Starting LDAPd in #{Rails.env} on #{opts[:bindaddr]}:#{opts[:port]}"
     @server.run_tcpserver
     @server.join
   end

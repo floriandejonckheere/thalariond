@@ -33,13 +33,13 @@ class LDAPController
     dn.downcase!
 
     raise LDAP::ResultError::InvalidCredentials if params[:mail].nil?
-    raise LDAP::ResultError::InvalidCredentials if params[:dc].nil?
+    raise LDAP::ResultError::InvalidCredentials if params[:domain].nil?
     raise LDAP::ResultError::InvalidCredentials if password.nil?
     domain = Domain.find_by(:domain => params[:domain])
     raise LDAP::ResultError::InvalidCredentials if domain.nil?
     email = domain.emails.find_by(:mail => params[:mail])
     raise LDAP::ResultError::InvalidCredentials if email.nil?
-    group = email.permission_group
+    group = email.group
     raise LDAP::ResultError::InvalidCredentials if group.nil?
 
     group.users.each do |user|
