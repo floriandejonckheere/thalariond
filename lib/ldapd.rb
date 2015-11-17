@@ -33,6 +33,7 @@ class Server
 
       search  'ou=Users, dc=thalarion, dc=be' => 'LDAPController#searchUser'
       search  'ou=Groups, dc=thalarion, dc=be' => 'LDAPController#searchGroup'
+      search  'cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPController#searchMember'
       search  'ou=Services, dc=thalarion, dc=be' => 'LDAPController#searchService'
       search  'ou=Mail, dc=thalarion, dc=be' => 'LDAPController#searchDomain'
       search  'dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPController#searchMail'

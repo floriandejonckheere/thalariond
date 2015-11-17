@@ -124,9 +124,24 @@ class LDAPController
 
     Group.accessible_by(request.connection.ability).each do |group|
       group_hash = group.to_ldap
-      p group_hash
       result = LDAP::Server::Filter.run(filter, group_hash)
       request.send_SearchResultEntry("cn=#{group_hash['cn']},#{baseObject}", group_hash) if result
+    end
+  end
+
+  def self.searchMember(request, baseObject, scope, deref, filter, params)
+    baseObject.downcase!
+
+    raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
+
+    group = Group.find_by(:name => params[:group])
+
+    if group and request.connection.ability.can? :read, group
+      (group.users + group.services).each do |account|
+        account_hash = account.to_ldap
+        result = LDAP::Server::Filter.run(filter, account_hash)
+        request.send_SearchResultEntry("uid=#{account_hash['uid']},#{baseObject}", account_hash) if result
+      end
     end
   end
 
