@@ -32,7 +32,7 @@ class ServicesController < ApplicationController
   end
 
   def update
-    authorize! :toggle, @user if params[:user][:enabled]
+    authorize! :toggle, @user if params[:service][:enabled]
 
     if @service.update(service_params)
       flash[:info] = 'Account updated'
