@@ -44,6 +44,7 @@ class UsersController < ApplicationController
     parameters = user_params
     parameters.delete('password') if parameters['password'].blank?
     parameters.delete('password_confirmation') if parameters['password_confirmation'].blank?
+    parameters.delete('uid')
 
     authorize! :toggle, @user if params[:user][:enabled]
 
@@ -84,8 +85,8 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    # :uid is not included, as uids are supposed to be unique and unchangeable
-    params.require(:user).permit(:first_name,
+    params.require(:user).permit(:uid,
+                                  :first_name,
                                   :last_name,
                                   :email,
                                   :enabled,

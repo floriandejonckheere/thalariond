@@ -10,6 +10,16 @@
   </div>
   <% end %>
 
+  <% if action? 'new' %>
+    <fieldset class="form-group">
+      <label for="uid">Username</label>
+      <%= form.text_field :uid,
+          :placeholder => :username,
+          :class => 'form-control',
+         :id => 'uid',
+          :required => 'true' %>
+    </fieldset>
+  <% end %>
 
   <fieldset class="form-group">
     <label for="first_name">First name</label>
