@@ -26,6 +26,14 @@
   </div>
 </div>
 
+<div class="pull-left">
+  <% if can? :update, @service and not @service.enabled? %>
+    <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
+    </div>
+  <% end %>
+</div>
+
 <table class="th attribute-table">
   <tr>
     <td>Username</td>
@@ -40,14 +48,6 @@
     <td><%= @service.enabled ? 'Enabled' : 'Disabled' %></td>
   </tr>
 </table>
-
-<% if can? :update, @service and not @service.enabled? %>
-  <p>
-    <div class="alert alert-warning">
-      <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
-    </div>
-  </p>
-<% end %>
 
 <div class="title-heading">
   <h3>Authorization</h3>

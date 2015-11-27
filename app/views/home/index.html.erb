@@ -2,7 +2,7 @@
 <% content_for :section do %>Home<% end %>
 
 <h4>Welcome, <%= current_user.display_name %></h4>
-<p>Welcome to the Thalarion control panel. You can manage your account and relevant services from here.</p>
+<p>Welcome to the Thalarion control panel. You can manage Thalarion-related accounts and services from here.</p>
 <p>
   <ul>
     <li>Change your personal details</li>
@@ -15,5 +15,7 @@
 <h5>Get started</h5>
 <p>
   <%= link_to 'Manage your account &raquo;'.html_safe, user_path(current_user), :class => 'btn btn-secondary' %>
-  <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'btn btn-secondary' %>
+  <% if can? :list, Domain %>
+    <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'btn btn-secondary' %>
+  <% end %>
 </p>
