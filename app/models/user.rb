@@ -185,4 +185,12 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def uid=(new_uid)
+    if new_record?
+      write_attribute(:uid, new_uid)
+    else
+      raise 'uid is immutable'
+    end
+  end
 end

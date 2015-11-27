@@ -84,8 +84,8 @@ class UsersController < ApplicationController
 
   private
   def user_params
-     params.require(:user).permit(:uid,
-                                  :first_name,
+    # :uid is not included, as uids are supposed to be unique and unchangeable
+    params.require(:user).permit(:first_name,
                                   :last_name,
                                   :email,
                                   :enabled,
