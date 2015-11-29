@@ -28,6 +28,12 @@ class NotificationsController < ApplicationController
     redirect_to notifications_path
   end
 
+  def read_all
+    flash[:info] = "All notifications marked as read"
+    current_user.notifications.each { |n| n.read! }
+    redirect_to notifications_path
+  end
+
   private
   def group_params
      params.require(:group).permit(:name, :display_name, :user_id)

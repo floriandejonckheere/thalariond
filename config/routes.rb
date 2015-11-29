@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :notifications, :only => [:index, :show, :destroy]
   match :notifications, :to => 'notifications#destroy_all', :via => :delete
+  match :notifications, :to => 'notifications#read_all', :via => :patch
 
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]
