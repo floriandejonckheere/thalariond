@@ -3,15 +3,20 @@ Rails.application.routes.draw do
   root :to => redirect('/home')
 
   devise_for :users,
-    :controllers => {:sessions => 'sessions'},
+    :controllers => {
+      :sessions => 'sessions',
+      :confirmations => 'confirmations',
+      :passwords => 'passwords'
+    },
     :skip => [:registrations, :unlocks]
   devise_for :services,
-    :controllers => {:sessions => 'sessions'},
+    :controllers => {
+      :sessions => 'sessions'
+    },
     :skip => [:registrations, :unlocks, :session, :password]
 
   resources :notifications, :only => [:index, :show, :destroy]
   match :notifications, :to => 'notifications#destroy_all', :via => :delete
-  match :notifications, :to => 'notifications#read_all', :via => :patch
 
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]

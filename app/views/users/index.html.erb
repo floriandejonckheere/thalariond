@@ -54,7 +54,7 @@
                       <i class="fa fa-exclamation-triangle" data-toggle="tooltip" title="Unconfirmed email"></i>
                     <% end %>
                   <% end %>
-                  <% if not user.enabled? %>
+                  <% if not user.enabled %>
                     <%= link_to user_path(user) do %>
                       <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Account disabled"></i>
                     <% end %>

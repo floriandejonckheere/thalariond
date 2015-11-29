@@ -13,6 +13,10 @@ class Notification < ActiveRecord::Base
     "Low"
   end
 
+  def read!
+    update :read => true
+  end
+
   # Callbacks
   def generate_timestamp
     self.timestamp = DateTime.now

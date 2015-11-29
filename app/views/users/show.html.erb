@@ -32,7 +32,7 @@
       <i class="fa fa-exclamation-triangle"></i> This user's email address has not been confirmed yet.
     </div>
   <% end %>
-  <% if can? :update, @user and not @user.enabled? %>
+  <% if can? :update, @user and not @user.enabled %>
     <div class="alert alert-warning">
       <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
     </div>
