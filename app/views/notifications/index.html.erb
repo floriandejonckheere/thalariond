@@ -125,7 +125,7 @@
           <% @notifications.select { |n| n.read }.each do |notification| %>
             <tr>
               <td>
-                <strong><%= link_to notification.title, notification_path(notification) %></strong>
+                <strong><%= link_to strip_tags(notification.title), notification_path(notification) %></strong>
               </td>
               <td>
                 <%= notification.priority_display %>

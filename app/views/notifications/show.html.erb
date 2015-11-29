@@ -25,10 +25,10 @@
   </tr>
   <tr>
     <td>Subject</td>
-    <td><%= @notification.title %></td>
+    <td><%= @notification.title.html_safe %></td>
   </tr>
   <tr>
     <td>Content</td>
-    <td><%= @notification.text %></td>
+    <td><%= @notification.text.html_safe %></td>
   </tr>
 </table>
