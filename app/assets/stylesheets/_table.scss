@@ -1,0 +1,10 @@
+.table th { border-top: 0; }
+
+.attribute-table td {
+  @extend .p-x;
+
+  &:first-child {
+    @extend .text-right;
+    color: $grey;
+  }
+}

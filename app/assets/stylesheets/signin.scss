@@ -19,7 +19,7 @@
   background-size: cover;
   background-repeat: no-repeat;
 
-  a:link,
+  a,
   a:visited,
   a:active {
     color: white;
@@ -34,7 +34,7 @@
   .title {
     margin-bottom: 5rem;
     font-size: 5rem;
-    font-weight: 200;
+    font-weight: $font-weight-light;
   }
 
   .row {
@@ -64,7 +64,7 @@
     background-color: transparent;
 
     color: white;
-    font-weight: 600;
+    font-weight: $font-weight-bold;
     font-size: 11px;
     text-transform: uppercase;
   }

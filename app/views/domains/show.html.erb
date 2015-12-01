@@ -1,5 +1,5 @@
 <% content_for :title do   %>
-  <ol class="th breadcrumb">
+  <ol class="breadcrumb">
     <li>Mail</li>
     <li><%= link_to 'Domains', domains_path %></li>
   </ol>
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<table class="th attribute-table">
+<table class="attribute-table">
   <tr>
     <td>Domain</td>
     <td><%= @domain.domain %></td>
@@ -49,7 +49,7 @@
 </div>
 
 <% if @domain.emails.any? %>
-  <table class="th table">
+  <table class="table">
     <thead>
       <tr>
         <th>Email</th>
@@ -107,7 +107,7 @@
     <% if @domain_aliases.empty? %>
       <em>No domain aliases found</em>
     <% else %>
-      <table class="th table">
+      <table class="table">
         <thead>
           <tr>
             <th>Alias</th>

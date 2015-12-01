@@ -11,25 +11,36 @@
 @import "hint";
 @import "bootstrap";
 @import "bootstrap3-switch";
+@import "fontawesome-actions";
 
 @mixin scale($arg...) {}
 @mixin transition-transform($arg) {}
 @import "awesome-bootstrap-checkbox";
 
-@import "*";
-@import "**/*";
+@import "form";
+@import "navigation";
+@import "table";
+@import "typography";
 
-/* Italic placeholders */
-::-webkit-input-placeholder { font-style: italic; }
-::-moz-placeholder { font-style: italic; } /* firefox 19+ */
-:-ms-input-placeholder { font-style: italic; } /* ie */
-input:-moz-placeholder { font-style: italic; }
+/* views */
+@import "signin";
 
 body,
 html {
   font-family: 'Roboto Light', sans-serif;
 }
 
-.dashboard-container {
-  padding: (3 * $spacer) 0;
+/**
+ * Overrides and fixes
+ *
+ * */
+.alert button.close {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
+
+/* Italic placeholders */
+::-webkit-input-placeholder { font-style: italic; }
+::-moz-placeholder { font-style: italic; } /* firefox 19+ */
+:-ms-input-placeholder { font-style: italic; } /* ie */
+input:-moz-placeholder { font-style: italic; }

@@ -17,7 +17,7 @@
       <li class="nav-item">
         <%= link_to notifications_path, :class => (controller?('notifications') ? 'nav-link active' : 'nav-link') do %>
           <div class="pull-right">
-            <span class="th label label-pill label-default"><%= current_user.notifications.select { |n| not n.read }.count %></span>
+            <span class="label label-pill label-default"><%= current_user.notifications.select { |n| not n.read }.count %></span>
           </div>
           Notifications
         <% end %>

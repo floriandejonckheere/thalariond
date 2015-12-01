@@ -1,5 +1,5 @@
 <% content_for :title do   %>
-  <ol class="th breadcrumb">
+  <ol class="breadcrumb">
     <li>General</li>
     <li><%= link_to 'Notifications', notifications_path %></li>
   </ol>
@@ -18,7 +18,7 @@
   </div>
 <% end %>
 
-<table class="th attribute-table">
+<table class="attribute-table">
   <tr>
     <td>Priority</td>
     <td><%= @notification.priority_display %></td>

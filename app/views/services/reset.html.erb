@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  <ol class="th breadcrumb">
+  <ol class="breadcrumb">
     <li>Accounts</li>
     <li><%= link_to 'Services', services_path %></li>
   </ol>
@@ -7,4 +7,4 @@
 <% content_for :section do %>Service <%= @service.display_name %><% end %>
 
 <label for="password">New secret token</label>
-<div class="th password"><%= @service_secret %></div>
+<div class="secret"><%= @service_secret %></div>

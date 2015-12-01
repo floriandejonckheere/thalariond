@@ -1,30 +1,19 @@
-/**
- * Navigation
- *
- * */
-
 /* Aside navigation */
 nav {
-  padding: (2 * $spacer) 0;
+  @extend .p-y-md;
+  @extend .p-l;
 
-  .nav {
-    padding-left: $spacer;
-  }
-
-  font-family: 'Roboto Light', sans-serif;
   font-size: .8rem;
-  font-weight: 200;
+  font-weight: $font-weight-light;
 }
 
 .logo {
   opacity: 0.4;
 
-  &:hover {
-    opacity: 0.6;
-  }
+  &:hover { opacity: 0.6; }
 }
 
-/* Top navigation */
+/* Tab navigation */
 .nav.nav-tabs {
   border: 0;
   border-bottom: 1px solid $line-color;
@@ -33,27 +22,23 @@ nav {
     border: 0;
 
     color: $dark-grey;
-
-    &:hover {
-      color: $grey;
-    }
+    &:hover { color: $grey; }
 
     &.active {
-      border-bottom: 4px solid $brand-primary;
+      border-bottom: 4px solid $color-primary;
 
-      color: $brand-primary;
+      color: $color-primary;
       font-family: 'Roboto Medium', 'Roboto Light', sans-serif;
     }
   }
 }
 
-.th.breadcrumb {
+.breadcrumb {
   background: 0;
   padding: 0;
   margin: 0;
 
   a,
-  a:link,
   a:active,
   a:hover,
   a:focus {
@@ -61,7 +46,8 @@ nav {
   }
 }
 
-.nav-link.active .th.label-default {
+/* invert label colors */
+.nav-link.active .label-default {
   background-color: white;
   color: $gray-light;
 }

@@ -39,8 +39,8 @@
                                   :data => { :confirm => 'Are you sure you wish to reset the secret token? This will void the current one.' } %>
   <% else params[:action] == 'new' %>
     <fieldset class="form-group">
-      <label for="password">Password</label>
-      <div class="th password"><%= @service.password %></div>
+      <label for="password">Token</label>
+      <div class="secret"><%= @service.password %></div>
       <%= f.hidden_field :password,
           :placeholder => :password,
           :id => 'password',
@@ -79,7 +79,7 @@
 
   <div class="row">
     <div class="col-xs-8">
-      <table class="th table">
+      <table class="table">
         <thead>
           <tr>
             <th>Role</th>
@@ -111,7 +111,7 @@
     <% if (Role.all - @service.roles).any? %>
       <div class="col-xs-4">
         <%= form_for :role, url: service_roles_path(@service) do |role_form| %>
-          <label class="th dropdown">
+          <label class="dropdown">
             <%= role_form.select :id, Role.all.reject { |r| @service.roles.include? r }.collect { |r| [ r.display_name, r.id ] } %>
           </label>
           <%= role_form.submit 'Add', :class => "btn btn-sm btn-secondary" %>

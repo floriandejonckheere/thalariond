@@ -1,5 +1,5 @@
 <% content_for :title do   %>
-  <ol class="th breadcrumb">
+  <ol class="breadcrumb">
     <li>Accounts</li>
     <li><%= link_to 'Services', services_path %></li>
   </ol>
@@ -34,7 +34,7 @@
   <% end %>
 </div>
 
-<table class="th attribute-table">
+<table class="attribute-table">
   <tr>
     <td>Username</td>
     <td><%= @service.uid %></td>
@@ -71,7 +71,7 @@
     <% if @service.groups.select { |g| can? :read, g }.empty? %>
       <em>No groups found</em>
     <% else %>
-      <table class="th table">
+      <table class="table">
         <thead>
           <th>Group</th>
           <th>Owner</th>

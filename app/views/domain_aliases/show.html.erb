@@ -1,5 +1,5 @@
 <% content_for :title do   %>
-  <ol class="th breadcrumb">
+  <ol class="breadcrumb">
     <li>Mail</li>
     <li><%= link_to 'Domain aliases', domains_path(:anchor => "domain_aliases") %></li>
   </ol>
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<table class="th attribute-table">
+<table class="attribute-table">
   <tr>
     <td>Alias</td>
     <td><%= @domain_alias.alias %></td>

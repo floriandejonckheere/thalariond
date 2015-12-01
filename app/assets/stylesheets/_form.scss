@@ -1,24 +1,19 @@
-/**
- * Form controls
- *
- * */
-
-.th.password {
+/* service secret token */
+.secret {
   @extend code;
+  @extend .p-a;
 
   display: block;
 
-  padding: 1rem;
   border: 1px solid $light-grey;
   border-radius: $border-radius;
 
-  background: white;
+  background: $very-light-grey;
 
   font-size: 1rem;
 }
 
-/** Dropdown **/
-.th.dropdown {
+.dropdown {
   select {
     padding: $btn-padding-y-sm $btn-padding-x-lg $btn-padding-y-sm $btn-padding-x-sm;
     font-size: $font-size-sm;
@@ -36,16 +31,16 @@
     -moz-appearance: none;
     -webkit-appearance: none;
   }
-}
 
-.th.dropdown::after {
-  content: $fa-var-caret-down;
+  &::after {
+    content: $fa-var-caret-down;
 
-  font-family: "FontAwesome";
-  font-size: 11px;
-  color: $btn-secondary-color;
+    font-family: 'FontAwesome';
+    font-size: 11px;
+    color: $btn-secondary-color;
 
-  position:absolute;
-  right: $btn-padding-x-sm;
-  top: $btn-padding-y;
+    position: absolute;
+    right: $btn-padding-x-sm;
+    top: $btn-padding-y;
+  }
 }
