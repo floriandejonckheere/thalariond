@@ -18,22 +18,20 @@
 //= require turbolinks
 //= require_tree .
 
-// This function will be ran on every page whether or not turbolinks is used
+// This function will be run on every page whether or not turbolinks is used
 var ready = function() {
 
   $('[data-toggle="tooltip"]').tooltip();
+  $(".toggle-switch").bootstrapSwitch();
 
   var hash = window.location.hash;
   hash && $('ul.nav a[href="' + hash + '"]').tab('show');
 
-  $('.nav-tabs a').click(function (e) {
-    $(this).tab('show');
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
     var scrollmem = $('body').scrollTop();
     window.location.hash = this.hash;
     $('html,body').scrollTop(scrollmem);
   });
-
-  $(".toggle-switch").bootstrapSwitch();
 
 };
 

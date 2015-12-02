@@ -1,16 +1,6 @@
 <% content_for :title do   %>Accounts<% end %>
 <% content_for :section do %>Groups<% end %>
 
-<div class="pull-right">
-  <% if can? :create, Group %>
-    <%= link_to new_group_path,
-                            :class => 'btn btn-secondary btn-sm',
-                            :title => 'Add group',
-                            :data => { :toggle => 'tooltip' } do %>
-      <i class="fa fa-plus"></i>
-    <% end %>
-  <% end %>
-</div>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
@@ -24,6 +14,16 @@
 </ul>
 
 <div class="tab-content">
+  <div class="pull-right toolbar">
+    <% if can? :create, Group %>
+      <%= link_to new_group_path,
+                              :class => 'btn btn-secondary btn-sm',
+                              :title => 'Add group',
+                              :data => { :toggle => 'tooltip' } do %>
+        <i class="fa fa-plus"></i>
+      <% end %>
+    <% end %>
+  </div>
   <div role="tabpanel" class="tab-pane fade in active" id="all">
     <table class="table">
       <thead>

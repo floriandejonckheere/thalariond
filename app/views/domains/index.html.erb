@@ -1,19 +1,6 @@
 <% content_for :title do   %>Mail<% end %>
 <% content_for :section do %>Domains<% end %>
 
-<div class="pull-right">
-  <% if (can? :create, Domain or can? :create, DomainAlias) %>
-    <div class="btn-group">
-      <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-plus"></i>
-      </button>
-      <div class="dropdown-menu">
-        <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if can? :create, Domain %>
-        <%= link_to 'Domain alias', new_domain_alias_path, :class => 'dropdown-item' if can? :create, DomainAlias %>
-      </div>
-    </div>
-  <% end %>
-</div>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
@@ -28,6 +15,17 @@
 
 
 <div class="tab-content">
+  <div class="pull-right toolbar btn-group">
+    <% if (can? :create, Domain or can? :create, DomainAlias) %>
+      <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-plus"></i>
+      </button>
+      <div class="dropdown-menu">
+        <%= link_to 'Domain', new_domain_path, :class => 'dropdown-item' if can? :create, Domain %>
+        <%= link_to 'Domain alias', new_domain_alias_path, :class => 'dropdown-item' if can? :create, DomainAlias %>
+      </div>
+    <% end %>
+  </div>
   <div role="tabpanel" class="tab-pane fade in active" id="all">
     <table class="table">
       <thead>

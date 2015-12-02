@@ -1,26 +1,6 @@
 <% content_for :title do   %>General<% end %>
 <% content_for :section do %>Notifications<% end %>
 
-<div class="pull-right">
-  <% if @notifications.any? %>
-    <div class="btn-group">
-      <%= link_to notifications_path,
-                :class => 'btn btn-secondary btn-sm',
-                :method => :patch,
-                :title => 'Mark all notifications as read',
-                data: { :toggle => 'tooltip' } do %>
-        <i class="fa fa-envelope"></i>
-      <% end %>
-      <%= link_to notifications_path,
-                :class => 'btn btn-secondary btn-sm',
-                :method => :delete,
-                :title => 'Delete all notifications',
-                data: { :toggle => 'tooltip' } do %>
-        <i class="fa fa-trash"></i>
-      <% end %>
-    </div>
-  <% end %>
-</div>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
@@ -35,6 +15,26 @@
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="all">
+    <div class="pull-right toolbar">
+      <% if @notifications.any? %>
+        <div class="btn-group">
+          <%= link_to notifications_path,
+                    :class => 'btn btn-secondary btn-sm',
+                    :method => :patch,
+                    :title => 'Mark all notifications as read',
+                    data: { :toggle => 'tooltip' } do %>
+            <i class="fa fa-envelope"></i>
+          <% end %>
+          <%= link_to notifications_path,
+                    :class => 'btn btn-secondary btn-sm',
+                    :method => :delete,
+                    :title => 'Delete all notifications',
+                    data: { :toggle => 'tooltip' } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
     <table class="table">
       <thead>
         <tr>

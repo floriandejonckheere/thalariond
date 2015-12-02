@@ -3,13 +3,13 @@
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a href="#all" class="nav-link active" role="tab" data-toggle="tab">All</a>
+    <a href="#all" role="tab" class="nav-link active" data-toggle="tab">All</a>
   </li>
   <li class="nav-item">
-    <a href="#emails" class="nav-link" role="tab" data-toggle="tab">Emails</a>
+    <a href="#emails" role="tab" class="nav-link" data-toggle="tab">Emails</a>
   </li>
   <li class="nav-item">
-    <a href="#email_aliases" class="nav-link" role="tab" data-toggle="tab">Aliases</a>
+    <a href="#email_aliases" role="tab" class="nav-link" data-toggle="tab">Aliases</a>
   </li>
 </ul>
 
@@ -47,7 +47,7 @@
       </tbody>
     </table>
   </div>
-  <div role="tabpanel" class="tab-pane fade in" id="emails">
+  <div role="tabpanel" class="tab-pane fade" id="emails">
     <table class="table">
       <thead>
         <tr>
@@ -93,23 +93,19 @@
       </tbody>
     </table>
   </div>
-  <div role="tabpanel" class="tab-pane fade in" id="email_aliases">
-    <div class="pull-right">
-      <% if can? :create, EmailAlias %>
-        <div class="btn-group">
-          <%= link_to new_email_alias_path,
-                                  :class => 'btn btn-secondary btn-sm',
-                                  :title => 'Add multiple email aliases',
-                                  :data => { :toggle => 'tooltip' } do %>
-            <i class="fa fa-list"></i>
-          <% end %>
-          <%= link_to new_email_alias_path,
-                                  :class => 'btn btn-secondary btn-sm',
-                                  :title => 'Add email alias',
-                                  :data => { :toggle => 'tooltip' } do %>
-            <i class="fa fa-plus"></i>
-          <% end %>
-        </div>
+  <div role="tabpanel" class="tab-pane fade" id="email_aliases">
+    <div class="pull-right toolbar btn-group">
+      <%= link_to new_email_alias_path,
+                              :class => 'btn btn-secondary btn-sm',
+                              :title => 'Add multiple email aliases',
+                              :data => { :toggle => 'tooltip' } do %>
+        <i class="fa fa-list"></i>
+      <% end %>
+      <%= link_to new_email_alias_path,
+                              :class => 'btn btn-secondary btn-sm',
+                              :title => 'Add email alias',
+                              :data => { :toggle => 'tooltip' } do %>
+        <i class="fa fa-plus"></i>
       <% end %>
     </div>
     <table class="table">
