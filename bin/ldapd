@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+ENV['RAILS_ENV'] ||= 'development'
+root = File.expand_path(File.dirname(__FILE__))
+root = File.dirname(root) until File.exists?(File.join(root, 'config'))
+
+pid_file = File.join(root, 'tmp', 'pids', 'ldapd.pid')
+log_file = File.join(root, 'log', "ldapd.#{ENV['RAILS_ENV']}.log")
+
+case ARGV.first
+when 'run'
+  if File.file? pid_file
+    begin
+      Process.getpgid Integer(File.read pid_file)
+      puts "Instance with PID #{File.read pid_file} already running!"
+      exit
+    rescue Errno::ESRCH
+      File.delete pid_file
+      puts "Removing stale PID file"
+    end
+  end
+  puts "Starting instance in foreground..."
+
+  # Load Rails environment
+  root = File.expand_path(File.dirname(__FILE__))
+  root = File.dirname(root) until File.exists?(File.join(root, 'config'))
+  Dir.chdir(root)
+  require File.join(root, 'config', 'environment')
+  require File.join(root, 'lib', 'ldapd.rb')
+
+  server = LDAPd::Server.new(
+    :log_file => STDOUT,
+    :log_level => Logger::DEBUG,
+    :pid_file => pid_file
+  ).start
+when 'start'
+  if File.file? pid_file
+    begin
+      Process.getpgid Integer(File.read pid_file)
+      puts "Instance with PID #{File.read pid_file} already running!"
+      exit
+    rescue Errno::ESRCH
+      File.delete pid_file
+      puts "Removing stale PID file"
+    end
+  end
+  puts "Starting instance in background..."
+
+  # Load Rails environment
+  root = File.expand_path(File.dirname(__FILE__))
+  root = File.dirname(root) until File.exists?(File.join(root, 'config'))
+  Dir.chdir(root)
+  require File.join(root, 'config', 'environment')
+  require File.join(root, 'lib', 'ldapd.rb')
+
+  server = LDAPd::Server.new(
+    :log_file => log_file,
+    :log_level => Logger::INFO,
+    :pid_file => pid_file
+  ).daemonize
+
+  puts "Instance started"
+when 'stop'
+  unless File.file? pid_file
+    puts "No ldapd instance running"
+    exit
+  end
+  puts "Stopping ldapd instance with PID #{File.read pid_file}..."
+  Process.kill 'INT', Integer(File.read(pid_file))
+when 'restart'
+
+else # status
+  if File.file? pid_file
+    begin
+      Process.getpgid Integer(File.read pid_file)
+      puts "ldapd instance running with PID #{File.read pid_file}"
+      exit
+    rescue Errno::ESRCH
+      File.delete pid_file
+      puts "Removing stale PID file"
+    end
+  end
+  puts 'No ldapd instances running'
+end

@@ -106,10 +106,6 @@ GEM
     coffee-script-source (1.9.1.1)
     colorize (0.7.7)
     connection_pool (2.2.0)
-    daemons (1.2.3)
-    daemons-rails (1.2.1)
-      daemons
-      multi_json (~> 1.0)
     database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
@@ -264,7 +260,6 @@ DEPENDENCIES
   capistrano-upload-config
   capistrano3-puma
   coffee-rails (~> 4.1.0)
-  daemons-rails
   database_cleaner
   devise
   exception_notification

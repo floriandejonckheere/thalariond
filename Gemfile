@@ -23,8 +23,6 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 # LDAP server
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
-# Daemons for LDAP server
-gem 'daemons-rails'
 # Notify exceptions
 gem 'exception_notification'
 
