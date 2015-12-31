@@ -14,6 +14,6 @@ module ApplicationHelper
 
   def randomized_background_image
     images = Dir.glob('app/assets/images/backgrounds/*').map { |p| p.split('/')[-2..-1].join('/') }
-    image_url(images[rand(images.size)])
+    image_url(images[(Time.new.yday % images.size)])
   end
 end
