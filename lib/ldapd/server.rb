@@ -20,8 +20,12 @@ class Server
 
     ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(File.join(Rails.root, 'config', 'database.yml'))).result)[@opts[:environment]])
 
-    @logger = Logger.new(@opts[:log_file] || STDOUT)
-    @logger.level = @opts[:log_level] || Logger::DEBUG
+    if @opts[:logger]
+      @logger = @opts[:logger]
+    else
+      @logger = Logger.new(@opts[:log_file] || STDOUT)
+      @logger.level = @opts[:log_level] || Logger::DEBUG
+    end
   end
 
   def daemonize
@@ -32,20 +36,22 @@ class Server
   def start
     config = Rails.application.config.ldap
 
+    @logger.info "Starting LDAPd in #{Rails.env} on #{config['bindaddr']}:#{config['port']}"
+
     File.open(@opts[:pid_file], 'w') { |f| f.write Process.pid }
 
     router = LDAP::Server::Router.new(@logger) do
-      bind    'uid=:uid, ou=Users, dc=thalarion, dc=be' => 'LDAPController#bindUser'
-      bind    'uid=:uid, ou=Services, dc=thalarion, dc=be' => 'LDAPController#bindService'
-      bind    'mail=:mail, dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPController#bindMail'
-      bind    'uid=:uid, cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPController#bindGroup'
+      bind    'uid=:uid, ou=Users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindUser'
+      bind    'uid=:uid, ou=Services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindService'
+      bind    'mail=:mail, dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindMail'
+      bind    'uid=:uid, cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindGroup'
 
-      search  'ou=Users, dc=thalarion, dc=be' => 'LDAPController#searchUser'
-      search  'ou=Groups, dc=thalarion, dc=be' => 'LDAPController#searchGroup'
-      search  'cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPController#searchMember'
-      search  'ou=Services, dc=thalarion, dc=be' => 'LDAPController#searchService'
-      search  'ou=Mail, dc=thalarion, dc=be' => 'LDAPController#searchDomain'
-      search  'dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPController#searchMail'
+      search  'ou=Users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchUser'
+      search  'ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
+      search  'cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMember'
+      search  'ou=Services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchService'
+      search  'ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
+      search  'dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMail'
     end
 
     opts = { :bindaddr => config['bindaddr'],
@@ -63,8 +69,6 @@ class Server
     end
 
     @server = LDAP::Server.new(opts)
-
-    @logger.info "Starting LDAPd in #{Rails.env} on #{opts[:bindaddr]}:#{opts[:port]}"
     @server.run_tcpserver
     @server.join
 

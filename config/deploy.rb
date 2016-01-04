@@ -131,7 +131,7 @@ namespace :ldapd do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
         with RAILS_ENV: fetch(:rails_env) do
-          execute :bundle, "exec lib/daemons/ldapd_ctl status", raise_on_non_zero_exit: false
+          execute :bundle, "exec bin/ldapd status", raise_on_non_zero_exit: false
         end
       end
     end
@@ -142,7 +142,7 @@ namespace :ldapd do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
         with RAILS_ENV: fetch(:rails_env) do
-          execute :bundle, "exec lib/daemons/ldapd_ctl stop"
+          execute :bundle, "exec bin/ldapd stop"
         end
       end
     end
@@ -153,7 +153,7 @@ namespace :ldapd do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
         with RAILS_ENV: fetch(:rails_env) do
-          execute :bundle, "exec lib/daemons/ldapd_ctl start"
+          execute :bundle, "exec bin/ldapd start"
         end
       end
     end
@@ -164,7 +164,7 @@ namespace :ldapd do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
         with RAILS_ENV: fetch(:rails_env) do
-          execute :bundle, "exec lib/daemons/ldapd_ctl restart"
+          execute :bundle, "exec bin/ldapd restart"
         end
       end
     end

@@ -54,5 +54,6 @@ Set the Devise secret key in `config/initializers/devise.rb`. Apply your Capistr
 Capistrano is used to deploy.
 To run manually, execute the following commands
 ```
+$ RAILS_ENV=production bundle exec bin/ldapd start # LDAP server
 $ RAILS_ENV=production bundle exec rails server # Rails server
 ```

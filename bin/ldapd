@@ -1,26 +1,32 @@
 #!/usr/bin/env ruby
 
+require 'logger'
+
 ENV['RAILS_ENV'] ||= 'development'
 root = File.expand_path(File.dirname(__FILE__))
 root = File.dirname(root) until File.exists?(File.join(root, 'config'))
 
-pid_file = File.join(root, 'tmp', 'pids', 'ldapd.pid')
-log_file = File.join(root, 'log', "ldapd.#{ENV['RAILS_ENV']}.log")
+$pid_file = File.join(root, 'tmp', 'pids', 'ldapd.pid')
+$log_file = File.join(root, 'log', "ldapd.#{ENV['RAILS_ENV']}.log")
+$log_level = ENV['RAILS_ENV'] == 'development' ? Logger::DEBUG : Logger::INFO
 
-case ARGV.first
-when 'run'
-  if File.file? pid_file
+
+
+### HELPER METHODS ###
+def check_pid_file
+  if File.file? $pid_file
     begin
-      Process.getpgid Integer(File.read pid_file)
-      puts "Instance with PID #{File.read pid_file} already running!"
+      Process.getpgid Integer(File.read $pid_file)
+      puts "Instance with PID #{File.read $pid_file} already running!"
       exit
     rescue Errno::ESRCH
-      File.delete pid_file
+      File.delete $pid_file
       puts "Removing stale PID file"
     end
   end
-  puts "Starting instance in foreground..."
+end
 
+def create_server
   # Load Rails environment
   root = File.expand_path(File.dirname(__FILE__))
   root = File.dirname(root) until File.exists?(File.join(root, 'config'))
@@ -29,56 +35,86 @@ when 'run'
   require File.join(root, 'lib', 'ldapd.rb')
 
   server = LDAPd::Server.new(
-    :log_file => STDOUT,
-    :log_level => Logger::DEBUG,
-    :pid_file => pid_file
-  ).start
-when 'start'
-  if File.file? pid_file
-    begin
-      Process.getpgid Integer(File.read pid_file)
-      puts "Instance with PID #{File.read pid_file} already running!"
-      exit
-    rescue Errno::ESRCH
-      File.delete pid_file
-      puts "Removing stale PID file"
-    end
+    :log_file => $log_file,
+    :log_level => $log_level,
+    :pid_file => $pid_file
+  )
+end
+
+
+
+### SERVER CONTROL ###
+def start_server(background = true)
+  check_pid_file
+
+  if background
+    puts "Starting instance in background..."
+    create_server.daemonize
+  else
+    puts "Starting instance in foreground..."
+    $log_file = STDOUT
+    create_server.start
   end
-  puts "Starting instance in background..."
+end
 
-  # Load Rails environment
-  root = File.expand_path(File.dirname(__FILE__))
-  root = File.dirname(root) until File.exists?(File.join(root, 'config'))
-  Dir.chdir(root)
-  require File.join(root, 'config', 'environment')
-  require File.join(root, 'lib', 'ldapd.rb')
-
-  server = LDAPd::Server.new(
-    :log_file => log_file,
-    :log_level => Logger::INFO,
-    :pid_file => pid_file
-  ).daemonize
-
-  puts "Instance started"
-when 'stop'
-  unless File.file? pid_file
+def stop_server
+  unless File.file? $pid_file
     puts "No ldapd instance running"
     exit
   end
-  puts "Stopping ldapd instance with PID #{File.read pid_file}..."
-  Process.kill 'INT', Integer(File.read(pid_file))
-when 'restart'
+  pid = Integer(File.read $pid_file)
+  puts "Stopping ldapd instance with PID #{pid}..."
+  Process.kill 'INT', pid
 
-else # status
-  if File.file? pid_file
+  (0..9).each do
     begin
-      Process.getpgid Integer(File.read pid_file)
-      puts "ldapd instance running with PID #{File.read pid_file}"
+      Process.getpgid pid
+      sleep 1
+      next
+    rescue Errno::ESRCH
+      return
+    end
+    puts "Instance still found running after 10 seconds"
+  end
+end
+
+def server_status
+  if File.file? $pid_file
+    begin
+      raise Errno::ESRCH if File.zero? $pid_file
+
+      Process.getpgid Integer(File.read $pid_file)
+      puts "ldapd instance running with PID #{File.read $pid_file}"
       exit
     rescue Errno::ESRCH
-      File.delete pid_file
+      File.delete $pid_file
       puts "Removing stale PID file"
     end
   end
-  puts 'No ldapd instances running'
+  puts "No ldapd instances running"
+end
+
+
+
+### MAIN METHOD ###
+case ARGV.first
+when 'run'
+  start_server false
+when 'start'
+  start_server
+when 'stop'
+  stop_server
+when 'restart'
+  stop_server
+  start_server
+when 'status'
+  server_status
+else
+  puts "#{__FILE__} help | run | start | stop | restart | status"
+  puts "  help      this help message"
+  puts "  run       start the server in foreground"
+  puts "  start     start the server in background"
+  puts "  stop      stop the server"
+  puts "  restart   restart the server (in background)"
+  puts "  status    query server status"
 end
