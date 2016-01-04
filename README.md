@@ -47,15 +47,12 @@ $ rake test RAILS_ENV=test
 # Configuration
 
 Move, copy or symlink `config/database.yml.example` to `config/database.yml`, and `config/ldap.yml.example` to `config/ldap.yml`, and apply your custom settings.
-Set the Devise secret key in `config/initializers/devise.rb`
+Set the Devise secret key in `config/initializers/devise.rb`. Apply your Capistrano configuration in `config/deploy.rb` and x`config/deploy/*`.
 
 # Run
 
+Capistrano is used to deploy.
 To run manually, execute the following commands
 ```
-$ RAILS_ENV=production bundle exec lib/daemons/ldapd_ctl start # LDAP server
 $ RAILS_ENV=production bundle exec rails server # Rails server
 ```
-
-Or use the Dockerfile.
-**WARNING**: By default no database migrations are ever applied. Apply them manually after each update!
