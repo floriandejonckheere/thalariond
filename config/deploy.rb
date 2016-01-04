@@ -33,7 +33,7 @@ before 'deploy:check:linked_files', 'config:push'
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/ldap.yml', 'config/mailer.yml')
 
 # Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -153,7 +153,22 @@ namespace :ldapd do
     on roles(:app), :except => { :no_release => true } do
       within "#{fetch(:deploy_to)}/current/" do
         with RAILS_ENV: fetch(:rails_env) do
+          execute "mkdir #{shared_path}/tmp/pids -p"
+          execute "mkdir #{shared_path}/log -p"
           execute :bundle, "exec bin/ldapd start"
+        end
+      end
+    end
+  end
+
+  desc 'Run LDAP server'
+  task :run do
+    on roles(:app), :except => { :no_release => true } do
+      within "#{fetch(:deploy_to)}/current/" do
+        with RAILS_ENV: fetch(:rails_env) do
+          execute "mkdir #{shared_path}/tmp/pids -p"
+          execute "mkdir #{shared_path}/log -p"
+          execute :bundle, "exec bin/ldapd run"
         end
       end
     end
