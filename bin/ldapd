@@ -8,7 +8,11 @@ root = File.dirname(root) until File.exists?(File.join(root, 'config'))
 
 $pid_file = File.join(root, 'tmp', 'pids', 'ldapd.pid')
 $log_file = File.join(root, 'log', "ldapd.#{ENV['RAILS_ENV']}.log")
-$log_level = ENV['RAILS_ENV'] == 'development' ? Logger::DEBUG : Logger::INFO
+if ENV['LOG_LEVEL']
+  $log_level = ENV['LOG_LEVEL'].constantize
+else
+  $log_level = ENV['RAILS_ENV'] == 'development' ? Logger::DEBUG : Logger::INFO
+end
 
 
 
