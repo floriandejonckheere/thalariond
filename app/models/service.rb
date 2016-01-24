@@ -40,7 +40,7 @@ class Service < ActiveRecord::Base
 
   # Validations
   def validate_users_services_unique
-    errors.add(:uid, "is already taken by a user") if User.find_by(uid: self.uid).present?
+    errors.add(:uid, "is already taken by a user") if User.exists(:uid => self.uid)
   end
 
   # Overrides
