@@ -41,17 +41,22 @@ class Server
     File.open(@opts[:pid_file], 'w') { |f| f.write Process.pid }
 
     router = LDAP::Server::Router.new(@logger) do
-      bind    'uid=:uid, ou=Users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindUser'
-      bind    'uid=:uid, ou=Services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindService'
-      bind    'mail=:mail, dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindMail'
-      bind    'uid=:uid, cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindGroup'
+      bind    'uid=:uid, ou=users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindUser'
+      bind    'uid=:uid, ou=services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindService'
+      # Dovecot
+      bind    'mail=:mail, dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindMail'
+      # GitLab
+      bind    'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindGroup'
 
-      search  'ou=Users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchUser'
-      search  'ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
-      search  'cn=:group, ou=Groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMember'
-      search  'ou=Services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchService'
-      search  'ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
-      search  'dc=:domain, ou=Mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMail'
+      search  'ou=users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchUser'
+      search  'ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroups'
+      search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
+      search  'ou=services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchService'
+      # Dovecot
+      search  'ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
+      search  'dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMail'
+      # GitLab
+      search  'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMember'
     end
 
     opts = { :bindaddr => config['bindaddr'],
