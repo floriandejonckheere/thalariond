@@ -64,7 +64,7 @@
             <%= link_to email, domain_email_path(@domain, email) %>
           </td>
           <% if email.group.nil? %>
-            <td colspan="2" class="text-center">
+            <td colspan="2" class="text-xs-center">
               <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
             </td>
           <% else %>

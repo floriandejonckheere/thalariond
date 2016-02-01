@@ -37,7 +37,7 @@
       <tbody>
         <% if @groups.empty? %>
           <tr>
-            <td colspan="4" class="text-center">
+            <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
@@ -85,7 +85,7 @@
       <tbody>
         <% if @groups.select { |g| g.users.include? current_user }.empty? %>
           <tr>
-            <td colspan="4" class="text-center">
+            <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
@@ -133,7 +133,7 @@
       <tbody>
         <% if @groups.select { |g| g.owner == current_user }.empty? %>
           <tr>
-            <td colspan="4" class="text-center">
+            <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>

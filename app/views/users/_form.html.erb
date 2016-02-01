@@ -57,7 +57,7 @@
         <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot be used for signin in using any authentication backend
       </div>
 
-      <fieldset class="form-group text-center">
+      <fieldset class="form-group text-xs-center">
         <%= form.check_box :enabled,
             :id => 'enabled',
             :class => 'form-control toggle-switch' %>
@@ -69,7 +69,7 @@
         <i class="fa fa-lock"></i> This account is locked and cannot sign in on the panel.
       </div>
 
-      <div class="text-center">
+      <div class="text-xs-center">
         <%= link_to 'Unlock account', unlock_user_path(@user),
                           :class => 'btn btn-secondary',
                           :method => :post %>
@@ -121,7 +121,7 @@
         <tbody>
           <% if @user.roles.empty? %>
             <tr>
-              <td class="text-center">
+              <td class="text-xs-center">
                 <em>No roles assigned</em>
               </td>
             </tr>

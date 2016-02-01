@@ -6,9 +6,9 @@
   </div>
 </div>
 <div class="row">
-  <nav>
+  <nav class="p-a-0">
     <ul class="nav nav-pills nav-stacked">
-      <div class="title-main m-t">General</div>
+      <div class="title-main m-t-1">General</div>
       <li class="nav-item">
         <%= link_to home_path, :class => (controller?('home') ? 'nav-link active' : 'nav-link') do %>
           Home
@@ -22,7 +22,7 @@
           Notifications
         <% end %>
       </li>
-      <div class="title-main m-t">Accounts</div>
+      <div class="title-main m-t-1">Accounts</div>
       <li class="nav-item">
         <%= link_to user_path(current_user),
           :class => "nav-link #{current_page?(:controller => 'users', :action => 'show', :id => current_user.id) ? 'active' : ''}" do %>
@@ -46,7 +46,7 @@
         <% end %>
       </li>
       <% if can? :read, Email and can? :read, Domain %>
-        <div class="title-main m-t">Mail</div>
+        <div class="title-main m-t-1">Mail</div>
         <li class="nav-item">
           <%= link_to domains_path, :class => (controller?('domains', 'domain_aliases') ? 'nav-link active' : 'nav-link') do %>
             Domains

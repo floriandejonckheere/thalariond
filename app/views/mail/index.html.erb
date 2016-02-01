@@ -25,7 +25,7 @@
       <tbody>
         <% if @emails.empty? and @email_aliases.empty? %>
           <tr>
-            <td colspan="2" class="text-center">
+            <td colspan="2" class="text-xs-center">
               <em>No emails or email aliases found</em>
             </td>
           </tr>
@@ -64,7 +64,7 @@
               <strong><%= link_to email, domain_email_path(email.domain, email) %></strong>
             </td>
             <% if email.group.nil? %>
-              <td colspan="2" class="text-center">
+              <td colspan="2" class="text-xs-center">
                 <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="top" title="This email does not have an associated permission group"></i>
               </td>
             <% else %>
@@ -118,7 +118,7 @@
       <tbody>
         <% if @email_aliases.empty? %>
           <tr>
-            <td colspan="2" class="text-center">
+            <td colspan="2" class="text-xs-center">
               <em>No email aliases found</em>
             </td>
           </tr>

@@ -46,7 +46,7 @@
       <tbody>
         <% if @notifications.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
+            <td colspan="3" class="text-xs-center">
               <em>No notifications</em>
             </td>
           </tr>
@@ -92,7 +92,7 @@
       <tbody>
         <% if @notifications.select { |n| not n.read }.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
+            <td colspan="3" class="text-xs-center">
               <em>No unread notifications</em>
             </td>
           </tr>
@@ -126,7 +126,7 @@
       <tbody>
         <% if @notifications.select { |n| n.read }.empty? %>
           <tr>
-            <td colspan="3" class="text-center">
+            <td colspan="3" class="text-xs-center">
               <em>No read notifications</em>
             </td>
           </tr>

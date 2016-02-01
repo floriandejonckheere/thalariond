@@ -5,16 +5,12 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-hint'
   # Tether used for Bootstrap popovers
   gem 'rails-assets-tether', '>= 1.1.0'
-  # Bootstrap Checkbox
-  gem 'rails-assets-awesome-bootstrap-checkbox'
 end
 
 # Font Awesome
 gem 'font-awesome-sass', '~> 4.4.0'
 # Bootstrap 4 Alpha
-gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
-# Bootstrap switch
-gem 'bootstrap-switch-rails'
+gem 'bootstrap', '~> 4.0.0.alpha3'
 # Paper Trail auditing
 gem 'paper_trail', '~> 4.0.0'
 # Devise authentication
@@ -69,6 +65,9 @@ group :development, :test do
   # Ensure clean database
   gem 'database_cleaner'
 
+  # Ignore assets logger
+  gem 'quiet_assets'
+
   # Use Capistrano for deployment
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-rails', '~> 1.1'
@@ -76,6 +75,10 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'capistrano3-puma'
+
+  # Testing
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'rspec-rails', '~> 3.0'
 end
 
 group :production do
