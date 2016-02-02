@@ -1,27 +1,65 @@
 class User < ActiveRecord::Base
-  has_paper_trail :skip => [:reset_password_token, :reset_password_sent_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :failed_attempts, :unlock_token, :locked_at, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email]
+  has_paper_trail :skip => [:reset_password_token,
+                            :reset_password_sent_at,
+                            :sign_in_count,
+                            :current_sign_in_at,
+                            :last_sign_in_at,
+                            :current_sign_in_ip,
+                            :last_sign_in_ip,
+                            :failed_attempts,
+                            :unlock_token,
+                            :locked_at,
+                            :confirmation_token,
+                            :confirmed_at,
+                            :confirmation_sent_at,
+                            :unconfirmed_email]
 
-  before_save :sanitize_attributes
-  after_create :notify_account_created
-  before_destroy :notify_account_deleted
+  before_save     :sanitize_attributes
+  after_create    :notify_account_created
+  before_destroy  :notify_account_deleted
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :recoverable,
-          :trackable, :validatable, :lockable, :confirmable
+  devise :database_authenticatable,
+          :recoverable,
+          :trackable,
+          :validatable,
+          :lockable,
+          :confirmable
 
-  validates :uid, presence: true, uniqueness: true, format: { with: /[a-z_\-0-9]{3,}/ }
+  validates :uid,
+              :presence => true,
+              :uniqueness => true,
+              :format => { with: /[a-z_\-0-9]{3,}/ }
+
   validate :validate_users_services_unique
-  validates :email, presence: true, uniqueness: true, format: { with: /@/ }
+
+  validates :email,
+              :presence => true,
+              :uniqueness => true
+              # Devise takes care of email format validation
+              # :format => { with: /\A[^@]+@[^@]+\z/ }
+
   validate :validate_email_outside_managed_domains
-  validates :first_name, presence: true
+
+  validates :first_name,
+              :presence => true
 
   # Role-based ACL
-  has_and_belongs_to_many :roles, unique: true, :after_add => [:notify_role_assigned, :assign_lower],
-                                                :after_remove => [:notify_role_removed, :unassign_higher]
-  has_and_belongs_to_many :groups, unique: true, :after_add => :notify_access_granted,
-                                                :after_remove => :notify_access_revoked
-  has_many :owned_groups, class_name: 'Group', foreign_key: 'user_id'
+  has_and_belongs_to_many :roles,
+          :unique => true,
+          :after_add => [:notify_role_assigned, :assign_lower],
+          :after_remove => [:notify_role_removed, :unassign_higher]
+
+  has_and_belongs_to_many :groups,
+          :unique => true,
+          :after_add => :notify_access_granted,
+          :after_remove => :notify_access_revoked
+
+  has_many :owned_groups,
+              :class_name => 'Group',
+              :foreign_key => 'user_id'
+
   validate :validate_owned_groups_included_in_groups
 
   has_many :notifications, :dependent => :destroy
@@ -149,7 +187,6 @@ class User < ActiveRecord::Base
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
     h['enabled'] = self.active_for_authentication?.to_s
-    # TODO: roles
     if self.groups.any?
       h['group'] = []
       self.groups.each do |g|
