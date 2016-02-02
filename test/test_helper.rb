@@ -3,13 +3,30 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'database_cleaner'
 
-DatabaseCleaner.start
+Rails.logger = Logger.new STDOUT
+
+DatabaseCleaner.strategy = :truncation, { :except => %w[roles] }
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
+  setup :setup_database
+  teardown :teardown_database
+
+  def setup_database
+    DatabaseCleaner.start
+  end
+
+  def teardown_database
+    DatabaseCleaner.clean
+  end
+
   # Add more helper methods to be used by all tests here...
+  def r(name)
+    Role.find_by(:name => name)
+  end
+
   def u(uid)
     User.find_by(:uid => uid)
   end
@@ -27,7 +44,8 @@ class ActiveSupport::TestCase
   end
 
   def e(email)
-    Email.find_by(:mail => email.split('@').first, :domain => Domain.find_by(:domain => email.split('@').last))
+    split = email.split('@')
+    Email.find_by(:mail => split.first, :domain => Domain.find_by(:domain => split.last))
   end
 
   def ea(email_alias)

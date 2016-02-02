@@ -8,10 +8,11 @@ user1-group:
     - service1
     - service1-mail
   owner: user1
+  email: user1-mail
 
 user1-user2-group:
-  name: user1-2@example.com
-  display_name: Email group for user1-2@example.com
+  name: user1-user2@example.com
+  display_name: Email group for user1-user2@example.com
   users:
     - user1
     - user1-mail
@@ -23,6 +24,7 @@ user1-user2-group:
     - service2
     - service2-mail
   owner: user2
+  email: user1-user2-mail
 
 user3-group:
   name: user3@example.com
@@ -34,3 +36,4 @@ user3-group:
     - service3
     - service3-mail
   owner: user3
+  email: user3-mail

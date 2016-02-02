@@ -1,11 +1,14 @@
-user1:
+user1-mail:
   mail: user1
   domain: example-domain
+  # group: user1-group  # see groups.yml
 
-user1-2-mail:
-  mail: user1-2
+user1-user2-mail:
+  mail: user1-user2
   domain: example-domain
+  # group: user1-user2-group  # see groups.yml
 
 user3-mail:
   mail: user3
   domain: example-domain
+  # group: user3-group  # see groups.yml

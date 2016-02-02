@@ -6,6 +6,8 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', city: cities.first)
 
+Rails.logger.info 'Loading seed data'
+
 administrator = Role.find_or_initialize_by(:name => 'administrator')
 administrator.display_name = 'System Administrator'
 administrator.order = 4

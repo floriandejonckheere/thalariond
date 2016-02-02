@@ -127,7 +127,7 @@ class User < ActiveRecord::Base
 
   # Validations
   def validate_users_services_unique
-    errors.add(:uid, "is already taken by a service") if Service.exists(:uid => self.uid)
+    errors.add(:uid, "is already taken by a service") if Service.exists?(:uid => self.uid)
   end
 
   def validate_email_outside_managed_domains

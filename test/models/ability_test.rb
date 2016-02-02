@@ -8,6 +8,11 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('user1').cannot? :update, Service
     assert u('user1').cannot? :assign, Service
     assert u('user1').cannot? :destroy, Service
+    assert u('guest').cannot? :list, Service
+    assert u('guest').cannot? :create, Service
+    assert u('guest').cannot? :update, Service
+    assert u('guest').cannot? :assign, Service
+    assert u('guest').cannot? :destroy, Service
     assert s('service1').can? :list, Service
     assert s('service1').cannot? :create, Service
     assert s('service1').cannot? :update, Service
@@ -29,16 +34,16 @@ class AbilityTest < ActiveSupport::TestCase
   test 'service' do
     # Groups
     assert s('service1').can? :read, g('user1@example.com')
-    assert s('service1').can? :read, g('user1-2@example.com')
+    assert s('service1').can? :read, g('user1-user2@example.com')
     assert s('service1').cannot? :read, g('user3@example.com')
     assert s('service2').cannot? :read, g('user1@example.com')
-    assert s('service2').can? :read, g('user1-2@example.com')
+    assert s('service2').can? :read, g('user1-user2@example.com')
     assert s('service2').cannot? :read, g('user3@example.com')
     assert s('service3').cannot? :read, g('user1@example.com')
-    assert s('service3').cannot? :read, g('user1-2@example.com')
+    assert s('service3').cannot? :read, g('user1-user2@example.com')
     assert s('service3').can? :read, g('user3@example.com')
     assert s('service3-mail').cannot? :read, g('user1@example.com')
-    assert s('service3-mail').cannot? :read, g('user1-2@example.com')
+    assert s('service3-mail').cannot? :read, g('user1-user2@example.com')
     assert s('service3-mail').can? :read, g('user3@example.com')
 
     # Users
@@ -64,13 +69,13 @@ class AbilityTest < ActiveSupport::TestCase
 
     # Groups
     assert u('user1').can? :read, g('user1@example.com')
-    assert u('user1').can? :read, g('user1-2@example.com')
+    assert u('user1').can? :read, g('user1-user2@example.com')
     assert u('user1').cannot? :read, g('user3@example.com')
     assert u('user2').cannot? :read, g('user1@example.com')
-    assert u('user2').can? :read, g('user1-2@example.com')
+    assert u('user2').can? :read, g('user1-user2@example.com')
     assert u('user2').cannot? :read, g('user3@example.com')
     assert u('user3').cannot? :read, g('user1@example.com')
-    assert u('user3').cannot? :read, g('user1-2@example.com')
+    assert u('user3').cannot? :read, g('user1-user2@example.com')
     assert u('user3').can? :read, g('user3@example.com')
 
     # Users
@@ -89,16 +94,16 @@ class AbilityTest < ActiveSupport::TestCase
 
     # Group ownership
     assert u('user1').can? :update, g('user1@example.com')
-    assert u('user1').cannot? :update, g('user1-2@example.com')
+    assert u('user1').cannot? :update, g('user1-user2@example.com')
     assert u('user1').cannot? :update, g('user3@example.com')
     assert u('user2').cannot? :update, g('user1@example.com')
-    assert u('user2').can? :update, g('user1-2@example.com')
+    assert u('user2').can? :update, g('user1-user2@example.com')
     assert u('user2').cannot? :update, g('user3@example.com')
     assert u('user3').cannot? :update, g('user1@example.com')
-    assert u('user3').cannot? :update, g('user1-2@example.com')
+    assert u('user3').cannot? :update, g('user1-user2@example.com')
     assert u('user3').can? :update, g('user3@example.com')
     assert u('user3-mail').cannot? :update, g('user1@example.com')
-    assert u('user3-mail').cannot? :update, g('user1-2@example.com')
+    assert u('user3-mail').cannot? :update, g('user1-user2@example.com')
     assert u('user3-mail').cannot? :update, g('user3@example.com')
   end
 
@@ -120,25 +125,25 @@ class AbilityTest < ActiveSupport::TestCase
 
   test 'mail_user' do
     assert u('user1-mail').can? :read, e('user1@example.com')
-    assert u('user1-mail').can? :read, e('user1-2@example.com')
+    assert u('user1-mail').can? :read, e('user1-user2@example.com')
     assert u('user1-mail').cannot? :read, e('user3@example.com')
     assert u('user2-mail').cannot? :read, e('user1@example.com')
-    assert u('user2-mail').can? :read, e('user1-2@example.com')
+    assert u('user2-mail').can? :read, e('user1-user2@example.com')
     assert u('user2-mail').cannot? :read, e('user3@example.com')
     assert u('user3-mail').cannot? :read, e('user1@example.com')
-    assert u('user3-mail').cannot? :read, e('user1-2@example.com')
+    assert u('user3-mail').cannot? :read, e('user1-user2@example.com')
     assert u('user3-mail').can? :read, e('user3@example.com')
   end
 
   test 'mail_service' do
     assert s('service1-mail').can? :read, e('user1@example.com')
-    assert s('service1-mail').can? :read, e('user1-2@example.com')
+    assert s('service1-mail').can? :read, e('user1-user2@example.com')
     assert s('service1-mail').cannot? :read, e('user3@example.com')
     assert s('service2-mail').cannot? :read, e('user1@example.com')
-    assert s('service2-mail').can? :read, e('user1-2@example.com')
+    assert s('service2-mail').can? :read, e('user1-user2@example.com')
     assert s('service2-mail').cannot? :read, e('user3@example.com')
     assert s('service3-mail').cannot? :read, e('user1@example.com')
-    assert s('service3-mail').cannot? :read, e('user1-2@example.com')
+    assert s('service3-mail').cannot? :read, e('user1-user2@example.com')
     assert s('service3-mail').can? :read, e('user3@example.com')
   end
 
@@ -196,7 +201,12 @@ class AbilityTest < ActiveSupport::TestCase
   end
 
   test 'admin' do
-    assert u('admin').can? :manager, :all
+    assert u('admin').can? :manage, :all
+  end
+
+  test 'accessible_by' do
+    assert_equal 0, User.accessible_by(a('guest')).count
+    assert_equal User.all.count, User.accessible_by(a('admin')).count
   end
 
 end
