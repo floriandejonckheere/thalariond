@@ -16,10 +16,11 @@ class Server
     @opts = opts
     @opts[:environment] = ENV['RAILS_ENV'] || 'development'
 
-    @opts[:pid_file] ||= File.join(Rails.root, 'tmp', 'pids', 'ldapd.pid')
+    @opts[:pid_file] ||= Rails.root.join('tmp', 'pids', 'ldapd.pid')
 
-    ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(File.join(Rails.root, 'config', 'database.yml'))).result)[@opts[:environment]])
+    ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)[@opts[:environment]])
 
+    # Be aware that STDOUT is null-routed when daemonizing
     if @opts[:logger]
       @logger = @opts[:logger]
     else
@@ -28,12 +29,9 @@ class Server
     end
   end
 
-  def daemonize
-    Process.daemon
-    start
-  end
+  def start(daemonize = :foreground)
+    Process.daemon if daemonize == :background
 
-  def start
     config = Rails.application.config.ldap
 
     @logger.info "Starting LDAPd in #{Rails.env} on #{config['bindaddr']}:#{config['port']}"

@@ -9,7 +9,7 @@ ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 # set :branch, '1-0-stable'
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/opt/thalariond/thalariond/'
+set :deploy_to, '/opt/thalariond/thalariond'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -174,17 +174,6 @@ namespace :ldapd do
     end
   end
 
-  desc 'Restart LDAP server'
-  task :restart do
-    on roles(:app), :except => { :no_release => true } do
-      within "#{fetch(:deploy_to)}/current/" do
-        with RAILS_ENV: fetch(:rails_env) do
-          execute :bundle, "exec bin/ldapd restart"
-        end
-      end
-    end
-  end
-
 end
 
-after :deploy, "ldapd:restart"
+after :deploy, "ldapd:start"
