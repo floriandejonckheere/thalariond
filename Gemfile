@@ -75,10 +75,6 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'capistrano3-puma'
-
-  # Testing
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'rspec-rails', '~> 3.0'
 end
 
 group :production do
