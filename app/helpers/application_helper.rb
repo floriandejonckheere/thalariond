@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def randomized_background_image
     images = Dir.glob('app/assets/images/backgrounds/*').map { |p| p.split('/')[-2..-1].join('/') }
-    image_url(images[(Time.new.yday % images.size)])
+    image_path(images[(Time.new.yday % images.size)])
   end
 
   # Bootstrap alert classes
