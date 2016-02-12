@@ -62,9 +62,16 @@ end
 def stop_server
   abort "No ldapd instance running" unless File.file? $pid_file
 
-  pid = Integer(File.read $pid_file)
-  puts "Stopping ldapd instance with PID #{pid}..."
-  Process.kill 'INT', pid
+  begin
+    pid = Integer(File.read $pid_file)
+    Process.getpgid pid # raises Errno::ESRCH
+    puts "Stopping ldapd instance with PID #{pid}..."
+    Process.kill 'INT', pid
+  rescue Errno::ESRCH
+    File.delete $pid_file
+    puts "Removing stale PID file"
+    exit 1
+  end
 
   (0..9).each do
     begin

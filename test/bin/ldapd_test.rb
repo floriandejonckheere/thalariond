@@ -1,8 +1,17 @@
 require 'test_helper'
 
+# If this test suite fails, please check that there are no
+# instances of ldapd running, even when the PID file says otherwise.
 class LDAPdTest < ActiveSupport::TestCase
   $ldapd = Rails.root.join 'bin', 'ldapd'
   $pid_file = Rails.root.join('tmp', 'pids', 'ldapd.pid')
+
+  def setup
+    begin
+      `#{$ldapd} stop`
+      File.delete $pid_file
+    rescue; end
+  end
 
   test 'help' do
     `#{$ldapd} help`

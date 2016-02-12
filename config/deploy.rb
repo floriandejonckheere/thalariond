@@ -175,5 +175,3 @@ namespace :ldapd do
   end
 
 end
-
-after :deploy, "ldapd:start"
