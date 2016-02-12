@@ -3,73 +3,81 @@ require 'cancan'
 module LDAPd
 class LDAPController
 
+  def self.fail(request, message, error = LDAP::ResultError::InvalidCredentials)
+    request.connection.logger.debug message
+    raise error
+  end
+
   ###############
   ### Binding ###
   ###############
 
-  def self.bindUser(request, version, dn, password, params)
-    dn.downcase!
-
-    raise LDAP::ResultError::InvalidCredentials if params[:uid].nil?
-    raise LDAP::ResultError::InvalidCredentials if password.nil?
-    user = User.find_by(:uid => params[:uid])
-    raise LDAP::ResultError::InvalidCredentials if user.nil?
-    raise LDAP::ResultError::InvalidCredentials if not user.valid_password? password
-    request.connection.account = user
-  end
-
+  # uid=:uid, ou=services, dc=thalarion, dc=be
   def self.bindService(request, version, dn, password, params)
     dn.downcase!
 
-    raise LDAP::ResultError::InvalidCredentials if params[:uid].nil?
-    raise LDAP::ResultError::InvalidCredentials if password.nil?
+    fail request, "bind #{dn} failed: empty uid" if params[:uid].nil? or params[:uid].empty?
+    fail request, "bind #{dn} failed: empty password" if password.nil?
+
     service = Service.find_by(:uid => params[:uid])
-    raise LDAP::ResultError::InvalidCredentials if service.nil?
-    raise LDAP::ResultError::InvalidCredentials if not service.valid_password? password
+
+    fail request "bind #{dn} failed: invalid uid" if service.nil?
+    fail request "bind #{dn} failed: invalid password" unless service.valid_password? password
+
     request.connection.account = service
   end
 
+  # mail=:mail, dc=:domain, ou=mail, dc=thalarion, dc=be
   def self.bindMail(request, version, dn, password, params)
     dn.downcase!
 
-    raise LDAP::ResultError::InvalidCredentials if params[:mail].nil?
-    raise LDAP::ResultError::InvalidCredentials if params[:domain].nil?
-    raise LDAP::ResultError::InvalidCredentials if password.nil?
+    fail request, "bind #{dn} failed: empty local part" if params[:mail].nil? or params[:mail].empty?
+    fail request, "bind #{dn} failed: empty domain" if params[:domain].nil? or params[:domain].empty?
+    fail request, "bind #{dn} failed: empty password" if password.nil?
+
     domain = Domain.find_by(:domain => params[:domain])
-    raise LDAP::ResultError::InvalidCredentials if domain.nil?
+    fail request, "bind #{dn} failed: invalid domain" if domain.nil?
+
     email = domain.emails.find_by(:mail => params[:mail])
-    raise LDAP::ResultError::InvalidCredentials if email.nil?
+    fail request, "bind #{dn} failed: invalid email" if email.nil?
+
+    # This should never fail
     group = email.group
-    raise LDAP::ResultError::InvalidCredentials if group.nil?
+    fail request, "bind #{dn} failed: email has no permission group" if group.nil?
 
     group.users.each do |user|
       if user.valid_password? password
+        fail request, "bind #{dn} failed: user '#{user.uid}' does not have role 'mail'" unless user.has_role? :mail
         request.connection.account = user
         return
       end
     end
     group.services.each do |service|
-      if service.valid_password? password
+      if group.has_role? :mail and service.valid_password? password
+        fail request, "bind #{dn} failed: service '#{service.uid}' does not have role 'mail'" unless user.has_role? :mail
         request.connection.account = service
         return
       end
     end
-    raise LDAP::ResultError::InvalidCredentials
+
+    fail request, "bind #{dn} failed: invalid credentials"
   end
 
+  # uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be
   def self.bindGroup(request, version, dn, password, params)
     dn.downcase!
 
-    raise LDAP::ResultError::InvalidCredentials if params[:group].nil?
-    raise LDAP::ResultError::InvalidCredentials if params[:uid].nil?
-    raise LDAP::ResultError::InvalidCredentials if password.nil?
-    group = Group.find_by(:name => params[:group])
-    raise LDAP::ResultError::InvalidCredentials if group.nil?
+    fail request, "bind #{dn} failed: empty group" if params[:group].nil? or params[:group].empty?
+    fail request, "bind #{dn} failed: empty uid" if params[:uid].nil? or params[:uid].empty?
+    fail request, "bind #{dn} failed: empty password" if password.nil?
 
-    account = User.find_by(:uid => params[:uid]) || Service.find_by(:uid => params[:uid])
-    raise LDAP::ResultError::InvalidCredentials if account.nil?
-    raise LDAP::ResultError::InvalidCredentials if not account.valid_password? password
-    request.connection.account = account
+    group = Group.find_by(:name => params[:group])
+    fail request, "bind #{dn} failed: invalid group" if group.nil?
+
+
+    account = group.users.find_by(:uid => params[:uid]) || group.services.find_by(:uid => params[:uid])
+    fail request, "bind #{dn} failed: invalid uid" if account.nil?
+    fail request, "bind #{dn} failed: invalid password" unless account.valid_password? password
   end
 
 

@@ -41,21 +41,19 @@ class Server
     File.open(@opts[:pid_file], 'w') { |f| f.write Process.pid }
 
     router = LDAP::Server::Router.new(@logger) do
-      bind    'uid=:uid, ou=users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindUser'
+      # Common authentication methods
       bind    'uid=:uid, ou=services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindService'
-      # Dovecot
+      # Dovecot authentication methods
       bind    'mail=:mail, dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindMail'
-      # GitLab
+      # GitLab authentication methods
       bind    'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindGroup'
 
-      search  'ou=users, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchUser'
-      search  'ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroups'
+      # Common search methods
       search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
-      search  'ou=services, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchService'
-      # Dovecot
+      # Dovecot search methods
       search  'ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
       search  'dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMail'
-      # GitLab
+      # GitLab search methods
       search  'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMember'
     end
 
