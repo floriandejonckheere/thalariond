@@ -1,22 +1,26 @@
-require Rails.root.join('lib', 'ldapd.rb')
+include ApplicationHelper
 
-Rails.logger.info "Starting LDAPd"
+if server?
+  require Rails.root.join('lib', 'ldapd.rb')
 
-LDAPd.pid = Process.fork
+  Rails.logger.info "Starting LDAPd"
 
-if LDAPd.pid
-  puts "LDAPd running with PID #{LDAPd.pid}" if LDAPd.pid
+  LDAPd.pid = Process.fork
 
-  # Reap child process
-  Process.detach LDAPd.pid
-else
-  $server = LDAPd::Server.new(
-    :log_file => Rails.root.join('log', "ldapd.#{Rails.env}.log"),
-    :log_level => Rails.logger.level
-  )
+  if LDAPd.pid
+    puts "LDAPd running with PID #{LDAPd.pid}" if LDAPd.pid
 
-  $server.start
+    # Reap child process
+    Process.detach LDAPd.pid
+  else
+    $server = LDAPd::Server.new(
+      :log_file => Rails.root.join('log', "ldapd.#{Rails.env}.log"),
+      :log_level => Rails.logger.level
+    )
 
-  # Prevent running finalizers
-  Kernel.exit!
+    $server.start
+
+    # Prevent running finalizers
+    Kernel.exit!
+  end
 end

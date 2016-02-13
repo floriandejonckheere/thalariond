@@ -36,4 +36,9 @@ module ApplicationHelper
       return false
     end
   end
+
+  # false when invoked as a rake task, a generator or test environment
+  def server?
+    not (ENV["RAILS_ENV"].nil? or ENV["RAILS_ENV"] == 'test')
+  end
 end
