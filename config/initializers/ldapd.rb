@@ -1,13 +1,15 @@
-# Use puts instead of possibly non-initialized Rails.logger
-puts "Starting LDAPd"
+require Rails.root.join('lib', 'ldapd.rb')
 
-$pid = Process.fork
+Rails.logger.info "Starting LDAPd"
 
-puts "LDAPd running with PID #{$pid}" if $pid
+LDAPd.pid = Process.fork
 
-unless $pid
-  require Rails.root.join('lib', 'ldapd.rb')
+if LDAPd.pid
+  puts "LDAPd running with PID #{LDAPd.pid}" if LDAPd.pid
 
+  # Reap child process
+  Process.detach LDAPd.pid
+else
   $server = LDAPd::Server.new(
     :log_file => Rails.root.join('log', "ldapd.#{Rails.env}.log"),
     :log_level => Rails.logger.level

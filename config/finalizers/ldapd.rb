@@ -1,7 +1,11 @@
 # Use puts instead of possibly non-initialized Rails.logger
-puts "Stopping LDAPd"
+Rails.logger.info "Stopping LDAPd with PID #{LDAPd.pid}"
 
-if $pid
-  Process.kill 'INT', $pid
-  Process.wait $pid
+if LDAPd.pid
+  begin
+    Process.kill 'INT', LDAPd.pid
+    Process.wait LDAPd.pid
+  rescue Errno::ESRCH
+    Rails.logger.warn "LDAPd with PID #{LDAPd.pid} already reaped"
+  end
 end
