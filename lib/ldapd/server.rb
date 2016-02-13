@@ -16,27 +16,17 @@ class Server
     @opts = opts
     @opts[:environment] = ENV['RAILS_ENV'] || 'development'
 
-    @opts[:pid_file] ||= Rails.root.join('tmp', 'pids', 'ldapd.pid')
-
     ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)[@opts[:environment]])
 
-    # Be aware that STDOUT is null-routed when daemonizing
-    if @opts[:logger]
-      @logger = @opts[:logger]
-    else
-      @logger = Logger.new(@opts[:log_file] || STDOUT)
-      @logger.level = @opts[:log_level] || Logger::DEBUG
-    end
+    @logger = Logger.new(@opts[:log_file] || STDOUT)
+    @logger.level = @opts[:log_level] || Logger::DEBUG
+    $stderr = @opts[:log_file]
   end
 
-  def start(daemonize = :foreground)
-    Process.daemon if daemonize == :background
-
+  def start
     config = Rails.application.config.ldap
 
-    @logger.info "Starting LDAPd in #{Rails.env} on #{config['bindaddr']}:#{config['port']}"
-
-    File.open(@opts[:pid_file], 'w') { |f| f.write Process.pid }
+    @logger.info "Starting LDAPd in #{Rails.env} mode on #{config['bindaddr']}:#{config['port']}"
 
     router = LDAP::Server::Router.new(@logger) do
       # Common authentication methods
@@ -75,7 +65,6 @@ class Server
 
     @logger.info "Stopping LDAPd"
     @logger.close
-    File.delete @opts[:pid_file]
     @server.stop
   end
 end
