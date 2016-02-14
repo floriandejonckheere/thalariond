@@ -21,7 +21,6 @@
 var ready = function() {
 
   $('[data-toggle="tooltip"]').tooltip();
-  $(".toggle-switch").bootstrapSwitch();
 
   var hash = window.location.hash;
   hash && $('ul.nav a[href="' + hash + '"]').tab('show');

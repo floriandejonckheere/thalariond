@@ -4,7 +4,7 @@ nav {
   @extend .p-a-3;
 
   font-size: .8rem;
-  font-weight: $font-weight-light;
+  font-weight: 300;
 }
 
 .logo {
@@ -28,7 +28,8 @@ nav {
       border-bottom: 4px solid $color-primary;
 
       color: $color-primary;
-      font-family: 'Roboto Medium', 'Roboto Light', sans-serif;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
     }
   }
 }

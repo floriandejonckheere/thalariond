@@ -34,7 +34,8 @@
   .title {
     margin-bottom: 5rem;
     font-size: 5rem;
-    font-weight: $font-weight-light;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
   }
 
   .row {
@@ -43,6 +44,7 @@
 
   .signin-links {
     text-shadow: 1px 1px 2px $dark-grey;
+    font-weight: 400;
   }
 
   input[type="text"],
@@ -68,7 +70,7 @@
     background-color: transparent;
 
     color: white;
-    font-weight: $font-weight-bold;
+    font-weight: 400;
     font-size: 11px;
     text-transform: uppercase;
   }
