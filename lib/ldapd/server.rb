@@ -20,7 +20,7 @@ class Server
 
     @logger = Logger.new(@opts[:log_file] || STDOUT)
     @logger.level = @opts[:log_level] || Logger::DEBUG
-    $stderr = @opts[:log_file]
+    $stderr = @opts[:log_file] if @opts[:log_file]
   end
 
   def start
@@ -60,12 +60,16 @@ class Server
     end
 
     @server = LDAP::Server.new(opts)
+
+    Signal.trap 'SIGINT' do
+      @server.stop
+    end
+
     @server.run_tcpserver
     @server.join
 
-    @logger.info "Stopping LDAPd"
+    @logger.info 'Stopping LDAPd'
     @logger.close
-    @server.stop
   end
 end
 end
