@@ -4,7 +4,7 @@ class DomainsController < ApplicationController
   load_and_authorize_resource
   skip_authorization_check :only => :index
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def index
     @domain_aliases = DomainAlias.accessible_by(current_ability)

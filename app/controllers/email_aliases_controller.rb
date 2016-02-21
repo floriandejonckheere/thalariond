@@ -3,7 +3,7 @@ class EmailAliasesController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def create
     if @email_alias.save

@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
   authorize_resource :except => :index
   skip_authorization_check :only => :index
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def index
     @notifications = current_user.notifications

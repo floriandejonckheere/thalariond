@@ -3,7 +3,7 @@ class DomainAliasesController < ApplicationController
 
   load_and_authorize_resource
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def create
     if @domain_alias.save

@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
   load_and_authorize_resource
   skip_authorization_check :only => :index
 
-  layout "dashboard"
+  layout 'dashboard'
 
   # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
 

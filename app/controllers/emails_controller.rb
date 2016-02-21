@@ -4,7 +4,7 @@ class EmailsController < ApplicationController
   load_and_authorize_resource :domain
   load_and_authorize_resource :email, :through => :domain
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def create
     @email = @domain.emails.build(params[:email])

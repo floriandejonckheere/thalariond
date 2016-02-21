@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   skip_authorization_check
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def index
   end

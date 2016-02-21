@@ -3,7 +3,7 @@ class MailController < ApplicationController
 
   skip_authorization_check
 
-  layout "dashboard"
+  layout 'dashboard'
 
   def index
     authorize! :read, Email
