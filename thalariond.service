@@ -1,0 +1,13 @@
+[Unit]
+Description=Thalarion System
+Requires=nginx.service postgresql.service
+
+[Service]
+Type=simple
+User=thalariond
+WorkingDirectory=/opt/thalariond/thalariond/
+ExecStart=/opt/thalariond/thalariond/current/bin/bundle exec puma start -e production
+
+[Install]
+WantedBy=multi-user.target
+
