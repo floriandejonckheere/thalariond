@@ -8,10 +8,14 @@ if server?
   LDAPd.pid = Process.fork
 
   if LDAPd.pid
-    puts "LDAPd running with PID #{LDAPd.pid}" if LDAPd.pid
+    Rails.logger.info "LDAPd running with PID #{LDAPd.pid}"
 
-    # Reap child process
-    Process.detach LDAPd.pid
+    # Start watcher thread
+    Thread.new(LDAPd.pid) do |pid|
+      Process.wait pid
+      LDAPd.pid = nil
+      Rails.logger.error "LDAPd failed with status #{$?.exitstatus}"
+    end
   else
     $server = LDAPd::Server.new(
       :log_file => Rails.root.join('log', "ldapd.#{Rails.env}.log"),
