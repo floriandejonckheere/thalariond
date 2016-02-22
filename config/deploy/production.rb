@@ -32,7 +32,7 @@ server 'thalarion.be', user: 'thalariond', roles: %w{app db}
 # Feel free to add new variables to customise your setup.
 set :deploy_to, '/opt/thalariond/thalariond'
 set :tmp_dir, '/tmp/thalariond-production'
-set :rvm_ruby_version, '2.2.3@thalariond-production'
+set :rvm_ruby_version, '2.3.0@thalariond-production'
 set :rails_env, 'production'
 set :rack_env, 'production'
 set :puma_env, 'production'

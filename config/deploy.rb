@@ -47,9 +47,6 @@ set :ssh_options, {:keys => [File.join(ENV['HOME'], '.ssh', 'thalariond@thalario
 # Bundler options
 set :bundle_bins, fetch(:bundle_bins, []).push('ldapd_ctl')
 
-# RVM options
-set :rvm_ruby_version, '2.2.3@thalariond-production'
-
 # Puma options
   #~ set :puma_user, fetch(:user)
   #~ set :puma_rackup, -> { File.join(current_path, 'config.ru') }
