@@ -29,6 +29,7 @@ module ApplicationHelper
   end
 
   def ldapd_running?
+    return false unless LDAPd.pid
     begin
       Process.getpgid LDAPd.pid
       return true
@@ -40,5 +41,9 @@ module ApplicationHelper
   # false when invoked as a rake task, a generator or test environment
   def server?
     not (ENV["RAILS_ENV"].nil? or ENV["RAILS_ENV"] == 'test')
+  end
+
+  def authorize_admin!
+    redirect_to home_path unless current_user.has_role? :administrator
   end
 end

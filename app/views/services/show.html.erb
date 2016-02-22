@@ -6,6 +6,12 @@
 <% end %>
 <% content_for :section do %>Service <%= @service.display_name %><% end %>
 
+<% if can? :update, @service and not @service.enabled? %>
+  <div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
+  </div>
+<% end %>
+
 <div class="pull-right">
   <div class="btn-group">
     <% if can? :update, @service %>
@@ -24,14 +30,6 @@
       <% end %>
     <% end %>
   </div>
-</div>
-
-<div class="pull-left">
-  <% if can? :update, @service and not @service.enabled? %>
-    <div class="alert alert-warning">
-      <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
-    </div>
-  <% end %>
 </div>
 
 <table class="attribute-table">

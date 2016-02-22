@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :email_aliases, :controller => 'email_aliases', :except => :index
 
   get '/home' => 'home#index'
+  get '/admin' => 'admin#index'
   get '/mail' => 'mail#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

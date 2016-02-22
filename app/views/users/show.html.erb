@@ -6,6 +6,22 @@
 <% end %>
 <% content_for :section do %>User <%= @user.display_name %><% end %>
 
+<% if can? :update, @user and not @user.confirmed? %>
+  <div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> This user's email address has not been confirmed yet.
+  </div>
+<% end %>
+<% if can? :update, @user and not @user.enabled %>
+  <div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
+  </div>
+<% end %>
+<% if can? :update, @user and @user.access_locked? %>
+  <div class="alert alert-warning">
+    <i class="fa fa-lock"></i> This account is locked and cannot sign in on the panel.
+  </div>
+<% end %>
+
 <div class="pull-right">
   <div class="btn-group">
     <% if can? :update, @user %>
@@ -24,24 +40,6 @@
       <% end %>
     <% end %>
   </div>
-</div>
-
-<div class="pull-left">
-  <% if can? :update, @user and not @user.confirmed? %>
-    <div class="alert alert-warning">
-      <i class="fa fa-exclamation-triangle"></i> This user's email address has not been confirmed yet.
-    </div>
-  <% end %>
-  <% if can? :update, @user and not @user.enabled %>
-    <div class="alert alert-warning">
-      <i class="fa fa-exclamation-triangle"></i> This account is disabled and cannot be used for signing in using any authentication backend.
-    </div>
-  <% end %>
-  <% if can? :update, @user and @user.access_locked? %>
-    <div class="alert alert-warning">
-      <i class="fa fa-lock"></i> This account is locked and cannot sign in on the panel.
-    </div>
-  <% end %>
 </div>
 
 <table class="attribute-table">

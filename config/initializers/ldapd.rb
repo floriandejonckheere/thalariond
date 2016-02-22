@@ -13,8 +13,9 @@ if server?
     # Start watcher thread
     Thread.new(LDAPd.pid) do |pid|
       Process.wait pid
+      LDAPd.exit_status = $?.exitstatus
       LDAPd.pid = nil
-      Rails.logger.error "LDAPd failed with status #{$?.exitstatus}"
+      Rails.logger.error "LDAPd failed with status #{LDAPd.exit_status}"
     end
   else
     $server = LDAPd::Server.new(

@@ -22,6 +22,13 @@
           Notifications
         <% end %>
       </li>
+      <% if current_user.has_role? :administrator %>
+        <li class="nav-item">
+          <%= link_to admin_path, :class => (controller?('admin') ? 'nav-link active' : 'nav-link') do %>
+            Admin panel
+          <% end %>
+        </li>
+      <% end %>
       <div class="title-main m-t-1">Accounts</div>
       <li class="nav-item">
         <%= link_to user_path(current_user),
