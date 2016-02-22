@@ -43,7 +43,13 @@
   </tr>
   <tr>
     <td>State</td>
-    <td><%= @service.enabled ? 'Enabled' : 'Disabled' %></td>
+    <td>
+      <% if @service.enabled %>
+        <span class="text-success">Enabled</span>
+      <% else %>
+        <span class="text-danger">Disabled</span>
+      <% end %>
+    </td>
   </tr>
 </table>
 
