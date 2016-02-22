@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def controller?(*controller)
     controller.include? params[:controller]
   end
@@ -29,18 +28,13 @@ module ApplicationHelper
   end
 
   def ldapd_running?
-    return false unless LDAPd.pid
+    return false unless ::LDAPd.pid
     begin
-      Process.getpgid LDAPd.pid
+      Process.getpgid ::LDAPd.pid
       return true
     rescue Errno::ESRCH
       return false
     end
-  end
-
-  # false when invoked as a rake task, a generator or test environment
-  def server?
-    not (ENV["RAILS_ENV"].nil? or ENV["RAILS_ENV"] == 'test')
   end
 
   def authorize_admin!

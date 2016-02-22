@@ -13,10 +13,10 @@
         <% if ldapd_running? %>
           <strong class="text-success">Running</strong>
         <% else %>
-          <% if LDAPd.exit_status == 0 %>
+          <% if ::LDAPd.exit_status == 0 %>
             <strong class="text-warning">Exited</strong>
           <% else %>
-            <strong class="text-danger">Failed</strong> <%= "(exit status #{LDAPd.exit_status})" if LDAPd.exit_status %>
+            <strong class="text-danger">Failed</strong> <%= "(exit status #{::LDAPd.exit_status})" if ::LDAPd.exit_status %>
           <% end %>
         <% end %>
       </td>

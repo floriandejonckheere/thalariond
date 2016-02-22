@@ -1,6 +1,4 @@
-include ApplicationHelper
-
-if server?
+unless ENV['RAILS_ENV'].nil? or ENV['RAILS_ENV'] == 'test'
   require Rails.root.join('lib', 'ldapd.rb')
 
   Rails.logger.info "Starting LDAPd"
