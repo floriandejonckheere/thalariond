@@ -21,6 +21,7 @@ module ApplicationHelper
     {
       :success => 'alert-success',
       :error => 'alert-danger',
+      :danger => 'alert-danger',
       :alert => 'alert-warning',
       :notice => 'alert-info',
       :info => 'alert-info'
@@ -35,9 +36,5 @@ module ApplicationHelper
     rescue Errno::ESRCH
       return false
     end
-  end
-
-  def authorize_admin!
-    redirect_to home_path unless current_user.has_role? :administrator
   end
 end

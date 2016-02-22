@@ -7,5 +7,6 @@ class AdminController < ApplicationController
   layout 'dashboard'
 
   def index
+    authorize! :manage, :all
   end
 end
