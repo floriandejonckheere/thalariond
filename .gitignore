@@ -23,3 +23,5 @@ config/database.*yml
 config/ldap.*yml
 config/mailer.*yml
 config/secrets.*yml
+
+.byebug_history

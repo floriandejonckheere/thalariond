@@ -1,3 +1,5 @@
+require Rails.root.join('lib', 'ldapd.rb')
+
 module ApplicationHelper
   def controller?(*controller)
     controller.include? params[:controller]
