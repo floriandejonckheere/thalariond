@@ -1,29 +1,50 @@
-unless ENV['RAILS_ENV'].nil? or ENV['RAILS_ENV'] == 'test'
+unless Rails.env.test? or !!defined?(Rails::Console)
   require Rails.root.join('lib', 'ldapd.rb')
 
-  Rails.logger.info "Starting LDAPd"
+  LOG_FILE = Rails.root.join('log', "ldapd.#{Rails.env}.log")
+  MIN_RUNTIME = 10
 
   LDAPd.pid = Process.fork
 
   if LDAPd.pid
-    Rails.logger.info "LDAPd running with PID #{LDAPd.pid}"
-
+    Process.detach LDAPd.pid
     # Start watcher thread
-    Thread.new(LDAPd.pid) do |pid|
-      Process.wait pid
-      LDAPd.exit_status = $?.exitstatus
-      LDAPd.pid = nil
-      Rails.logger.error "LDAPd failed with status #{LDAPd.exit_status}"
-    end
   else
-    $server = LDAPd::Server.new(
-      :log_file => Rails.root.join('log', "ldapd.#{Rails.env}.log"),
-      :log_level => Rails.logger.level
-    )
+    # Set up logging
+    logger = Logger.new(LOG_FILE)
+    logger.level = Rails.logger.level || Logger::DEBUG
 
-    $server.start
+    $stdout.reopen(LOG_FILE, 'a')
+    $stderr.reopen(LOG_FILE, 'a')
 
-    # Prevent running finalizers
-    Kernel.exit!
+    $server = LDAPd::Server.new :logger => logger
+
+    trap 'TERM' do
+      $server.stop
+    end
+
+    loop do
+      logger.info 'Starting LDAPd'
+
+      begin
+        start_time = DateTime.now
+        $server.start
+      rescue
+        next
+      ensure
+        # gets called after rescue, but before next
+        end_time = DateTime.now
+        logger.warn "LDAPd stopped, ran for #{((end_time - start_time) * 24 * 60 * 60).to_i} seconds"
+      end
+
+      # Server ran for less than 10s
+      if ((end_time - start_time) * 24 * 60 * 60) < MIN_RUNTIME
+        logger.error "LDAPd ran for less than #{MIN_RUNTIME} seconds, aborting"
+        Process.kill 'TERM', Process.ppid
+
+        # Prevent running finalizers
+        Kernel.exit!
+      end
+    end
   end
 end

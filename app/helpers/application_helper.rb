@@ -29,14 +29,4 @@ module ApplicationHelper
       :info => 'alert-info'
     }[flash_type.to_sym] || flash_type.to_s
   end
-
-  def ldapd_running?
-    return false unless ::LDAPd.pid
-    begin
-      Process.getpgid ::LDAPd.pid
-      return true
-    rescue Errno::ESRCH
-      return false
-    end
-  end
 end

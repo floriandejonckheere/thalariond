@@ -1,6 +1,7 @@
-unless ENV['RAILS_ENV'].nil? or ENV['RAILS_ENV'] == 'test'
+require 'ldapd'
+
+unless Rails.env.test? or !!defined?(Rails::Console)
   if LDAPd.pid
-    Rails.logger.info "Stopping LDAPd with PID #{LDAPd.pid}"
-    Process.kill 'KILL', LDAPd.pid # raises Errno::ESRCH
+    Process.kill 'TERM', LDAPd.pid
   end
 end

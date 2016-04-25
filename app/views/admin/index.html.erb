@@ -1,25 +1,2 @@
 <% content_for :title do   %>General<% end %>
 <% content_for :section do %>Admin panel<% end %>
-
-<div class="title-heading">
-  <h3>LDAPd</h3>
-</div>
-
-<div class="row">
-  <table class="attribute-table">
-    <tr>
-      <td>LDAPd state</td>
-      <td>
-        <% if ldapd_running? %>
-          <strong class="text-success">Running</strong>
-        <% else %>
-          <% if ::LDAPd.exit_status == 0 %>
-            <strong class="text-warning">Exited</strong>
-          <% else %>
-            <strong class="text-danger">Failed</strong> <%= "(exit status #{::LDAPd.exit_status})" if ::LDAPd.exit_status %>
-          <% end %>
-        <% end %>
-      </td>
-    </tr>
-  </table>
-</div>

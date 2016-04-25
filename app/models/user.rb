@@ -184,6 +184,7 @@ class User < ActiveRecord::Base
     h['uid'] = self.uid
     h['objectClass'] = 'userAccount'
     h['givenName'] = self.first_name
+    h['cn'] = self.first_name + (self.last_name? ? " #{self.last_name}" : "")
     h['sn'] = self.last_name if self.last_name?
     h['mail'] = self.email
     h['enabled'] = self.active_for_authentication?.to_s
