@@ -2,8 +2,9 @@ require 'cancan'
 
 module LDAPd
 class LDAPController
+class << self
 
-  def self.fail(request, message, error = LDAP::ResultError::InvalidCredentials)
+  def fail(request, message, error = LDAP::ResultError::InvalidCredentials)
     request.connection.logger.debug message
     raise error
   end
@@ -13,13 +14,13 @@ class LDAPController
   ###############
 
   # uid=:uid, ou=services, dc=thalarion, dc=be
-  def self.bindService(request, version, dn, password, params)
+  def bindService(request, version, dn, password, params)
     dn.downcase!
 
     fail request, "bind #{dn} failed: empty uid" if params[:uid].nil? or params[:uid].empty?
     fail request, "bind #{dn} failed: empty password" if password.nil?
 
-    service = Service.find_by(:uid => params[:uid])
+    service = Service.find_by :uid => params[:uid]
 
     fail request "bind #{dn} failed: invalid uid" if service.nil?
     fail request "bind #{dn} failed: invalid password" unless service.valid_password? password
@@ -28,17 +29,17 @@ class LDAPController
   end
 
   # mail=:mail, dc=:domain, ou=mail, dc=thalarion, dc=be
-  def self.bindMail(request, version, dn, password, params)
+  def bindMail(request, version, dn, password, params)
     dn.downcase!
 
     fail request, "bind #{dn} failed: empty local part" if params[:mail].nil? or params[:mail].empty?
     fail request, "bind #{dn} failed: empty domain" if params[:domain].nil? or params[:domain].empty?
     fail request, "bind #{dn} failed: empty password" if password.nil?
 
-    domain = Domain.find_by(:domain => params[:domain])
+    domain = Domain.find_by :domain => params[:domain]
     fail request, "bind #{dn} failed: invalid domain" if domain.nil?
 
-    email = domain.emails.find_by(:mail => params[:mail])
+    email = domain.emails.find_by :mail => params[:mail]
     fail request, "bind #{dn} failed: invalid email" if email.nil?
 
     # This should never fail
@@ -64,14 +65,14 @@ class LDAPController
   end
 
   # uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be
-  def self.bindGroup(request, version, dn, password, params)
+  def bindGroup(request, version, dn, password, params)
     dn.downcase!
 
     fail request, "bind #{dn} failed: empty group" if params[:group].nil? or params[:group].empty?
     fail request, "bind #{dn} failed: empty uid" if params[:uid].nil? or params[:uid].empty?
     fail request, "bind #{dn} failed: empty password" if password.nil?
 
-    group = Group.find_by(:name => params[:group])
+    group = Group.find_by :name => params[:group]
     fail request, "bind #{dn} failed: invalid group" if group.nil?
 
 
@@ -85,67 +86,8 @@ class LDAPController
   ### Searching ###
   #################
 
-  def self.searchUser(request, baseObject, scope, deref, filter, params)
-    baseObject.downcase!
-
-    raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-
-    User.all.each do |user|
-      next if request.connection.account.cannot? :read, user
-      user_hash = user.to_ldap
-
-      user_hash.delete 'group' if request.connection.account.cannot? :update, user
-
-      result = LDAP::Server::Filter.run(filter, user_hash)
-      request.send_SearchResultEntry("uid=#{user_hash['uid']},#{baseObject}", user_hash) if result
-    end
-  end
-
-  def self.searchService(request, baseObject, scope, deref, filter, params)
-    baseObject.downcase!
-
-    raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-
-    Service.all.each do |service|
-      next if request.connection.account.cannot? :read, service
-      service_hash = service.to_ldap
-
-      service_hash.delete 'group' if request.connection.account.cannot? :update, service
-
-      result = LDAP::Server::Filter.run(filter, service_hash)
-      request.send_SearchResultEntry("uid=#{service_hash['uid']},#{baseObject}", service_hash) if result
-    end
-  end
-
-  def self.searchGroups(request, baseObject, scope, deref, filter, params)
-    baseObject.downcase!
-
-    raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-
-    Group.accessible_by(request.connection.ability).each do |group|
-      group_hash = group.to_ldap
-      result = LDAP::Server::Filter.run(filter, group_hash)
-      request.send_SearchResultEntry("cn=#{group_hash['cn']},#{baseObject}", group_hash) if result
-    end
-  end
-
-  def self.searchGroup(request, baseObject, scope, deref, filter, params)
-    baseObject.downcase!
-
-    raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
-
-    group = Group.find_by(:name => params[:group])
-
-    if group and request.connection.ability.can? :read, group
-      (group.users + group.services).each do |account|
-        account_hash = account.to_ldap
-        result = LDAP::Server::Filter.run(filter, account_hash)
-        request.send_SearchResultEntry("uid=#{account_hash['uid']},#{baseObject}", account_hash) if result
-      end
-    end
-  end
-
-  def self.searchDomain(request, baseObject, scope, deref, filter, params)
+  # ou=mail, dc=thalarion, dc=be
+  def searchDomains(request, baseObject, scope, deref, filter, params)
     baseObject.downcase!
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
@@ -164,12 +106,13 @@ class LDAPController
     end
   end
 
-  def self.searchMail(request, baseObject, scope, deref, filter, params)
+  # dc=:domain, ou=mail, dc=thalarion, dc=be
+  def searchDomain(request, baseObject, scope, deref, filter, params)
     baseObject.downcase!
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
 
-    domain = Domain.find_by(:domain => params[:domain])
+    domain = Domain.find_by :domain => params[:domain]
     if domain
       domain.emails.each do |email|
         next if request.connection.account.cannot? :read, email
@@ -188,12 +131,13 @@ class LDAPController
     end
   end
 
-  def self.searchMember(request, baseObject, scope, deref, filter, params)
+  # cn=:group, ou=groups, dc=thalarion, dc=be
+  def searchGroup(request, baseObject, scope, deref, filter, params)
     baseObject.downcase!
 
     raise LDAP::ResultError::InappropriateAuthentication, "Anonymous bind not allowed" if request.connection.account.nil?
 
-    group = Group.find_by(:name => params[:group])
+    group = Group.find_by :name => params[:group]
 
     if group and request.connection.ability.can? :read, group
       (group.users + group.services).each do |account|
@@ -204,5 +148,6 @@ class LDAPController
     end
   end
 
+end
 end
 end

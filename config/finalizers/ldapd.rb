@@ -1,5 +1,6 @@
 require 'ldapd'
 
-if LDAPd.pid
-  Process.kill 'TERM', LDAPd.pid
+begin
+  Process.kill 'TERM', LDAPd.pid if LDAPd.pid
+rescue Errno::ESRCH
 end

@@ -23,13 +23,11 @@ class Server
       # GitLab authentication methods
       bind    'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#bindGroup'
 
-      # Common search methods
-      search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
       # Dovecot search methods
-      search  'ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
-      search  'dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMail'
+      search  'ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomains'
+      search  'dc=:domain, ou=mail, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchDomain'
       # GitLab search methods
-      search  'uid=:uid, cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchMember'
+      search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
     end
 
     params = { :bindaddr => config['bindaddr'],
