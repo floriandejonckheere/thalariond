@@ -1,0 +1,6 @@
+.signin-container {
+  background-image: url('<%=
+    images = Dir.glob('app/assets/images/backgrounds/*').map { |p| p.split('/')[-2..-1].join('/') }
+    image_path(images[(Time.new.yday % images.size)])
+  %>');
+}

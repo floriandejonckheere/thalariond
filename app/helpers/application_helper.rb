@@ -13,11 +13,6 @@ module ApplicationHelper
     id == params[:id]
   end
 
-  def randomized_background_image
-    images = Dir.glob('app/assets/images/backgrounds/*').map { |p| p.split('/')[-2..-1].join('/') }
-    image_path(images[(Time.new.yday % images.size)])
-  end
-
   # Bootstrap alert classes
   def bootstrap_class_for flash_type
     {
