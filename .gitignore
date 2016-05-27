@@ -25,3 +25,7 @@ config/mailer.*yml
 config/secrets.*yml
 
 .byebug_history
+
+# Ignore assets
+node_modules/
+vendor/assets/

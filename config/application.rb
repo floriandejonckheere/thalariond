@@ -26,6 +26,10 @@ module ThalariondRails
     config.ldap = YAML.load_file("#{Rails.root.to_s}/config/ldap.yml")[Rails.env]
     config.mailer = YAML.load_file("#{Rails.root.to_s}/config/mailer.yml")[Rails.env]
 
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
+
+    config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf|otf)\z/
+
     config.autoload_paths += %W(#{config.root}/lib)
   end
 end

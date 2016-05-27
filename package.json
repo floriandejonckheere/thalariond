@@ -1,0 +1,19 @@
+{
+  "name": "thalariond",
+  "version": "2.0.1",
+  "description": "A suite of services providing a centralized user database management system",
+  "dependencies": {
+    "bower": "^1.7.9"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/floriandejonckheere/thalariond.git"
+  },
+  "author": "Florian Dejonckheere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/floriandejonckheere/thalariond/issues"
+  },
+  "homepage": "https://github.com/floriandejonckheere/thalariond"
+}

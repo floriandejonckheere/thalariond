@@ -19,7 +19,7 @@ A default `admin` user is created with password `abcd1234`. Additional roles and
 
 # Upgrading
 
-## From 1.0 to 2.x
+## From 1.0 to 2.0
 
 - Roles now have an `order` attribute. Reseed the database to use the predefined values
 
@@ -33,6 +33,13 @@ $ rake db:seed
 $ rake db:fix_permission_groups
 ```
 
+## From 2.0 to 2.1
+
+- Bower is now used for frontend assets. Install it using NPM
+
+```
+$ npm install -g bower
+```
 
 # Testing
 
@@ -46,14 +53,18 @@ $ rake test RAILS_ENV=test
 
 # Configuration
 
-Move, copy or symlink `config/database.yml.example` to `config/database.yml`, and `config/ldap.yml.example` to `config/ldap.yml`, and apply your custom settings.
-Set the Devise secret key in `config/initializers/devise.rb`. Apply your Capistrano configuration in `config/deploy.rb` and x`config/deploy/*`.
+Move, copy or symlink the following files to their production counterpart:
+
+- `config/database.yml.example`
+- `config/ldap.yml.example`
+- `config/secrets.yml.example`
+- `config/mailer.yml.example`
 
 # Run
 
 Capistrano is used to deploy.
-To run manually, execute the following commands
+To run manually, execute the following command
+
 ```
-$ RAILS_ENV=production bundle exec bin/ldapd start # LDAP server
 $ RAILS_ENV=production bundle exec rails server # Rails server
 ```
