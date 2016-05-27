@@ -10,6 +10,9 @@ class UsersController < ApplicationController
 
   def index
     @users = User.accessible_by(current_ability).select { |u| can? :read, u }
+    @unconfirmed_users = @users.select{ |u| not u.confirmed? }
+    @disabled_users = @users.select{ |u| not u.enabled }
+    @locked_users = @users.select{ |u| u.access_locked? }
   end
 
   def create
