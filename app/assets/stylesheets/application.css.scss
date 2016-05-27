@@ -37,6 +37,19 @@ html {
   margin-top: -40px;
 }
 
+.user-banner {
+  font-size: 12px;
+  color: $light-grey;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  span:first-child {
+    margin-right: 10px;
+  }
+}
+
 /**
  * Overrides and fixes
  *
