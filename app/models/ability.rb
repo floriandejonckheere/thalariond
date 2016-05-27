@@ -65,9 +65,13 @@ class Ability
 
   def master
     operator
-    can [:create, :assign, :destroy], User
-    can [:create, :assign, :destroy], Service
+    can [:create, :destroy], User
+    can [:create, :destroy], Service
     can [:create, :destroy], Group
+
+    can :assign, User do |user|
+      not (user.has_role? :administrator)
+    end
 
     if @account.has_role? :mail
       can [:create, :update, :destroy], Domain

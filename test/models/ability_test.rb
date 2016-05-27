@@ -105,6 +105,13 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('user3-mail').cannot? :update, g('user1@example.com')
     assert u('user3-mail').cannot? :update, g('user1-user2@example.com')
     assert u('user3-mail').cannot? :update, g('user3@example.com')
+
+    # Assignment
+    assert u('user1').cannot? :assign, User
+    assert u('user1').cannot? :assign, u('user1')
+    assert u('user1').cannot? :assign, u('operator')
+    assert u('user1').cannot? :assign, u('master')
+    assert u('user1').cannot? :assign, u('admin')
   end
 
   test 'mail' do
@@ -151,11 +158,16 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('operator').can? :list, User
     assert u('operator').can? :read, User
     assert u('operator').can? :update, User
-    assert u('operator').cannot? :assign, User
     assert u('operator').can? :update, Service
     assert u('operator').can? :list, Group
     assert u('operator').can? :read, Group
     assert u('operator').can? :update, Group
+
+    assert u('operator').cannot? :assign, User
+    assert u('operator').cannot? :assign, u('user1')
+    assert u('operator').cannot? :assign, u('operator')
+    assert u('operator').cannot? :assign, u('master')
+    assert u('operator').cannot? :assign, u('admin')
   end
 
   test 'operator_mail' do
@@ -171,15 +183,18 @@ class AbilityTest < ActiveSupport::TestCase
 
   test 'master' do
     assert u('master').can? :create, User
-    assert u('master').can? :assign, User
     assert u('master').can? :destroy, User
 
     assert u('master').can? :create, Service
-    assert u('master').can? :assign, Service
     assert u('master').can? :destroy, Service
 
     assert u('master').can? :create, Group
     assert u('master').can? :destroy, Group
+
+    assert u('master').can? :assign, u('user1')
+    assert u('master').can? :assign, u('operator')
+    assert u('master').can? :assign, u('master')
+    assert u('master').cannot? :assign, u('admin')
   end
 
   test 'master_mail' do
