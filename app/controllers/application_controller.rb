@@ -13,6 +13,9 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
 
+  # Allow Paper Trail to use current_user
+  before_filter :set_paper_trail_whodunnit
+
   # Extra metadata for Paper Trail
   def info_for_paper_trail
     {
