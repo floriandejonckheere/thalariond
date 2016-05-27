@@ -38,6 +38,9 @@ class UsersController < ApplicationController
 
   def show
     @events = AuthEvent.where(:user => @user)
+                        .where('timestamp > ?', 5.days.ago)
+                        .limit(5)
+                        .order(:timestamp => :desc)
   end
 
   def update

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110092459) do
+ActiveRecord::Schema.define(version: 20160527142048) do
 
   create_table "auth_events", force: :cascade do |t|
     t.text     "component",  null: false
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20151110092459) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "auth_events", ["user_id"], name: "index_auth_events_on_user_id"
 
   create_table "domain_aliases", force: :cascade do |t|
     t.text     "alias",      null: false
