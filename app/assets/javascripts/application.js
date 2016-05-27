@@ -15,7 +15,15 @@
 //= require tether
 //= require bootstrap/dist/js/bootstrap.min
 //= require turbolinks
+//= require nprogress
+//= require nprogress-turbolinks
 //= require_tree .
+
+NProgress.configure({
+  showSpinner: false,
+  ease: 'ease',
+  speed: 500
+});
 
 // This function will be run on every page whether or not turbolinks is used
 var ready = function() {

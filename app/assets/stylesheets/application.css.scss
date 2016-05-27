@@ -16,6 +16,9 @@ $fa-font-path: "fontawesome/fonts/";
 
 @import "bootstrap/scss/bootstrap";
 
+$nprogress-color: $color-primary;
+@import "nprogress";
+
 @import "form";
 @import "navigation";
 @import "table";
