@@ -57,6 +57,12 @@ html {
 .alert button.close {
   font-size: 1rem;
   line-height: 1.5rem;
+  font-family: Roboto
+}
+
+em {
+  /* Robot only has italic font weight 400 */
+  font-style: normal;
 }
 
 /* Italic placeholders */
