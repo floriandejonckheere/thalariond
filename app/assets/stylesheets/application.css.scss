@@ -10,11 +10,10 @@
 $fa-font-path: "fontawesome/fonts/";
 @import "fontawesome/scss/font-awesome";
 @import "font-roboto/src/styles/roboto";
-
-
 @import "raleway/raleway.css";
 
-@import "hint/hint";
+@import "hint/dist/hint.min.css";
+
 @import "bootstrap/scss/bootstrap";
 
 @import "form";
