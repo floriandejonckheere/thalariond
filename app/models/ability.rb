@@ -69,8 +69,12 @@ class Ability
     can [:create, :destroy], Service
     can [:create, :destroy], Group
 
-    can :assign, User do |user|
-      not (user.has_role? :administrator)
+    can :assign, Role do |role|
+      if role.name == 'administrator'
+        @account.has_role? :administrator
+      else
+        true
+      end
     end
 
     if @account.has_role? :mail

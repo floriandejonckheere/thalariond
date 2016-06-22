@@ -6,22 +6,29 @@ class UserRolesController < ApplicationController
 
 
   def create
-    authorize! :assign, @user
+    authorize! :assign, Role
     @role = Role.find(params[:role][:id])
 
-    unless @user.roles.include? @role
+    if current_user.can? :assign, @role
       @user.roles << @role
+    else
+      @user.errors << "You do not have enough permissions to assign this role"
     end
 
     redirect_to edit_user_path(@user)
   end
 
   def destroy
-    authorize! :assign, @user
+    authorize! :assign, Role
     @user = User.find(params[:user_id])
     @role = Role.find(params[:id])
 
-    @user.roles.delete @role
+    if current_user.can? :assign, @role
+      @user.roles.delete @role
+    else
+      @user.errors << "You do not have enough permissions to assign this role"
+    end
+
     redirect_to edit_user_path(@user)
   end
 end

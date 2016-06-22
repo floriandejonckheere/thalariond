@@ -105,7 +105,7 @@
   <%= form.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>
 
-<% if can? :assign, @user and action? 'edit' %>
+<% if can? :assign, Role and action? 'edit' %>
   <div class="title-heading">
     <h3>Authorization</h3>
   </div>
@@ -141,11 +141,11 @@
       </table>
     </div>
 
-    <% if (Role.all - @user.roles).any? %>
+    <% if @available_roles.any? %>
       <div class="col-xs-4">
         <%= form_for :role, url: user_roles_path(@user) do |role_form| %>
           <label class="th dropdown">
-            <%= role_form.select :id, Role.all.reject { |r| @user.roles.include? r }.collect { |r| [ r.display_name, r.id ] } %>
+            <%= role_form.select :id, @available_roles.collect { |r| [ r.display_name, r.id ] } %>
           </label>
           <%= role_form.submit 'Add', :class => "btn btn-sm btn-secondary" %>
         <% end %>

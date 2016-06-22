@@ -8,8 +8,10 @@ class ServiceRolesController < ApplicationController
     authorize! :assign, @service
     @role = Role.find(params[:role][:id])
 
-    unless @service.roles.include? @role
+    if current_user.can? :assign, @role
       @service.roles << @role
+    else
+      @user.errors << "You do not have enough permissions to assign this role"
     end
 
     redirect_to edit_service_path(@service)
@@ -20,7 +22,12 @@ class ServiceRolesController < ApplicationController
     @service = Service.find(params[:service_id])
     @role = Role.find(params[:id])
 
-    @service.roles.delete @role
+    if current_user.can? :assign, @role
+      @service.roles.delete @role
+    else
+      @user.errors << "You do not have enough permissions to assign this role"
+    end
+
     redirect_to edit_service_path(@service)
   end
 end

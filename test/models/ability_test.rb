@@ -105,13 +105,6 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('user3-mail').cannot? :update, g('user1@example.com')
     assert u('user3-mail').cannot? :update, g('user1-user2@example.com')
     assert u('user3-mail').cannot? :update, g('user3@example.com')
-
-    # Assignment
-    assert u('user1').cannot? :assign, User
-    assert u('user1').cannot? :assign, u('user1')
-    assert u('user1').cannot? :assign, u('operator')
-    assert u('user1').cannot? :assign, u('master')
-    assert u('user1').cannot? :assign, u('admin')
   end
 
   test 'mail' do
@@ -162,12 +155,6 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('operator').can? :list, Group
     assert u('operator').can? :read, Group
     assert u('operator').can? :update, Group
-
-    assert u('operator').cannot? :assign, User
-    assert u('operator').cannot? :assign, u('user1')
-    assert u('operator').cannot? :assign, u('operator')
-    assert u('operator').cannot? :assign, u('master')
-    assert u('operator').cannot? :assign, u('admin')
   end
 
   test 'operator_mail' do
@@ -190,11 +177,6 @@ class AbilityTest < ActiveSupport::TestCase
 
     assert u('master').can? :create, Group
     assert u('master').can? :destroy, Group
-
-    assert u('master').can? :assign, u('user1')
-    assert u('master').can? :assign, u('operator')
-    assert u('master').can? :assign, u('master')
-    assert u('master').cannot? :assign, u('admin')
   end
 
   test 'master_mail' do
@@ -224,4 +206,63 @@ class AbilityTest < ActiveSupport::TestCase
     assert_equal User.all.count, User.accessible_by(a('admin')).count
   end
 
+  test 'test_assign_lower_roles' do
+    # A user assigned a certain role should also be assigned the lower roles
+
+    u('master').roles.delete_all
+
+    assert_not u('master').has_role? :user
+    assert_not u('master').has_role? :operator
+    assert_not u('master').has_role? :master
+    assert_not u('master').has_role? :administrator
+
+    u('master').roles << r('master')
+
+    assert u('master').has_role? :user
+    assert u('master').has_role? :operator
+    assert u('master').has_role? :master
+    assert_not u('master').has_role? :administrator
+  end
+
+  test 'assign' do
+    assert_not u('user1').can? :assign, r('user')
+    assert_not u('user1').can? :assign, r('service')
+    assert_not u('user1').can? :assign, r('mail')
+    assert_not u('user1').can? :assign, r('operator')
+    assert_not u('user1').can? :assign, r('user')
+    assert_not u('user1').can? :assign, r('administrator')
+    assert_not u('user1').can? :assign, Role
+
+    assert_not s('service1').can? :assign, r('user')
+    assert_not s('service1').can? :assign, r('service')
+    assert_not s('service1').can? :assign, r('mail')
+    assert_not s('service1').can? :assign, r('operator')
+    assert_not s('service1').can? :assign, r('service')
+    assert_not s('service1').can? :assign, r('administrator')
+    assert_not u('user1').can? :assign, Role
+
+    assert_not u('operator').can? :assign, r('user')
+    assert_not u('operator').can? :assign, r('service')
+    assert_not u('operator').can? :assign, r('mail')
+    assert_not u('operator').can? :assign, r('operator')
+    assert_not u('operator').can? :assign, r('user')
+    assert_not u('operator').can? :assign, r('administrator')
+    assert_not u('user1').can? :assign, Role
+
+    assert u('master').can? :assign, r('user')
+    assert u('master').can? :assign, r('service')
+    assert u('master').can? :assign, r('mail')
+    assert u('master').can? :assign, r('operator')
+    assert u('master').can? :assign, r('master')
+    assert_not u('master').can? :assign, r('administrator')
+    assert u('user1').can? :assign, Role
+
+    assert u('admin').can? :assign, r('user')
+    assert u('admin').can? :assign, r('service')
+    assert u('admin').can? :assign, r('mail')
+    assert u('admin').can? :assign, r('operator')
+    assert u('admin').can? :assign, r('master')
+    assert u('admin').can? :assign, r('administrator')
+    assert u('user1').can? :assign, Role
+  end
 end

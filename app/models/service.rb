@@ -15,9 +15,13 @@ class Service < ActiveRecord::Base
   devise :database_authenticatable, :trackable
 
   # Validations
-  validates :uid, presence: true, uniqueness: true
+  validates :uid,
+              :presence => true,
+              :uniqueness => true
+
   validate :validate_users_services_unique
-  validates :display_name, presence: true
+  validates :display_name,
+              :presence => true
 
   # Role-based ACL
   has_and_belongs_to_many :roles, :unique => true
@@ -74,6 +78,6 @@ class Service < ActiveRecord::Base
 
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
-    super && self.enabled
+    super && self.enabled && self.has_role?(Role.find_by(:name => 'service'))
   end
 end

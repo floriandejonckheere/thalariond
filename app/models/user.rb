@@ -204,7 +204,7 @@ class User < ActiveRecord::Base
   end
 
   def active_for_authentication?
-    super && self.enabled
+    super && self.enabled && self.has_role?(Role.find_by(:name => 'user'))
   end
 
   def confirmation_required?

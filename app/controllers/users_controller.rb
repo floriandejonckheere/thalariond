@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.new(parameters)
     if @user.save
       flash[:info] = 'Account created'
-      @user.roles << Role.find_by(name: 'user')
+      @user.roles << Role.find_by(:name => 'user')
       redirect_to @user
     else
       render 'new'
@@ -37,6 +37,15 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @available_roles = []
+    Role.all.each do |role|
+      # Cannot assign already assigned roles
+      next if @user.has_role? role.name.to_sym
+      # Check assignment authorization
+      next unless current_user.can? :assign, role
+
+      @available_roles << role
+    end
   end
 
   def show
