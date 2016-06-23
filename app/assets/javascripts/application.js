@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require tether
 //= require bootstrap/dist/js/bootstrap.min
+//= require bootstrap-toggle/js/bootstrap-toggle.min
 //= require turbolinks
 //= require nprogress
 //= require nprogress-turbolinks

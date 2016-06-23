@@ -3,5 +3,8 @@ asset 'tether'
 
 asset 'bootstrap', '4.0.0-alpha.2'
 asset 'fontawesome'
+
+asset 'bootstrap-toggle'
+
 asset 'font-roboto'
 asset 'raleway'

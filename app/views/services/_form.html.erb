@@ -62,9 +62,13 @@
     </div>
 
     <fieldset class="form-group text-xs-center">
-      <%= f.check_box :enabled,
-          :id => 'enabled',
-          :class => 'form-control toggle-switch' %>
+        <%= form.check_box :enabled,
+            :id => 'enabled',
+            :data => {
+                :toggle => 'toggle',
+                :onstyle => 'success',
+                :offstyle => 'danger' },
+            :class => 'form-control' %>
     </fieldset>
   <% end %>
   <br>

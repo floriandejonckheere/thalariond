@@ -19,6 +19,8 @@ $fa-font-path: "fontawesome/fonts/";
 $nprogress-color: $color-primary;
 @import "nprogress";
 
+@import "bootstrap-toggle/css/bootstrap-toggle.min.css";
+
 @import "form";
 @import "navigation";
 @import "table";
