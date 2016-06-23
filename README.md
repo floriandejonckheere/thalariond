@@ -41,6 +41,15 @@ $ rake db:fix_permission_groups
 $ npm install -g bower
 ```
 
+# Development
+
+```
+$ sudo systemctl start redis
+$ gem install mailcatcher
+$ bundle exec mailcatcher
+$ bundle exec rails server
+```
+
 # Testing
 
 ```

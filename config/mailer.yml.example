@@ -10,6 +10,12 @@ default: &default
 
 development:
   <<: *default
+  host: localhost
+  domain: localhost
+  port: 1025
+  password: none
+  authentication: none
+  starttls: none
 
 production: &production
   <<: *default
