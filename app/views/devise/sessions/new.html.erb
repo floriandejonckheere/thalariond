@@ -1,45 +1,32 @@
 <div class="signin-container">
-  <div class="container">
+  <%= link_to new_session_path(resource_name) do %>
+    <%= image_tag("logo-white", :class => 'signin-logo') %>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <% if flash.any? or devise_error_messages? %>
     <div class="row">
       <div class="col-xs-12">
-        <h1 class="title">Sign in</h1>
+        <%= render 'partials/messages' %>
+        <%= devise_error_messages! %>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12 col-md-8 col-md-offset-2">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <% if flash.any? or devise_error_messages? %>
-          <div class="row">
-            <div class="col-xs-12">
-              <%= render 'partials/messages' %>
-              <%= devise_error_messages! %>
-            </div>
-          </div>
-          <% end %>
-          <div class="row">
-            <div class="col-xs-12 col-md-5">
-              <%= f.text_field :uid, placeholder: 'Username', autofocus: true %>
-            </div>
-            <div class="col-xs-12 col-md-5">
-              <%= f.password_field :password, placeholder: 'Password', autocomplete: "off" %>
-            </div>
-            <div class="col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-0">
-              <%= f.submit 'Sign in' %>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 text-xs-center signin-links">
-              <%- if devise_mapping.recoverable? %>
-                <%= link_to 'Recover account', new_password_path(resource_name) %>
-              <% end -%>
-              <%- if devise_mapping.confirmable? %>
-                |
-                <%= link_to 'Confirm account', new_confirmation_path(resource_name) %>
-              <% end -%>
-            </div>
-          </div>
-        <% end %>
-      </div>
+    <% end %>
+
+    <%= f.text_field :uid, placeholder: 'Username', autofocus: true %>
+    <%= f.password_field :password, placeholder: 'Password', autocomplete: "off" %>
+
+    <div class="help-text">
+      <%- if devise_mapping.recoverable? %>
+        <%= link_to 'Forgot password', new_password_path(resource_name) %>
+      <% end -%>
+      <%- if devise_mapping.confirmable? %>
+      <span class="pull-right">
+        <%= link_to 'Confirm account', new_confirmation_path(resource_name) %>
+      </span>
+      <% end -%>
     </div>
-  </div>
+
+    <%= f.submit 'Sign in' %>
+  <% end %>
 </div>

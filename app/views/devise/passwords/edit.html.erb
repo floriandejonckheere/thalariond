@@ -1,34 +1,22 @@
 <div class="signin-container">
-  <div class="container">
+  <%= link_to new_session_path(resource_name) do %>
+    <%= image_tag("logo-white", :class => 'signin-logo') %>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <% if flash.any? or devise_error_messages? %>
     <div class="row">
       <div class="col-xs-12">
-        <h1 class="title">Reset password</h1>
+        <%= render 'partials/messages' %>
+        <%= devise_error_messages! %>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12 col-md-8 col-md-offset-2">
-        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-        <%= f.hidden_field :reset_password_token %>
-          <% if flash.any? %>
-          <div class="row">
-            <div class="col-xs-12">
-              <%= render 'partials/messages' %>
-            </div>
-          </div>
-          <% end %>
-          <div class="row">
-            <div class="col-xs-12 col-md-5">
-              <%= f.password_field :password, placeholder: 'Password (minimum ' + @minimum_password_length.to_s + ' characters)', autofocus: true, autocomplete: 'off' %>
-            </div>
-            <div class="col-xs-12 col-md-5">
-              <%= f.password_field :password_confirmation, placeholder: 'Confirm password', autocomplete: 'off' %>
-            </div>
-            <div class="col-xs-6 col-xs-offset-3 col-md-2 col-md-offset-0">
-              <%= f.submit 'Reset' %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
+    <% end %>
+
+    <%= f.hidden_field :reset_password_token %>
+    <%= f.password_field :password, placeholder: 'Password (minimum ' + @minimum_password_length.to_s + ' characters)', autofocus: true, autocomplete: 'off' %>
+    <%= f.password_field :password_confirmation, placeholder: 'Confirm password', autocomplete: 'off' %>
+
+    <%= f.submit 'Reset password' %>
+  <% end %>
 </div>
