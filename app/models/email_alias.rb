@@ -11,6 +11,7 @@ class EmailAlias < ActiveRecord::Base
   validate :validate_domain_length
   validate :validate_no_loops
   validate :validate_managed_alias_domain
+  validate :validate_no_emails
 
 
   # Methods
@@ -40,11 +41,19 @@ class EmailAlias < ActiveRecord::Base
   end
 
   def validate_managed_alias_domain
-    split = self.alias.split('@')
+    split = self.alias.split '@'
     domain = Domain.find_by(domain: split[1])
     errors.add(:alias, "must be a managed domain") if domain.nil?
     if (Email.find_by(mail: split[0]) and Email.find_by(mail: split[0]).domain.domain.equal?(split[1]))
       errors.add(:alias, "can't be a managed email")
+    end
+  end
+
+  def validate_no_emails
+    split = self.alias.split '@'
+    domain = Domain.find_by :domain => split.last
+    if domain and domain.emails.exists?(:mail => split.first)
+      errors.add :alias, "already exists as an email"
     end
   end
 
