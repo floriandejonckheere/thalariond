@@ -204,7 +204,7 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    super && self.enabled && self.has_role?(Role.find_by(:name => 'user'))
+    super && self.enabled && self.has_role?(:user)
   end
 
   def confirmation_required?

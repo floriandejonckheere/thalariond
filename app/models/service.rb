@@ -88,6 +88,6 @@ class Service < ApplicationRecord
 
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
-    super && self.enabled && self.has_role?(Role.find_by(:name => 'service'))
+    super && self.enabled && self.has_role?(:service)
   end
 end

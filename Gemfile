@@ -10,6 +10,9 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 # LDAP server
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
+# OAuth2 provider
+gem 'doorkeeper'
+
 # Notify exceptions
 gem 'exception_notification'
 
