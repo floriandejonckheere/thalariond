@@ -1,6 +1,6 @@
 <div class="signin-container">
   <%= link_to new_session_path(resource_name) do %>
-    <%= image_tag("logo-white", :class => 'signin-logo') %>
+    <%= image_tag("logo-grey", :class => 'signin-logo m-b-3') %>
   <% end %>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -13,8 +13,14 @@
     </div>
     <% end %>
 
-    <%= f.text_field :uid, placeholder: 'Username', autofocus: true %>
-    <%= f.password_field :password, placeholder: 'Password', autocomplete: "off" %>
+    <%= f.text_field :uid,
+                      :placeholder => 'Username',
+                      :autofocus => true,
+                      :class => 'form-control m-b-2' %>
+    <%= f.password_field :password,
+                      :placeholder => 'Password',
+                      :autocomplete => 'off',
+                      :class => 'form-control m-b-2' %>
 
     <div class="help-text">
       <%- if devise_mapping.recoverable? %>
@@ -22,11 +28,11 @@
       <% end -%>
       <%- if devise_mapping.confirmable? %>
       <span class="pull-right">
-        <%= link_to 'Confirm account', new_confirmation_path(resource_name) %>
+        <%= link_to 'Confirm account', new_confirmation_path(resource_name), :class => 'pull-right' %>
       </span>
       <% end -%>
     </div>
 
-    <%= f.submit 'Sign in' %>
+    <%= f.submit 'Sign in', :class => 'btn btn-primary m-t-1' %>
   <% end %>
 </div>
