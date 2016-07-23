@@ -28,6 +28,10 @@
     <td><%= @application.name %></td>
   </tr>
   <tr>
+    <td>Client ID</td>
+    <td><%= @application.uid %></td>
+  </tr>
+  <tr>
     <td>Scopes</td>
     <td>
       <% if @application.scopes.blank? %>
