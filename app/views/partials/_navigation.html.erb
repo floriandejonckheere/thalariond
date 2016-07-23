@@ -22,23 +22,16 @@
           Notifications
         <% end %>
       </li>
-      <% if current_user.has_role? :administrator %>
-        <li class="nav-item">
-          <%= link_to admin_path, :class => (controller?('admin') ? 'nav-link active' : 'nav-link') do %>
-            Admin panel
-          <% end %>
-        </li>
-      <% end %>
       <div class="title-main m-t-1">Accounts</div>
       <li class="nav-item">
         <%= link_to user_path(current_user),
-          :class => "nav-link #{current_page?(:controller => 'users', :action => 'show', :id => current_user.id) ? 'active' : ''}" do %>
+          :class => "nav-link #{current_page?(:controller => '/users', :action => 'show', :id => current_user.id) ? 'active' : ''}" do %>
           My Account
         <% end %>
       </li>
       <li class="nav-item">
         <%= link_to users_path,
-          :class => "nav-link #{(controller?('users') and not current_page?(:controller => 'users', :action => 'show', :id => current_user.id)) ? 'active' : ''}" do %>
+          :class => "nav-link #{(controller?('users') and not current_page?(:controller => '/users', :action => 'show', :id => current_user.id)) ? 'active' : ''}" do %>
           Users
         <% end %>
       </li>
@@ -69,6 +62,19 @@
         <li class="nav-item">
           <%= link_to mail_path, :class => (controller?('mail', 'emails', 'email_aliases') ? 'nav-link active' : 'nav-link') do %>
             Emails
+          <% end %>
+        </li>
+      <% end %>
+      <% if current_user.has_role? :administrator %>
+        <div class="title-main m-t-1">Administrator</div>
+        <li class="nav-item">
+          <%= link_to admin_path, :class => (controller?('admin') ? 'nav-link active' : 'nav-link') do %>
+            Admin panel
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to oauth_applications_path, :class => (controller?('doorkeeper/applications') ? 'nav-link active' : 'nav-link') do %>
+            OAuth2
           <% end %>
         </li>
       <% end %>

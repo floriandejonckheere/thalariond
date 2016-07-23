@@ -26,5 +26,17 @@ module ThalariondRails
     config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf|otf)\z/
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # Doorkeeper configuration
+    config.to_prepare do
+      # Only Applications list
+      Doorkeeper::ApplicationsController.layout 'dashboard'
+
+      # Only Authorization endpoint
+      Doorkeeper::AuthorizationsController.layout 'dashboard'
+
+      # Only Authorized Applications
+      Doorkeeper::AuthorizedApplicationsController.layout 'dashboard'
+    end
   end
 end
