@@ -1,5 +1,5 @@
 class ServiceRolesController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   load_resource :service
   load_resource :role, :through => :service

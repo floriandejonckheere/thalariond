@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_paper_trail :skip => [:reset_password_token,
                             :reset_password_sent_at,
                             :sign_in_count,

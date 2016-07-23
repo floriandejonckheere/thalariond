@@ -1,4 +1,4 @@
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   has_paper_trail
 
   before_save :sanitize_attributes

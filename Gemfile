@@ -13,7 +13,7 @@ gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldap
 # Notify exceptions
 gem 'exception_notification'
 
-gem 'rails', '4.2.2'
+gem 'rails', '5.0.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -48,9 +48,6 @@ group :development, :test do
 
   # Ensure clean database
   gem 'database_cleaner'
-
-  # Ignore assets logger
-  gem 'quiet_assets'
 
   # Use Capistrano for deployment
   gem 'capistrano', '~> 3.4.0'

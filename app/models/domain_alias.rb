@@ -1,4 +1,4 @@
-class DomainAlias < ActiveRecord::Base
+class DomainAlias < ApplicationRecord
   # Domain aliases have two attributes: alias and domain.
   # alias ALWAYS means the pointing domain
   # domain ALWAYS means the pointed to domain

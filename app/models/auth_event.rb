@@ -1,4 +1,4 @@
-class AuthEvent < ActiveRecord::Base
+class AuthEvent < ApplicationRecord
   before_save :generate_timestamp
 
   belongs_to :user

@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   load_and_authorize_resource
   skip_authorization_check :only => :index
 
   layout 'dashboard'
 
-  # If you're experiencing a ForbiddenAttributesError, check out before_filter in application_controller
+  # If you're experiencing a ForbiddenAttributesError, check out before_action in application_controller
 
   def index
     @users = User.accessible_by(current_ability).select { |u| can? :read, u }

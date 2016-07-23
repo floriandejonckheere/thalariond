@@ -1,4 +1,4 @@
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   has_paper_trail
 
   before_save :sanitize_attributes
@@ -6,7 +6,8 @@ class Email < ActiveRecord::Base
   before_validation :create_permission_group, :on => :create
   before_update :update_permission_group
 
-  belongs_to :domain, -> { uniq }
+  belongs_to :domain,
+                :distinct => true
 
   has_one :group, :dependent => :delete, :required => true
 

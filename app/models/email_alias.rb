@@ -1,4 +1,4 @@
-class EmailAlias < ActiveRecord::Base
+class EmailAlias < ApplicationRecord
   has_paper_trail
 
   before_save :sanitize_attributes

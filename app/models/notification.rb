@@ -1,4 +1,4 @@
-class Notification < ActiveRecord::Base
+class Notification < ApplicationRecord
   before_create :generate_timestamp
 
   belongs_to :user

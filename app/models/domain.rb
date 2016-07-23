@@ -1,4 +1,4 @@
-class Domain < ActiveRecord::Base
+class Domain < ApplicationRecord
   has_paper_trail
 
   before_save :sanitize_attributes
@@ -7,7 +7,9 @@ class Domain < ActiveRecord::Base
   validate :validate_domain_syntax
   validate :validate_domain_not_alias
 
-  has_many :emails, -> { uniq }, :dependent => :destroy
+  has_many :emails,
+              :distinct => true,
+              :dependent => :destroy
 
 
   # Methods

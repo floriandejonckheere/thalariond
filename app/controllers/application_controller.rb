@@ -7,14 +7,14 @@ class ApplicationController < ActionController::Base
   check_authorization :unless => :devise_controller?
 
   # CanCan bug, see https://github.com/ryanb/cancan/issues/835#issuecomment-18663815
-  before_filter do
+  before_action do
     resource = controller_name.singularize.to_sym
     method = "#{resource}_params"
     params[resource] &&= send(method) if respond_to?(method, true)
   end
 
   # Allow Paper Trail to use current_user
-  before_filter :set_paper_trail_whodunnit
+  before_action :set_paper_trail_whodunnit
 
   # Extra metadata for Paper Trail
   def info_for_paper_trail

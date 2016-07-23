@@ -1,4 +1,4 @@
-class Service < ActiveRecord::Base
+class Service < ApplicationRecord
   has_paper_trail :skip => [:sign_in_count,
                             :current_sign_in_at,
                             :last_sign_in_at,
