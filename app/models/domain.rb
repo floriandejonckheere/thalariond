@@ -8,8 +8,8 @@ class Domain < ApplicationRecord
   validate :validate_domain_not_alias
 
   has_many :emails,
-              :distinct => true,
               :dependent => :destroy
+              -> { distinct }
 
 
   # Methods

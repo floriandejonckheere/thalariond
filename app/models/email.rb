@@ -7,7 +7,7 @@ class Email < ApplicationRecord
   before_update :update_permission_group
 
   belongs_to :domain,
-                :distinct => true
+                -> { distinct }
 
   has_one :group, :dependent => :delete, :required => true
 
