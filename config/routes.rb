@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :services, :controller => 'group_services', :only => [:create, :destroy]
   end
 
-  resources :roles
+  resources :roles, :only => [:index, :show]
   resources :users do
     resources :roles, :controller => 'user_roles', :only => [:create, :destroy]
     post :unlock, :on => :member

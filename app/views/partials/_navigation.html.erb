@@ -47,6 +47,13 @@
           Services
         <% end %>
       </li>
+      <% if current_user.has_role? :administrator %>
+        <li class="nav-item">
+          <%= link_to roles_path, :class => (controller?('roles') ? 'nav-link active' : 'nav-link') do %>
+            Roles
+          <% end %>
+        </li>
+      <% end %>
       <li class="nav-item">
         <%= link_to groups_path, :class => (controller?('groups') ? 'nav-link active' : 'nav-link') do %>
           Groups

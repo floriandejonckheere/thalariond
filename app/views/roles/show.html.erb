@@ -1,0 +1,53 @@
+<% content_for :title do   %>
+  <ol class="breadcrumb">
+    <li>Accounts</li>
+    <li><%= link_to 'Roles', roles_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>Role <%= @role.display_name %><% end %>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a href="#all" class="nav-link active" role="tab" data-toggle="tab">
+      All
+    </a>
+  </li>
+</ul>
+
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="all">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @users.empty? %>
+          <tr>
+            <td colspan="4" class="text-xs-center">
+              <em>No users found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @users.each do |user| %>
+            <tr>
+              <td>
+                <%= user.uid %>
+              </td>
+              <td>
+                <strong><%= link_to user.display_name, user_path(user) %></strong>
+              </td>
+              <td>
+                <%= user.email %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
