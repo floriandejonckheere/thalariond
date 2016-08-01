@@ -29,3 +29,5 @@ config/secrets.*yml
 # Ignore assets
 node_modules/
 vendor/assets/
+
+TODO.md
