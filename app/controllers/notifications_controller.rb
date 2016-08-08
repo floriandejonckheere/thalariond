@@ -40,5 +40,4 @@ class NotificationsController < ApplicationController
                                     :display_name,
                                     :user_id)
   end
-
 end

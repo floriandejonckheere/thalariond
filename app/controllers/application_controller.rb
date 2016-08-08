@@ -28,5 +28,4 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to home_path, flash[:danger] => exception.message
   end
-
 end

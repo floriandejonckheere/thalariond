@@ -1,5 +1,4 @@
 class PasswordsController < Devise::PasswordsController
-
   def create
     user = User.find_by(:email => password_params[:email])
 
@@ -15,5 +14,4 @@ class PasswordsController < Devise::PasswordsController
   def password_params
     params.require(:user).permit(:email)
   end
-
 end

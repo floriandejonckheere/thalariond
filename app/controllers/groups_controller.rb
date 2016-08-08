@@ -51,5 +51,4 @@ class GroupsController < ApplicationController
                                     :user_id,
                                     :email_id)
   end
-
 end

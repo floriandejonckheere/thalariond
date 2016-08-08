@@ -1,5 +1,4 @@
 class ConfirmationsController < Devise::ConfirmationsController
-
   def create
     user = User.find_by(:email => confirmation_params[:email])
 
@@ -15,5 +14,4 @@ class ConfirmationsController < Devise::ConfirmationsController
   def confirmation_params
     params.require(:user).permit(:email)
   end
-
 end

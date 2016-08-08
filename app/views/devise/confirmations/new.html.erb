@@ -1,6 +1,6 @@
 <div class="signin-container">
   <%= link_to new_session_path(resource_name) do %>
-    <%= image_tag("logo-white", :class => 'signin-logo') %>
+    <%= image_tag("logo-grey", :class => 'signin-logo m-b-3') %>
   <% end %>
 
   <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
@@ -13,8 +13,12 @@
     </div>
     <% end %>
 
-    <%= f.email_field :email, placeholder: "Email address", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+    <%= f.email_field :email,
+                        :placeholder => 'Email address',
+                        :autofocus => true,
+                        :value => (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+                        :class => 'form-control m-b-2' %>
 
-    <%= f.submit 'Send confirmation instructions' %>
+    <%= f.submit 'Send confirmation instructions', :class => 'btn btn-primary m-t-1' %>
   <% end %>
 </div>
