@@ -1,38 +1,44 @@
-<div class="signin-container">
-  <%= link_to new_session_path(resource_name) do %>
-    <%= image_tag("logo-grey", :class => 'signin-logo m-b-3') %>
-  <% end %>
+<% content_for 'title' do %>Sign in<% end %>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <% if flash.any? or devise_error_messages? %>
-    <div class="row">
-      <div class="col-xs-12">
-        <%= render 'partials/messages' %>
-        <%= devise_error_messages! %>
-      </div>
-    </div>
+<% if flash.any? %>
+  <div class="m-b-2">
+    <% flash.each do |key, value| %>
+      <% if not value.blank? %>
+        <div class="text-danger text-xs-center ">
+          <strong><%= value %></strong>
+        </div>
+      <% end %>
     <% end %>
+  </div>
+<% end %>
 
-    <%= f.text_field :uid,
-                      :placeholder => 'Username',
-                      :autofocus => true,
-                      :class => 'form-control m-b-2' %>
-    <%= f.password_field :password,
-                      :placeholder => 'Password',
-                      :autocomplete => 'off',
-                      :class => 'form-control m-b-2' %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="inner-addon left-addon">
+    <i class="fa fa-user"></i>
+      <%= f.text_field :uid,
+                        :placeholder => 'Username',
+                        :autofocus => true,
+                        :class => 'form-control m-b-2' %>
+  </div>
+  <div class="inner-addon left-addon">
+    <i class="fa fa-lock"></i>
+      <%= f.password_field :password,
+                        :placeholder => 'Password',
+                        :autocomplete => 'off',
+                        :class => 'form-control m-b-2' %>
+  </div>
 
-    <div class="help-text">
-      <%- if devise_mapping.recoverable? %>
-        <%= link_to 'Forgot password', new_password_path(resource_name) %>
-      <% end -%>
-      <%- if devise_mapping.confirmable? %>
-      <span class="pull-right">
-        <%= link_to 'Confirm account', new_confirmation_path(resource_name), :class => 'pull-right' %>
-      </span>
-      <% end -%>
-    </div>
-
-    <%= f.submit 'Sign in', :class => 'btn btn-primary m-t-1' %>
-  <% end %>
-</div>
+  <div class="m-t-2">
+    <%= f.submit 'Sign in', :class => 'btn btn-primary p-x-2' %>
+    <% if devise_mapping.recoverable? %>
+      <%= link_to new_password_path(resource_name), :class => 'btn pull-xs-right' do %>
+        <small>Forgot password</small>
+      <% end %>
+    <% end %>
+    <% if devise_mapping.confirmable? %>
+      <%= link_to new_confirmation_path(resource_name), :class => 'btn pull-xs-right' do %>
+        <small>Confirm account</small>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

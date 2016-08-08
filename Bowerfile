@@ -7,4 +7,5 @@ asset 'fontawesome'
 asset 'bootstrap-toggle'
 
 asset 'font-roboto'
+asset 'roboto-slab-font'
 asset 'raleway'

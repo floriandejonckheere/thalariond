@@ -7,13 +7,18 @@
 
 @import "variables";
 
-$fa-font-path: "fontawesome/fonts/";
+$fa-font-path: "fontawesome/fonts";
 @import "fontawesome/scss/font-awesome";
 @import "font-roboto/src/styles/roboto";
+
+$roboto-slab-font-path: "roboto-slab-font/fonts";
+@import "roboto-slab-font/roboto-slab.scss";
 @import "raleway/raleway.css";
 
 @import "hint/dist/hint.min.css";
 
+$brand-primary: $color-primary;
+$input-border-focus: $color-primary;
 @import "bootstrap/scss/bootstrap";
 
 $nprogress-color: $color-primary;
