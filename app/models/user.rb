@@ -169,7 +169,7 @@ class User < ApplicationRecord
   end
 
   def validate_email_outside_managed_domains
-    errors.add(:email, "can't be inside a registered domain") if Domain.find_by(domain: email.split('@')[1]).present?
+    errors.add(:email, "can't be inside a registered domain") if Domain.find_by(:domain => email.split('@')[1]).present?
   end
 
   def validate_owned_groups_included_in_groups

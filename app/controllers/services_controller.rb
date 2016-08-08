@@ -22,7 +22,7 @@ class ServicesController < ApplicationController
 
   def new
     password = Service.generate_token
-    @service = Service.new(:password => password, :password_confirmation => password)
+    @service = Service.new :password => password, :password_confirmation => password
   end
 
   def edit
@@ -60,9 +60,9 @@ class ServicesController < ApplicationController
   private
   def service_params
      params.require(:service).permit(:uid,
-                                  :display_name,
-                                  :enabled,
-                                  :password,
-                                  :password_confirmation)
+                                      :display_name,
+                                      :enabled,
+                                      :password,
+                                      :password_confirmation)
   end
 end

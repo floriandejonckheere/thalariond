@@ -4,19 +4,30 @@ class Group < ApplicationRecord
   before_save :sanitize_attributes
   before_destroy :verify_no_permission_group
 
-  validates :name, presence: true, uniqueness: true
-  validates :display_name, presence: true, length: { maximum: 256 }
+  validates :name,
+              :presence => true,
+              :uniqueness => true
+  validates :display_name,
+              :presence => true,
+              :length => { :maximum => 256 }
 
   # Membership
-  has_and_belongs_to_many :users, unique: true, :after_add => :notify_access_granted,
-                                                :after_remove => :notify_access_revoked
+  has_and_belongs_to_many :users,
+                            :unique => true,
+                              :after_add => :notify_access_granted,
+                              :after_remove => :notify_access_revoked
 
   # Ownership
-  belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
-  validates_inclusion_of :owner, in: :users, allow_blank: true
+  belongs_to :owner,
+                :class_name => 'User',
+                :foreign_key => 'user_id'
+  validates_inclusion_of :owner,
+                            :in => :users,
+                            :allow_blank => true
 
   # Service membership
-  has_and_belongs_to_many :services, unique: true
+  has_and_belongs_to_many :services,
+                            :unique => true
 
   # Permission group
   belongs_to :email

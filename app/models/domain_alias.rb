@@ -7,8 +7,13 @@ class DomainAlias < ApplicationRecord
 
   before_save :sanitize_attributes
 
-  validates :alias, presence: true, uniqueness: true, length: { in: 3..253 }
-  validates :domain, presence: true, length: { in: 3..253 }
+  validates :alias,
+              :presence => true,
+              :uniqueness => true,
+              :length => { :in => 3..253 }
+  validates :domain,
+              :presence => true,
+              :length => { :in => 3..253 }
   validate :validate_domain_syntax
   validate :validate_no_loops
   validate :validate_alias_not_domain
@@ -35,11 +40,11 @@ class DomainAlias < ApplicationRecord
   end
 
   def validate_alias_not_domain
-    errors.add(:alias, "can't be a managed domain") if Domain.find_by(domain: self.alias)
+    errors.add(:alias, "can't be a managed domain") if Domain.find_by(:domain => self.alias)
   end
 
   def validate_no_loops
-    errors.add(:domain, "can't be an domain alias") unless DomainAlias.find_by(alias: self.domain).nil?
+    errors.add(:domain, "can't be an domain alias") unless DomainAlias.find_by(:alias => self.domain).nil?
     errors.add(:alias, "can't be aliased to itself") if self.alias == self.domain
   end
 

@@ -3,8 +3,10 @@ class AuthEvent < ApplicationRecord
 
   belongs_to :user
 
-  validates :component, :inclusion => { :in => ["http", "ldap"] }
-  validates :action, :inclusion => { :in => ["signin", "signout"] }
+  validates :component,
+              :inclusion => { :in => ["http", "ldap"] }
+  validates :action,
+              :inclusion => { :in => ["signin", "signout"] }
 
   def generate_timestamp
     self.timestamp = DateTime.now

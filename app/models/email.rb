@@ -6,15 +6,23 @@ class Email < ApplicationRecord
   before_validation :create_permission_group, :on => :create
   before_update :update_permission_group
 
-  belongs_to :domain,
+  belongs_to :domain
                 -> { distinct }
 
-  has_one :group, :dependent => :delete, :required => true
+  has_one :group,
+            :dependent => :delete,
+            :required => true
 
-  validates :mail, presence: true, format: { with: /[^@]*/ }, length: { in: 1..64 }
+  validates :mail,
+              :presence => true,
+              :format => { :with => /[^@]*/ },
+              :length => { :in => 1..64 }
   validate :validate_mail_total_length
-  validates :domain, presence: true
-  validates_uniqueness_of :mail, scope: :domain
+
+  validates :domain,
+              :presence => true
+  validates_uniqueness_of :mail,
+                            :scope => :domain
   validate :validate_email_not_alias
 
   # Methods
@@ -47,7 +55,7 @@ class Email < ApplicationRecord
   end
 
   def validate_email_not_alias
-    errors.add(:mail, "can't be an email alias") if EmailAlias.find_by(alias: self.to_s)
+    errors.add(:mail, "can't be an email alias") if EmailAlias.find_by(:alias => self.to_s)
   end
 
   # Overrides

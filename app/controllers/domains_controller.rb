@@ -25,7 +25,7 @@ class DomainsController < ApplicationController
   end
 
   def show
-    @domain_aliases = DomainAlias.where(domain: @domain.domain)
+    @domain_aliases = DomainAlias.where :domain => @domain.domain
   end
 
   def update

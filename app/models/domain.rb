@@ -3,7 +3,10 @@ class Domain < ApplicationRecord
 
   before_save :sanitize_attributes
 
-  validates :domain, presence: true, uniqueness: true, length: { in: 1..253 }
+  validates :domain,
+              :presence => true,
+              :uniqueness => true,
+              :length => { :in => 1..253 }
   validate :validate_domain_syntax
   validate :validate_domain_not_alias
 
@@ -28,7 +31,7 @@ class Domain < ApplicationRecord
   end
 
   def validate_domain_not_alias
-    errors.add(:domain, "can't be a domain alias") if DomainAlias.find_by(alias: self.domain)
+    errors.add(:domain, "can't be a domain alias") if DomainAlias.find_by(:alias => self.domain)
   end
 
 

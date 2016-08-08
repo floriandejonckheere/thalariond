@@ -3,10 +3,17 @@ class EmailAlias < ApplicationRecord
 
   before_save :sanitize_attributes
 
-  validates :alias, presence: true, uniqueness: true
-  validates :mail, presence: true
-  validates_format_of :alias, :with => /\A[^@]+@[^@]+\Z/, length: { in: 3..254 }
-  validates_format_of :mail, :with => /\A[^@]+@[^@]+\Z/, length: { in: 3..254 }
+  validates :alias,
+              :presence => true,
+              :uniqueness => true
+  validates :mail,
+              :presence => true
+  validates_format_of :alias,
+                        :with => /\A[^@]+@[^@]+\Z/,
+                        :length => { :in => 3..254 }
+  validates_format_of :mail,
+                        :with => /\A[^@]+@[^@]+\Z/,
+                        :length => { :in => 3..254 }
   validate :validate_mail_total_length
   validate :validate_domain_length
   validate :validate_no_loops
@@ -36,15 +43,15 @@ class EmailAlias < ApplicationRecord
   end
 
   def validate_no_loops
-    errors.add(:mail, "can't be an email alias") unless EmailAlias.find_by(alias: self.mail).nil?
+    errors.add(:mail, "can't be an email alias") unless EmailAlias.find_by(:alias => self.mail).nil?
     errors.add(:alias, "can't be aliased to itself") if self.alias == self.mail
   end
 
   def validate_managed_alias_domain
     split = self.alias.split '@'
-    domain = Domain.find_by(domain: split[1])
+    domain = Domain.find_by(:domain => split[1])
     errors.add(:alias, "must be a managed domain") if domain.nil?
-    if (Email.find_by(mail: split[0]) and Email.find_by(mail: split[0]).domain.domain.equal?(split[1]))
+    if (Email.find_by(:mail => split[0]) and Email.find_by(:mail => split[0]).domain.domain.equal?(split[1]))
       errors.add(:alias, "can't be a managed email")
     end
   end

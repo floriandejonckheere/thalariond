@@ -12,7 +12,7 @@ class NotificationsController < ApplicationController
   end
 
   def show
-    @notification.update(:read => true)
+    @notification.update :read => true
   end
 
   def destroy
@@ -36,7 +36,9 @@ class NotificationsController < ApplicationController
 
   private
   def group_params
-     params.require(:group).permit(:name, :display_name, :user_id)
+     params.require(:group).permit(:name,
+                                    :display_name,
+                                    :user_id)
   end
 
 end

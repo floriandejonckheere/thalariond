@@ -17,13 +17,13 @@ class UsersController < ApplicationController
 
   def create
     password_length = Rails.application.config.devise.password_length.first
-    password = Devise.friendly_token.first(password_length)
+    password = Devise.friendly_token.first password_length
 
     parameters = user_params
     parameters["password"] = password
     parameters["password_confirmation"] = password
 
-    @user = User.new(parameters)
+    @user = User.new parameters
     if @user.save
       flash[:info] = 'Account created'
       @user.roles << Role.find_by(:name => 'user')
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
       @user.has_role? :administrator and
       Role.find_by(:name => 'administrator').users.count == 1
           flash[:danger] = "At least one admin account must be enabled"
-          parameters.delete('enabled')
+          parameters.delete 'enabled'
     end
 
     if @user.update(parameters)

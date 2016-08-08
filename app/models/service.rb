@@ -24,10 +24,12 @@ class Service < ApplicationRecord
               :presence => true
 
   # Role-based ACL
-  has_and_belongs_to_many :roles, :unique => true
+  has_and_belongs_to_many :roles,
+                            :unique => true
 
   # Groups
-  has_and_belongs_to_many :groups, :unique => true
+  has_and_belongs_to_many :groups,
+                            :unique => true
 
 
   # Methods
