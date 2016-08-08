@@ -1,12 +1,15 @@
 <% content_for 'title' do %>Sign in<% end %>
 
-<% if flash.any? %>
+<% if flash.any? or devise_error_messages? %>
   <div class="m-b-2">
     <% flash.each do |key, value| %>
       <% if not value.blank? %>
         <div class="text-danger text-xs-center ">
           <strong><%= value %></strong>
         </div>
+      <% end %>
+      <% if devise_error_messages? %>
+        <strong><%= devise_error_messages! %></strong>
       <% end %>
     <% end %>
   </div>
