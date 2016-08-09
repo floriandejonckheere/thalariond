@@ -74,7 +74,7 @@
 <p>
   <% if @user.roles.any? %>
     <%= @user.first_name %> has been assigned the following roles:
-    <strong><%= @user.roles.map { |r| r.display_name }.join ', ' %></strong>
+    <strong><%= @user.roles.order(:order => :desc).map { |r| r.display_name }.join ', ' %></strong>
   <% else %>
     <em><%= @user.first_name %> does not have any assigned roles</em>
   <% end %>

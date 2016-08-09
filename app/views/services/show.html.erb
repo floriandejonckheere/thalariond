@@ -60,7 +60,7 @@
 <p>
   <% if @service.roles.any? %>
     <%= @service.display_name %> has been assigned the following roles:
-    <strong><%= @service.roles.map { |r| r.display_name }.join ', ' %></strong>
+    <strong><%= @service.roles.order(:order => :desc).map { |r| r.display_name }.join ', ' %></strong>
   <% else %>
     <em><%= @service.display_name %> does not have any assigned roles</em>
   <% end %>
