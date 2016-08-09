@@ -82,6 +82,14 @@ class User < ApplicationRecord
     end
   end
 
+  def enable!
+    update :enabled => true
+  end
+
+  def disable!
+    update :enabled => false
+  end
+
   # Callbacks
   def sanitize_attributes
     self.uid.downcase!
@@ -229,7 +237,7 @@ class User < ApplicationRecord
 
   def uid=(new_uid)
     if new_record?
-      write_attribute(:uid, new_uid)
+      write_attribute :uid, new_uid
     else
       raise 'uid is immutable'
     end
