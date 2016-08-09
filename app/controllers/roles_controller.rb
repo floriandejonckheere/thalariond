@@ -7,11 +7,11 @@ class RolesController < ApplicationController
 
   def index
     authorize! :manage, :all
-    @roles = Role.all.order(:order)
+    @roles = Role.all.order :order
   end
 
   def show
     authorize! :manage, :all
-    @users = Role.find(params[:id]).users
+    @role = Role.find params[:id]
   end
 end

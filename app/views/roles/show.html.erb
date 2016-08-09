@@ -26,14 +26,14 @@
         </tr>
       </thead>
       <tbody>
-        <% if @users.empty? %>
+        <% if @role.users.empty? %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No users found</em>
             </td>
           </tr>
         <% else %>
-          <% @users.each do |user| %>
+          <% @role.users.each do |user| %>
             <tr>
               <td>
                 <%= user.uid %>
