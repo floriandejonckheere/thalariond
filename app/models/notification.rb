@@ -4,8 +4,8 @@ class Notification < ApplicationRecord
   belongs_to :user
 
   validates :priority,
-              :presence => true,
-              :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+              :presence => true
+  serialize :priority, PrioritySerializer
   validates :title,
               :presence => true
   validates :text,
@@ -17,7 +17,12 @@ class Notification < ApplicationRecord
 
   # Methods
   def priority_display
-    "Low"
+    {
+      :critical => 'Critical',
+      :high => 'High',
+      :normal => 'Normal',
+      :low => 'Low'
+    }[priority]
   end
 
   def read!
