@@ -33,13 +33,14 @@
     <h3>Secret token</h3>
   </div>
   <% if params[:action] == 'edit' %>
-    <%= link_to 'Reset secret token', reset_service_path(@service),
+    <div class="text-xs-center">
+      <%= link_to 'Reset secret token', reset_service_path(@service),
                                   :method => :post,
                                   :class => 'btn btn-secondary',
                                   :data => { :confirm => 'Are you sure you wish to reset the secret token? This will void the current one.' } %>
+    </div>
   <% else params[:action] == 'new' %>
     <fieldset class="form-group">
-      <label for="password">Token</label>
       <div class="secret"><%= @service.password %></div>
       <%= f.hidden_field :password,
           :placeholder => :password,
@@ -71,7 +72,6 @@
             :class => 'form-control' %>
     </fieldset>
   <% end %>
-  <br>
   <%= f.submit 'Save', :class => 'btn btn-primary' %>
 <% end %>
 
