@@ -97,17 +97,15 @@ class User < ApplicationRecord
   end
 
   def notify_role_assigned(role)
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Role assigned',
-            :text => "Your account has been assigned the <strong>#{role.display_name}</strong> role.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Role assigned',
+                    :text => "Your account has been assigned the <strong>#{role.display_name}</strong> role."
   end
 
   def notify_role_removed(role)
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Role removed',
-            :text => "The role <strong>#{role.display_name}</strong> has been removed from your account.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Role removed',
+                    :text => "The role <strong>#{role.display_name}</strong> has been removed from your account."
   end
 
   def notify_access_granted(group)
@@ -115,45 +113,39 @@ class User < ApplicationRecord
     if group.email
       text << " This group is associated with the email address <strong>#{group.email}</strong>, which you now also have access to. Please refer to the online documentation for more information."
     end
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Group access granted',
-            :text => text)
-    )
+    Notification.create! :user => self,
+                    :title => 'Group access granted',
+                    :text => text
   end
 
   def notify_access_revoked(group)
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Group access revoked',
-            :text => "Your access to group <strong>#{group.display_name}</strong> has been revoked.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Group access revoked',
+                    :text => "Your access to group <strong>#{group.display_name}</strong> has been revoked."
   end
 
   def notify_account_created
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Account created',
-            :text => "Your account has been created. Please confirm your email address before you can sign in using the credentials below.<p><strong>Username</strong>: #{self.uid}<br><strong>Password</strong>: #{self.password}</p>")
-    )
+    Notification.create! :user => self,
+                    :title => 'Account created',
+                    :text => "Your account has been created. Please confirm your email address before you can sign in using the credentials below.<p><strong>Username</strong>: #{self.uid}<br><strong>Password</strong>: #{self.password}</p>"
   end
 
   def notify_account_deleted
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Account deleted',
-            :text => "The account <strong>#{self.uid}</strong> has been deleted.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Account deleted',
+                    :text => "The account <strong>#{self.uid}</strong> has been deleted."
   end
 
   def notify_account_locked
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Account locked',
-            :text => "Your account has been locked. You cannot sign in using any connected service. Please contact your <a href='mailto:admin@thalarion.be'>system administrator</a> for more information.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Account locked',
+                    :text => "Your account has been locked. You cannot sign in using any connected service. Please contact your <a href='mailto:admin@thalarion.be'>system administrator</a> for more information."
   end
 
   def notify_account_unlocked
-    NotificationMailer.delay.notification(Notification.create!(:user => self,
-            :title => 'Account unlocked',
-            :text => "Your account has been unlocked.")
-    )
+    Notification.create! :user => self,
+                    :title => 'Account unlocked',
+                    :text => "Your account has been unlocked."
   end
 
 

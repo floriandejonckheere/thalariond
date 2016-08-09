@@ -13,6 +13,8 @@ class Notification < ApplicationRecord
   validates_inclusion_of :read,
                             :in => [true, false]
 
+  after_create :send_notification
+
   # Methods
   def priority_display
     "Low"
@@ -25,5 +27,11 @@ class Notification < ApplicationRecord
   # Callbacks
   def generate_timestamp
     self.timestamp = DateTime.now
+  end
+
+  def send_notification
+    return unless Rails.application.config.enable_notifications_mailer
+
+    NotificationMailer.delay.notification self
   end
 end
