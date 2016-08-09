@@ -25,6 +25,8 @@ $input-border-focus: $color-primary;
 
 $nprogress-color: $color-primary;
 @import "nprogress";
+@import "nprogress-bootstrap";
+@import "nprogress-turbolinks5";
 
 @import "bootstrap-toggle/css/bootstrap-toggle.min.css";
 
