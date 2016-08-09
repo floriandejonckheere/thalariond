@@ -47,6 +47,17 @@
         :required => 'true' %>
   </fieldset>
 
+  <fieldset class="form-group">
+    <%= form.check_box :enable_notifications,
+        :id => 'enable_notifications',
+        :data => {
+          :toggle => 'toggle',
+          :onstyle => 'success',
+          :offstyle => 'danger'
+        } %>
+    <label for="enable_notifications" class="m-l-1">Email notifications</label>
+  </fieldset>
+
   <% if can? :toggle, @user or @user.access_locked? %>
     <div class="title-heading">
       <h3>Account state</h3>

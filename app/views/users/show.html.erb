@@ -56,6 +56,16 @@
     <td><%= @user.email %></td>
   </tr>
   <tr>
+    <td>Notifications</td>
+    <td>
+      <% if @user.enable_notifications %>
+        Email and web
+      <% else %>
+        Web only
+      <% end %>
+    </td>
+  </tr>
+  <tr>
     <td>State</td>
     <td>
       <% if @user.enabled %>
