@@ -29,6 +29,7 @@ NProgress.configure({
 
 var ready = function() {
   $('[data-toggle="tooltip"]').tooltip();
+  $('[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
   var hash = window.location.hash;
   hash && $('ul.nav a[href="' + hash + '"]').tab('show');
@@ -38,7 +39,6 @@ var ready = function() {
     window.location.hash = this.hash;
     $('html,body').scrollTop(scrollmem);
   });
-
 };
 
 $(document).on('turbolinks:load', ready);
