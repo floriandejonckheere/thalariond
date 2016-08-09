@@ -16,7 +16,8 @@ Rails.application.routes.draw do
     :skip => [:registrations, :unlocks, :session, :password]
 
   resources :notifications, :only => [:index, :show, :destroy]
-  match :notifications, :to => 'notifications#destroy_all', :via => :delete
+  match 'notifications' => 'notifications#destroy_all', :as => :destroy_notifications, :via => :delete
+  match 'notifications' => 'notifications#update_all', :as => :update_notifications, :via => [:patch]
 
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]
