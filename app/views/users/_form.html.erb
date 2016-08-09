@@ -54,7 +54,7 @@
 
     <% if can? :toggle, @user %>
       <div class="alert alert-warning">
-        <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot be used for signin in using any authentication backend
+        <i class="fa fa-exclamation-triangle"></i> Disabled accounts cannot sign in but retain all account information
       </div>
 
       <fieldset class="form-group text-xs-center">
@@ -70,7 +70,7 @@
 
     <% if @user.access_locked? %>
       <div class="alert alert-warning">
-        <i class="fa fa-lock"></i> This account is locked and cannot sign in on the panel.
+        <i class="fa fa-lock"></i> This account is locked
       </div>
 
       <div class="text-xs-center">
