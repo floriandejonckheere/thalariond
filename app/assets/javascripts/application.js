@@ -27,9 +27,7 @@ NProgress.configure({
   speed: 500
 });
 
-// This function will be run on every page whether or not turbolinks is used
 var ready = function() {
-
   $('[data-toggle="tooltip"]').tooltip();
 
   var hash = window.location.hash;
@@ -43,5 +41,4 @@ var ready = function() {
 
 };
 
-$(document).ready(ready)
-$(document).on('page:load', ready)
+$(document).on('turbolinks:load', ready);
