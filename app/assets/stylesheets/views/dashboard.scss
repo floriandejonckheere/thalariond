@@ -1,4 +1,37 @@
-/* Aside navigation */
+/**
+ * dashboard.scss - Dashboard stylesheet
+ *
+ * Florian Dejonckheere <florian@floriandejonckheere.be>
+ *
+ * This file is part of Thalarion Panel
+ *
+ * */
+
+.signout-banner {
+  font-size: .8em;
+  color: $light-grey;
+
+  display: flex;
+  align-items: center;
+}
+
+.toolbar {
+  margin-top: -2.5rem;
+}
+
+.attribute-table td {
+  @extend .p-x-1;
+
+  &:first-child {
+    @extend .text-xs-right;
+    color: $grey;
+  }
+}
+
+/**
+ * Navigation
+ *
+ * */
 nav {
   @extend .p-y-2;
   @extend .p-a-3;

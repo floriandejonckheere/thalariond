@@ -1,3 +1,12 @@
+/**
+ * form.scss - Form controls stylesheet
+ *
+ * Florian Dejonckheere <florian@floriandejonckheere.be>
+ *
+ * This file is part of Thalarion Panel
+ *
+ * */
+
 /* service secret token */
 .secret {
   @extend code;
@@ -45,7 +54,22 @@
   }
 }
 
-/* bootstrap-toggle overrides */
-.toggle-handle {
-  background: white;
+/* left-aligned input field addon */
+.inner-addon {
+  position: relative;
+
+  .fa {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+    color: $grey;
+
+    z-index: 10;
+  }
 }
+
+.left-addon .fa  { left:  0px;}
+.right-addon .fa { right: 0px;}
+
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }

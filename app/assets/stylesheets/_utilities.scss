@@ -1,3 +1,12 @@
+/**
+ * utilities.scss - SCSS/CSS utilities
+ *
+ * Florian Dejonckheere <florian@floriandejonckheere.be>
+ *
+ * This file is part of Thalarion Panel
+ *
+ * */
+
 @mixin link-color($color, $decoration-hover: underline) {
   a {
     text-decoration: none;
