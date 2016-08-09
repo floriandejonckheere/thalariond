@@ -19,7 +19,9 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="pull-right signout-banner">
-                Signed in as <%= current_user.first_name %>
+                <%= link_to user_path(current_user) do %>
+                  Signed in as <%= current_user.first_name %>
+                <% end %>
                 <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, :class => 'btn btn-primary m-l-1' %>
               </div>
               <div class="pull-left">

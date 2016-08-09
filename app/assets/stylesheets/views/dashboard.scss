@@ -8,8 +8,9 @@
  * */
 
 .signout-banner {
+  @include link-color($light-grey, underline);
+
   font-size: .8em;
-  color: $light-grey;
 
   display: flex;
   align-items: center;

@@ -8,7 +8,7 @@
  * */
 
 @mixin link-color($color, $decoration-hover: underline) {
-  a {
+  a:not(.btn) {
     text-decoration: none;
     color: $color;
 
@@ -21,3 +21,6 @@
     }
   }
 }
+
+.block  { display: block; }
+.inline { display: inline; }

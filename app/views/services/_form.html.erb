@@ -10,7 +10,6 @@
   </div>
   <% end %>
 
-
   <fieldset class="form-group">
     <label for="uid">Username</label>
     <%= f.text_field :uid,
@@ -63,7 +62,7 @@
     </div>
 
     <fieldset class="form-group text-xs-center">
-        <%= form.check_box :enabled,
+        <%= f.check_box :enabled,
             :id => 'enabled',
             :data => {
                 :toggle => 'toggle',
