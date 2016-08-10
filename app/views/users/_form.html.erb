@@ -10,9 +10,9 @@
   </div>
   <% end %>
 
-  <% if action? 'new' %>
+  <% if action? 'new' or action? 'create' %>
     <fieldset class="form-group">
-      <label for="uid">Username</label>
+      <label for="uid">Username (uid)</label>
       <%= form.text_field :uid,
           :placeholder => :username,
           :class => 'form-control',
