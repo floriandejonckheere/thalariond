@@ -60,6 +60,6 @@ group :development, :test do
   gem 'capistrano3-puma'
 end
 
-group :production do
+group :production, :staging do
   gem 'pg'
 end

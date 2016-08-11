@@ -3,11 +3,12 @@ require 'capistrano/setup'
 
 # Include default deployment tasks
 require 'capistrano/deploy'
-require 'capistrano/rails'
-require 'capistrano/bundler'
+
 require 'capistrano/rvm'
+require 'capistrano/bundler'
 require 'capistrano/npm'
 require 'capistrano/bower'
+require 'capistrano/rails'
 require 'capistrano/upload-config'
 require 'capistrano/puma'
 
