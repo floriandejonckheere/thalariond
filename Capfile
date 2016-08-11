@@ -6,6 +6,8 @@ require 'capistrano/deploy'
 require 'capistrano/rails'
 require 'capistrano/bundler'
 require 'capistrano/rvm'
+require 'capistrano/npm'
+require 'capistrano/bower'
 require 'capistrano/upload-config'
 require 'capistrano/puma'
 

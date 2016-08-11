@@ -76,6 +76,18 @@ set :assets_roles, [:app]
 # set this to the number of versions to keep
 set :keep_assets, 2
 
+# Capistrano NPM
+# set :npm_target_path, -> { release_path.join('subdir') } # default not set
+# set :npm_flags, '--production --silent --no-progress'
+# set :npm_roles, :all
+# set :npm_env_variables, {}
+
+# Capistrano Bower
+set :bower_flags, '--quiet --config.interactive=false'
+set :bower_roles, :web
+set :bower_target_path, nil
+set :bower_bin, :bower
+
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :setup do
@@ -88,18 +100,6 @@ namespace :puma do
 
   before :start, :setup
 end
-
-namespace :bower do
-  desc 'Install bower'
-  task :install do
-    on roles(:web) do
-      within release_path do
-        execute :rake, 'bower:install CI=true'
-      end
-    end
-  end
-end
-before 'deploy:compile_assets', 'bower:install'
 
 namespace :deploy do
   after :restart, :clear_cache do

@@ -54,6 +54,8 @@ group :development, :test do
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-rvm'
+  gem 'capistrano-npm'
+  gem 'capistrano-bower'
   gem 'capistrano-upload-config'
   gem 'capistrano3-puma'
 end
