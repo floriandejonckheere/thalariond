@@ -36,7 +36,7 @@ set :rvm_ruby_version, '2.3.0@thalariond-production'
 set :rails_env, 'production'
 set :rack_env, 'production'
 set :puma_env, 'production'
-set :branch, '2-0-stable'
+set :branch, 'v2.0-stable'
 
 
 # Custom SSH Options

@@ -36,7 +36,7 @@ set :rvm_ruby_version, '2.3.0@thalariond-staging'
 set :rails_env, 'staging'
 set :rack_env, 'staging'
 set :puma_env, 'staging'
-set :branch, 'master'
+set :branch, 'v2.1-unstable'
 
 
 # Custom SSH Options
