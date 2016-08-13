@@ -11,15 +11,18 @@ Doorkeeper.configure do
   resource_owner_authenticator do
     # fail "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
     # Put your resource owner authentication logic here.
-    # Example implementation:
-    User.find_by(:uid => session[:uid]) || redirect_to(new_user_session_url)
+    if signed_in?
+      current_user
+    else
+      session[:user_return_to] = request.fullpath
+      redirect_to(new_user_session_url)
+    end
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   admin_authenticator do
     # Put your admin authentication logic here.
-    # Example implementation:
-    current_user.has_role? :administrator || redirect_to(root_path)
+    current_user.has_role?(:administrator) || redirect_to(root_path)
   end
 
   # Authorization Code expiration time (default 10 minutes).
@@ -99,6 +102,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w(authorization_code client_credentials)
+  grant_flows %w(authorization_code)
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.
