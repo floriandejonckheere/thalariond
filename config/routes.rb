@@ -6,14 +6,14 @@ Rails.application.routes.draw do
 
   devise_for :users,
     :controllers => {
-      :sessions => 'sessions',
-      :confirmations => 'confirmations',
-      :passwords => 'passwords'
+      :sessions => 'my_devise/sessions',
+      :confirmations => 'my_devise/confirmations',
+      :passwords => 'my_devise/passwords'
     },
     :skip => [:registrations, :unlocks]
   devise_for :services,
     :controllers => {
-      :sessions => 'sessions'
+      :sessions => 'my_devise/sessions'
     },
     :skip => [:registrations, :unlocks, :session, :password]
 

@@ -1,4 +1,6 @@
-class ConfirmationsController < Devise::ConfirmationsController
+class MyDevise::ConfirmationsController < Devise::ConfirmationsController
+  layout 'session'
+
   def create
     user = User.find_by(:email => confirmation_params[:email])
 

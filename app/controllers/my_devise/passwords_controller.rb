@@ -1,4 +1,6 @@
-class PasswordsController < Devise::PasswordsController
+class MyDevise::PasswordsController < Devise::PasswordsController
+  layout 'session'
+
   def create
     user = User.find_by(:email => password_params[:email])
 

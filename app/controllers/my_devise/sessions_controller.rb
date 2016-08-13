@@ -1,5 +1,7 @@
-class SessionsController < Devise::SessionsController
+class MyDevise::SessionsController < Devise::SessionsController
   after_filter :log_failed_login, :only => :new
+
+  layout 'session'
 
   def create
     super
