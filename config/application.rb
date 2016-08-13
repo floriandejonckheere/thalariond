@@ -33,10 +33,10 @@ module ThalariondRails
       Doorkeeper::ApplicationsController.layout 'dashboard'
 
       # Only Authorization endpoint
-      Doorkeeper::AuthorizationsController.layout 'dashboard'
+      Doorkeeper::AuthorizationsController.layout 'session'
 
       # Only Authorized Applications
-      Doorkeeper::AuthorizedApplicationsController.layout 'dashboard'
+      Doorkeeper::AuthorizedApplicationsController.layout 'session'
     end
   end
 end

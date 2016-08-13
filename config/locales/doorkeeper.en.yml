@@ -15,6 +15,9 @@ en:
               secured_uri: 'must be an HTTPS/SSL URI.'
 
   doorkeeper:
+    scopes:
+      account: Access your name and email
+
     applications:
       confirmations:
         destroy: 'Are you sure?'

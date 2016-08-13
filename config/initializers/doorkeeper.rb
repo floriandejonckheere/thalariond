@@ -2,11 +2,6 @@ Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (needs plugins)
   orm :active_record
 
-  # Customize layout
-  Doorkeeper::ApplicationsController.layout 'dashboard'
-  Doorkeeper::AuthorizationsController.layout 'dashboard'
-  Doorkeeper::AuthorizedApplicationsController.layout 'dashboard'
-
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     # fail "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
