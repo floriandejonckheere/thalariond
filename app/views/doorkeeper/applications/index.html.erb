@@ -11,15 +11,15 @@
 </ul>
 
 <div class="tab-content">
-  <div class="pull-right toolbar btn-group">
-      <%= link_to new_oauth_application_path,
-                              :class => 'btn btn-secondary btn-sm',
-                              :title => 'Add application',
-                              :data => { :toggle => 'tooltip' } do %>
-        <i class="fa fa-plus"></i>
-      <% end %>
-  </div>
   <div role="tabpanel" class="tab-pane fade in active" id="applications">
+    <div class="pull-right toolbar btn-group">
+        <%= link_to new_oauth_application_path,
+                                :class => 'btn btn-secondary btn-sm',
+                                :title => 'Add application',
+                                :data => { :toggle => 'tooltip' } do %>
+          <i class="fa fa-plus"></i>
+        <% end %>
+    </div>
     <table class="table">
       <thead>
         <tr>

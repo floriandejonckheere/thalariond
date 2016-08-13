@@ -1,3 +1,5 @@
 <% content_for 'title' do %>An error has occurred<% end %>
 
-<%= @pre_auth.error_response.body[:error_description] %>
+<div class="card-block">
+  <%= @pre_auth.error_response.body[:error_description] %>
+</div>
