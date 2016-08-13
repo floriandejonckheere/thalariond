@@ -27,16 +27,11 @@ module ThalariondRails
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    # Doorkeeper configuration
+    # Customize Doorkeeper layout
     config.to_prepare do
-      # Only Applications list
       Doorkeeper::ApplicationsController.layout 'dashboard'
-
-      # Only Authorization endpoint
       Doorkeeper::AuthorizationsController.layout 'session'
-
-      # Only Authorized Applications
-      Doorkeeper::AuthorizedApplicationsController.layout 'session'
+      Doorkeeper::AuthorizedApplicationsController.layout 'dashboard'
     end
   end
 end

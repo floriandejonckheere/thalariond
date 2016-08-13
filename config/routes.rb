@@ -4,6 +4,24 @@ Rails.application.routes.draw do
 
   root :to => redirect('/home')
 
+  ##
+  # Doorkeeper
+  #
+  use_doorkeeper :scope => 'oauth2' do
+    controllers :applications => 'my_doorkeeper/applications'
+
+    # Don't provide authorized_applications#index
+    skip_controllers :authorized_applications
+
+  end
+
+  match 'oauth2/authorized_application/:id' => 'doorkeeper/authorized_applications#destroy',
+              :as => 'oauth_authorized_application',
+              :via => :delete
+
+  ##
+  # Devise
+  #
   devise_for :users,
     :controllers => {
       :sessions => 'my_devise/sessions',
@@ -17,9 +35,12 @@ Rails.application.routes.draw do
     },
     :skip => [:registrations, :unlocks, :session, :password]
 
+  ##
+  # Resources
+  #
   resources :notifications, :only => [:index, :show, :destroy]
   match 'notifications' => 'notifications#destroy_all', :as => :destroy_notifications, :via => :delete
-  match 'notifications' => 'notifications#update_all', :as => :update_notifications, :via => [:patch]
+  match 'notifications' => 'notifications#update_all', :as => :update_notifications, :via => :patch
 
   resources :groups do
     resources :users, :controller => 'group_users', :only => [:create, :destroy]

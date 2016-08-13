@@ -5,8 +5,10 @@
   <li class="nav-item">
     <a href="#applications" class="nav-link active" role="tab" data-toggle="tab">Applications</a>
   </li>
+  <li class="nav-item">
+    <a href="#authorized" class="nav-link" role="tab" data-toggle="tab">Authorized applications</a>
+  </li>
 </ul>
-
 
 <div class="tab-content">
   <div class="pull-right toolbar btn-group">
@@ -40,6 +42,43 @@
             </td>
             <td>
               <%= application.redirect_uri %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div role="tabpanel" class="tab-pane fade in" id="authorized">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Created at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @authorized_applications.empty? %>
+          <tr>
+            <td colspan="2" class="text-xs-center">
+              <em>No authorized applications found</em>
+            </td>
+          </tr>
+        <% end %>
+        <% @authorized_applications.sort.each do |application| %>
+          <tr>
+            <td>
+              <strong><%= link_to application.name, oauth_application_path(application) %></strong>
+            </td>
+            <td>
+              <%= application.created_at.strftime(t('doorkeeper.authorized_applications.index.date_format')) %>
+            </td>
+            <td>
+              <%= link_to oauth_authorized_application_path(application),
+                                    :method => :delete,
+                                    :title => 'Revoke authorization',
+                                    data: { :toggle => 'tooltip' } do %>
+                <i class="fa fa-times"></i>
+              <% end %>
             </td>
           </tr>
         <% end %>

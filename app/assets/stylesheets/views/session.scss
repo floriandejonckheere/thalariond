@@ -1,5 +1,5 @@
 /**
- * sessions.scss - Devise views stylesheet
+ * session.scss - Devise views stylesheet
  *
  * Florian Dejonckheere <florian@floriandejonckheere.be>
  *
@@ -77,6 +77,8 @@
 
   .btn {
     @include media-breakpoint-down(lg) {
+      margin-top: 1rem;
+
       width: 100%;
     }
   }

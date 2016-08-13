@@ -27,20 +27,22 @@
 <% end %>
 
 <div class="m-t-3">
-  <%= form_tag oauth_authorization_path, :method => :post, :class => 'inline' do %>
-    <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
-    <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
-    <%= hidden_field_tag :state, @pre_auth.state %>
-    <%= hidden_field_tag :response_type, @pre_auth.response_type %>
-    <%= hidden_field_tag :scope, @pre_auth.scope %>
-    <%= submit_tag 'Allow', :class => 'btn btn-success p-x-2' %>
-  <% end %>
-  <%= form_tag oauth_authorization_path, :method => :delete, :class => 'pull-xs-right' do %>
-    <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
-    <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
-    <%= hidden_field_tag :state, @pre_auth.state %>
-    <%= hidden_field_tag :response_type, @pre_auth.response_type %>
-    <%= hidden_field_tag :scope, @pre_auth.scope %>
-    <%= submit_tag 'Deny', class: 'btn btn-danger p-x-2' %>
-  <% end %>
+  <%= link_to 'Allow', oauth_authorization_path(
+                                                :client_id => @pre_auth.client.uid,
+                                                :redirect_uri => @pre_auth.redirect_uri,
+                                                :state => @pre_auth.state,
+                                                :response_type => @pre_auth.response_type,
+                                                :scope => @pre_auth.scope
+                                                ),
+                      :method => :post,
+                      :class => 'btn btn-success p-x-2' %>
+  <%= link_to 'Deny', oauth_authorization_path(
+                                                :client_id => @pre_auth.client.uid,
+                                                :redirect_uri => @pre_auth.redirect_uri,
+                                                :state => @pre_auth.state,
+                                                :response_type => @pre_auth.response_type,
+                                                :scope => @pre_auth.scope
+                                                ),
+                      :method => :delete,
+                      :class => 'btn btn-danger p-x-2 pull-xs-right' %>
 </div>
