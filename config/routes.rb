@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # Doorkeeper
   #
   use_doorkeeper :scope => 'oauth2' do
+    # accepts :authorizations, :tokens, :applications and :authorized_applications
     controllers :applications => 'my_doorkeeper/applications'
 
     # Don't provide authorized_applications#index
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
 
   end
 
-  match 'oauth2/authorized_application/:id' => 'doorkeeper/authorized_applications#destroy',
+  match 'oauth2/authorized_application/:id' => 'my_doorkeeper/authorized_applications#destroy',
               :as => 'oauth_authorized_application',
               :via => :delete
 
