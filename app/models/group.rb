@@ -20,7 +20,8 @@ class Group < ApplicationRecord
   # Ownership
   belongs_to :owner,
                 :class_name => 'User',
-                :foreign_key => 'user_id'
+                :foreign_key => 'user_id',
+                :optional => true
   validates_inclusion_of :owner,
                             :in => :users,
                             :allow_blank => true
@@ -30,7 +31,8 @@ class Group < ApplicationRecord
                             :unique => true
 
   # Permission group
-  belongs_to :email
+  belongs_to :email,
+                    :optional => true
 
   # Methods
   # Callbacks
