@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.1'
+lock '3.6.1'
 
 set :application, 'thalariond'
 set :repo_url, 'git@github.com:floriandejonckheere/thalariond.git'
@@ -42,7 +42,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 # set :keep_releases, 5
 
 # SSH deployment keys
-set :ssh_options, {:keys => [File.join(ENV['HOME'], '.ssh', 'thalariond@thalarion.be')]}
+set :ssh_options, {:keys => [File.join(ENV['HOME'], '.ssh', 'thalariond-development-ssh-key')]}
 
 # Bundler options
 set :bundle_bins, fetch(:bundle_bins, []).push('ldapd_ctl')
