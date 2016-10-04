@@ -8,14 +8,15 @@ A permission model is implemented using role-based access control.
 # Installation
 
 ```
-$ bundle install
+$ gem install bundler --no-ri --no-rdoc
+$ bundle install --deployment
 $ rake db:create        # Create database
 $ rake db:migrate       # Create tables
 $ rake db:seed          # Create roles
 $ rake db:create_admin  # Create admin account
 ```
 
-A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seed.rb`.
+A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seeds.rb`.
 
 # Upgrading
 
@@ -77,3 +78,5 @@ To run manually, execute the following command
 ```
 $ RAILS_ENV=production bundle exec rails server # Rails server
 ```
+
+Set the environment variable `DISABLE_LDAPD` to anything to disable LDAPd.
