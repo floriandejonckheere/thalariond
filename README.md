@@ -10,6 +10,7 @@ A permission model is implemented using role-based access control.
 ```
 $ gem install bundler --no-ri --no-rdoc
 $ bundle install --deployment
+$ npm install
 $ rake db:create        # Create database
 $ rake db:migrate       # Create tables
 $ rake db:seed          # Create roles

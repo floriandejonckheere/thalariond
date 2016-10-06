@@ -51,16 +51,6 @@ group :development, :test do
 
   # Ensure clean database
   gem 'database_cleaner'
-
-  # Use Capistrano for deployment
-  gem 'capistrano', '~> 3.6'
-  gem 'capistrano-rails', '~> 1.1'
-  gem 'capistrano-bundler', '~> 1.1.2'
-  gem 'capistrano-rvm'
-  gem 'capistrano-npm'
-  gem 'capistrano-bower'
-  gem 'capistrano-upload-config'
-  gem 'capistrano3-puma'
 end
 
 group :production, :staging do
