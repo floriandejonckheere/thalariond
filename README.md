@@ -8,9 +8,12 @@ A permission model is implemented using role-based access control.
 # Installation
 
 ```
-$ gem install bundler --no-ri --no-rdoc
-$ bundle install --deployment
-$ npm install
+$ rvm install ruby-2.3.1
+$ rvm gemset create ruby-2.3.1@thalariond
+$ gem install bundler -v 1.11.2 --no-ri --no-rdoc
+$ bundle install        # Install dependencies
+$ npm install           # Install bower
+$ rake bower:install    # Fetch assets
 $ rake db:create        # Create database
 $ rake db:migrate       # Create tables
 $ rake db:seed          # Create roles
@@ -18,6 +21,14 @@ $ rake db:create_admin  # Create admin account
 ```
 
 A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seeds.rb`.
+
+# Deployment
+
+Use `pkgr` to build distro-specific packages.
+
+```
+$ pkgr package --verbose --name=thalariond --force-os=debian-8 --runner=systemd .
+```
 
 # Upgrading
 
