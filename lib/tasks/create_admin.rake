@@ -9,6 +9,8 @@ namespace :db do
                   :confirmed_at => DateTime.now)
 
     admin.roles << Role.find_by(name: 'administrator')
+
+    puts "Admin account created with username 'admin' and password 'abcd1234'. Don't forget to change the default email address to your admin's email address."
   end
 
 end
