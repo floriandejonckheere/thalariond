@@ -16,7 +16,8 @@
       <%= form.text_field :uid,
           :placeholder => :username,
           :class => 'form-control',
-         :id => 'uid',
+          :id => 'uid',
+          :autofocus => 'true',
           :required => 'true' %>
     </fieldset>
   <% end %>
@@ -27,6 +28,7 @@
         :placeholder => :first_name,
         :class => 'form-control',
         :id => 'first_name',
+        :autofocus => 'true',
         :required => 'true' %>
   </fieldset>
 
