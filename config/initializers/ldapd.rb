@@ -3,7 +3,7 @@ interactive = (Rails.env.test? or
                 !!defined?(Rails::Generators) or
                 !!defined?(::Rake))
 
-unless interactive and ENV['DISABLE_LDAPD']
+unless interactive and ENV['LDAPD_DISABLE']
   require Rails.root.join('lib', 'ldapd.rb')
 
   log_file = Rails.root.join('log', "ldapd.#{Rails.env}.log")

@@ -19,10 +19,7 @@
 vendor/bundle
 
 # Ignore private settings
-config/database.*yml
-config/ldap.*yml
-config/mailer.*yml
-config/secrets.*yml
+*.env
 
 .byebug_history
 
@@ -31,3 +28,5 @@ node_modules/
 vendor/assets/
 
 TODO.md
+
+.idea/

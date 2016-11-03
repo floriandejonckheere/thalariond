@@ -15,7 +15,6 @@ module ThalariondRails
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    config.ldap = YAML.load_file("#{Rails.root.to_s}/config/ldap.yml")[Rails.env]
     config.mailer = YAML.load_file("#{Rails.root.to_s}/config/mailer.yml")[Rails.env]
 
     # Enable or disable email notifications

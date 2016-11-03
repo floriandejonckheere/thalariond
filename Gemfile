@@ -53,11 +53,8 @@ group :development, :test do
 
   # Ensure clean database
   gem 'database_cleaner'
-
-  # Dist packager
-  gem 'pkgr', '~> 1.5.1'
 end
 
-group :production, :staging do
+group :production do
   gem 'pg'
 end

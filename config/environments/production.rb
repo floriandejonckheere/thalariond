@@ -58,16 +58,19 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Mailer configuration
-  config.action_mailer.default_url_options = { :host => config.mailer['default_host_url'] }
+  config.action_mailer.default_url_options = {
+    :host => ENV['MAILER_DEFAULT_HOST'],
+    :protocol =>
+  }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => config.mailer['host'],
-    :port => config.mailer['port'],
-    :domain => config.mailer['domain'],
-    :user_name => config.mailer['username'],
-    :password => config.mailer['password'],
-    :authentication => config.mailer['authentication'],
-    :enable_starttls_auto => config.mailer['starttls']
+    :address => ENV['MAILER_host'],
+    :port => ENV['MAILER_port'],
+    :domain => ENV['MAILER_domain'],
+    :user_name => ENV['MAILER_username'],
+    :password => ENV['MAILER_password'],
+    :authentication => ENV['MAILER_authentication'],
+    :enable_starttls_auto => ENV['MAILER_starttls']
   }
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -100,7 +103,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[ERROR] ",
-      :sender_address => Rails.application.config.mailer['exception_sender'],
-      :exception_recipients => Rails.application.config.mailer['exception_recipients']
+      :sender_address => Rails.application.ENV['MAILER_exception_sender'],
+      :exception_recipients => Rails.application.ENV['MAILER_exception_recipients']
     }
 end

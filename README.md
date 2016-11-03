@@ -5,34 +5,80 @@
 Thalariond is a suite of services that offers a flexible solution for centralized user management. It features a central administration panel with the ability to define users and services. As underlying service a Ruby LDAP server is bootstrapped to provide access to the user directory for enterprise services.
 A permission model is implemented using role-based access control.
 
-# Installation
+
+## Configuration
+
+Copy `thalariond.env.example` to `thalariond.prod.env` and `thalariond.dev.env`. Edit the two files and use the following commands to use `thalariond.dev.env` outside the Docker container.
 
 ```
-$ rvm install ruby-2.3.1
-$ rvm gemset create ruby-2.3.1@thalariond
-$ gem install bundler -v 1.11.2 --no-ri --no-rdoc
-$ bundle install        # Install dependencies
-$ npm install           # Install bower
-$ rake bower:install    # Fetch assets
-$ rake db:create        # Create database
-$ rake db:migrate       # Create tables
-$ rake db:seed          # Create roles
-$ rake db:create_admin  # Create admin account
+$ set -a                    # set allexport
+$ . ./thalariond.dev.env    # source .env
 ```
 
-A default `admin` user is created with password `abcd1234`. Additional roles and users are created in `db/seeds.rb`.
 
-# Deployment
+## Installation
 
-Use `pkgr` to build distro-specific packages.
+### Prerequisites
+
+- RVM
+- NPM
+
+### Development
 
 ```
-$ pkgr package --verbose --name=thalariond --force-os=debian-8 --runner=systemd .
+$ rvm install $(cat .ruby-version)
+$ rvm gemset create $(cat .ruby-gemset)
+$ rvm use $(cat .ruby-version)@$(cat .ruby-gemset)
+$ gem install bundler
+$ bundle install --with development
+$ npm install bower
+$ rails bower:install
+$ rails db:create       # Create database
+$ rails db:migrate      # Create tables
+$ rails db:seed         # Create roles
+$ rails db:create_admin # Create admin account
 ```
 
-# Upgrading
+A default `admin` user is created with password `abcd1234`. Additional roles and users are defined in `db/seeds.rb`.
 
-## From 1.0 to 2.0
+Optionally:
+
+```
+$ sudo systemctl start redis
+$ gem install mailcatcher
+$ bundle exec mailcatcher
+$ bundle exec rails server
+```
+
+### Production
+
+Docker and docker-compose are used in the deployment process. Use the following command to build and run the necessary containers. The environment variables `$SKIP_MIGRATE` and `$SKIP_PRECOMPILE` can be used to skip migrations and asset precompilation respectively.
+ 
+```
+$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+```
+
+Data volumes (PostgreSQL, Neo4j, Redis, Musicbrainz) are persisted to disk using Docker volumes. Don't forget to create a read-only PostgreSQL account for the Musicbrainz database.
+
+### Redeployment
+
+```
+$ docker-compose up --no-deps -d app
+```
+
+### Testing
+
+```
+$ rake db:create RAILS_ENV=test
+$ rake db:migrate RAILS_ENV=test
+$ rake db:fixtures:load RAILS_ENV=test
+
+$ rake test RAILS_ENV=test
+```
+
+## Upgrading
+
+### From 1.0 to 2.0
 
 - Roles now have an `order` attribute. Reseed the database to use the predefined values
 
@@ -46,49 +92,10 @@ $ rake db:seed
 $ rake db:fix_permission_groups
 ```
 
-## From 2.0 to 2.1
+### From 2.0 to 2.1
 
 - Bower is now used for frontend assets. Install it using NPM
 
 ```
 $ npm install -g bower
 ```
-
-# Development
-
-```
-$ sudo systemctl start redis
-$ gem install mailcatcher
-$ bundle exec mailcatcher
-$ bundle exec rails server
-```
-
-# Testing
-
-```
-$ rake db:create RAILS_ENV=test
-$ rake db:migrate RAILS_ENV=test
-$ rake db:fixtures:load RAILS_ENV=test
-
-$ rake test RAILS_ENV=test
-```
-
-# Configuration
-
-Move, copy or symlink the following files to their production counterpart:
-
-- `config/database.yml.example`
-- `config/ldap.yml.example`
-- `config/secrets.yml.example`
-- `config/mailer.yml.example`
-
-# Run
-
-Capistrano is used to deploy.
-To run manually, execute the following command
-
-```
-$ RAILS_ENV=production bundle exec rails server # Rails server
-```
-
-Set the environment variable `DISABLE_LDAPD` to anything to disable LDAPd.

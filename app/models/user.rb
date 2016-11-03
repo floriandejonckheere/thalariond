@@ -191,7 +191,7 @@ class User < ApplicationRecord
     if self.groups.any?
       h['group'] = []
       self.groups.each do |g|
-        h['group'] << "cn=#{g.name},ou=Groups,#{Rails.application.config.ldap['base_dn']}"
+        h['group'] << "cn=#{g.name},ou=Groups,#{ENV['LDAPD_BASEDN']}"
       end
     end
     if self.roles.any?

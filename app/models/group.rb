@@ -70,15 +70,15 @@ class Group < ApplicationRecord
     h['cn'] = self.name
     h['objectClass'] = 'group'
     h['displayName'] = self.display_name if self.display_name?
-    h['owner'] = "uid=#{self.owner.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}" if self.owner != nil
+    h['owner'] = "uid=#{self.owner.uid},ou=Users,#{ENV['LDAPD_BASEDN']}" if self.owner != nil
     # Members
     if self.users.any?
       h['member'] = []
       self.users.each do |u|
-        h['member'] << "uid=#{u.uid},ou=Users,#{Rails.application.config.ldap['base_dn']}"
+        h['member'] << "uid=#{u.uid},ou=Users,#{ENV['LDAPD_BASEDN']}"
       end
       self.services.each do |u|
-        h['member'] << "uid=#{u.uid},ou=Services,#{Rails.application.config.ldap['base_dn']}"
+        h['member'] << "uid=#{u.uid},ou=Services,#{ENV['LDAPD_BASEDN']}"
       end
     end
     return h
