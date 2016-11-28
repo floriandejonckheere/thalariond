@@ -1,26 +1,26 @@
-FROM ruby:alpine
+FROM floriandejonckheere/docker-ruby-node
 
 MAINTAINER Florian Dejonckheere <florian@floriandejonckheere.be>
 
-RUN apk --update add --virtual build-dependencies build-base ruby-dev openssl-dev libxml2-dev libxslt-dev postgresql-dev libc-dev linux-headers nodejs tzdata git nodejs curl
-RUN gem install bundler
-RUN gem install nokogiri -- --use-system-libraries --with-xml2-config=/usr/local/bin/xml2-config --with-xslt-config=/usr/local/bin/xslt-config
+# Create user and group
+RUN useradd thalariond --create-home --home-dir /app/ --shell /bin/false
 
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
 
 WORKDIR /app/
-RUN bundle install --without development test
+
+RUN bundle install --deployment --without development test
 
 ADD . /app/
+RUN chown -R thalariond:thalariond /app/
 
+USER thalariond
 ENV RAILS_ENV production
 
+USER thalariond
 RUN npm install bower
 RUN rails bower:install
-
-RUN chown -R nobody:nogroup /app
-USER nobody
 
 EXPOSE 8080
 CMD ["/app/docker-entrypoint.sh"]

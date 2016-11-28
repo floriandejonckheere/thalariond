@@ -52,19 +52,20 @@ $ bundle exec rails server
 
 ### Production
 
-Docker and docker-compose are used in the deployment process. Use the following command to build and run the necessary containers. The environment variables `$SKIP_MIGRATE` and `$SKIP_PRECOMPILE` can be used to skip migrations and asset precompilation respectively.
+Docker and docker-compose are used in the deployment process. The environment variables `$SKIP_MIGRATE` and `$SKIP_PRECOMPILE` can be used to skip migrations and asset precompilation respectively.
  
 ```
-$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+$ docker-compose up
 ```
 
-Data volumes (PostgreSQL, Neo4j, Redis, Musicbrainz) are persisted to disk using Docker volumes. Don't forget to create a read-only PostgreSQL account for the Musicbrainz database.
-
-### Redeployment
+### Staging
 
 ```
-$ docker-compose up --no-deps -d app
+$ docker-compose build -f docker-compose.yml -f docker-compose.staging.yml
+$ docker-compose start
 ```
+
+Assets are persisted to disk using Docker volumes. Don't forget to create a read-only PostgreSQL account for the Musicbrainz database.
 
 ### Testing
 
