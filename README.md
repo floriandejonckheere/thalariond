@@ -58,13 +58,6 @@ Docker and docker-compose are used in the deployment process. The environment va
 $ docker-compose up
 ```
 
-### Staging
-
-```
-$ docker-compose build -f docker-compose.yml -f docker-compose.staging.yml
-$ docker-compose start
-```
-
 Assets are persisted to disk using Docker volumes. Don't forget to create a read-only PostgreSQL account for the Musicbrainz database.
 
 ### Testing

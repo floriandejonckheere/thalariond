@@ -105,7 +105,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[ERROR] ",
-      :sender_address => Rails.application.ENV['MAILER_exception_sender'],
-      :exception_recipients => Rails.application.ENV['MAILER_exception_recipients']
+      :sender_address => ENV['MAILER_EXCEPTION_SENDER'],
+      :exception_recipients => ENV['MAILER_EXCEPTION_RECIPIENT']
     }
 end
