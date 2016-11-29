@@ -55,7 +55,6 @@ $ bundle exec rails server
 Docker and docker-compose are used in the deployment process. The environment variables `$SKIP_MIGRATE` and `$SKIP_PRECOMPILE` can be used to skip migrations and asset precompilation respectively.
  
 ```
-$ export DOCKERHOST=`ip route show | grep docker0 | awk '{print $NF}'`
 $ docker-compose up
 ```
 
