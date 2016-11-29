@@ -9,6 +9,8 @@ services:
       - assets:/app/assets/public/
     env_file:
       - thalariond.env
+    extra_hosts:
+      - "dockerhost:${DOCKERHOST}"
     restart: always
 
 volumes:

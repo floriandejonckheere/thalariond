@@ -14,7 +14,7 @@ test:
   <<: *default
   database: db/test.sqlite3
 
-staging: &staging
+production:
   adapter: postgresql
   host: <%= ENV['POSTGRES_HOST'] %>
   # Set this to the number of Sidekiq workers
@@ -22,6 +22,3 @@ staging: &staging
   database: <%= ENV['POSTGRES_DB'] %>
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASS'] %>
-
-production:
-  <<: *staging
