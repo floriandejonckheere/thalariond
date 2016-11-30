@@ -52,10 +52,11 @@ $ bundle exec rails server
 
 ### Production
 
-Docker and docker-compose are used in the deployment process. The environment variables `$SKIP_MIGRATE` and `$SKIP_PRECOMPILE` can be used to skip migrations and asset precompilation respectively.
+Docker and docker-compose are used in the deployment process. The environment variables `$SKIP_MIGRATE` can be used to skip database migrations. Don't forget to allow your webserver to serve the static assets.
  
 ```
-$ docker-compose up
+# docker-compose up
+# chown -R www-data:www-data /var/lib/docker/volumes/thalariond_assets/_data
 ```
 
 Assets are persisted to disk using Docker volumes. Don't forget to create a read-only PostgreSQL account for the Musicbrainz database.

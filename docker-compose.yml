@@ -6,11 +6,11 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
-      - assets:/app/public/assets/
+      - public:/app/public
       - /var/run/postgresql/:/var/run/postgresql/
     env_file:
       - thalariond.env
     restart: always
 
 volumes:
-  assets: {}
+  public: {}
