@@ -57,4 +57,7 @@ end
 
 group :production do
   gem 'pg'
+
+  # Dummy database for asset precompilation
+  gem 'activerecord-nulldb-adapter', :git => 'https://github.com/nulldb/nulldb.git'
 end

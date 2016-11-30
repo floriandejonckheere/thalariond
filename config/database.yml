@@ -15,7 +15,7 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
+  adapter: <%= ENV['DB_ADAPTER'] ||= 'postgresql' %>
   host: <%= ENV['POSTGRES_HOST'] %>
   # Set this to the number of Sidekiq workers
   pool: 25

@@ -5,22 +5,27 @@ MAINTAINER Florian Dejonckheere <florian@floriandejonckheere.be>
 # Create user and group
 RUN useradd thalariond --create-home --home-dir /app/ --shell /bin/false
 
+# Install dependencies
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
+ADD package.json /app/
 
 WORKDIR /app/
 
 RUN bundle install --deployment --without development test
+RUN npm install
 
+# Add application
 ADD . /app/
-RUN chown -R thalariond:thalariond /app/
-
-USER thalariond
 ENV RAILS_ENV production
 
+# Precompile assets
+RUN rails bower:install['--allow-root']
+RUN DB_ADAPTER=nulldb SECRET_KEY_BASE=foo bundle exec rake assets:precompile
+
+# Correct permissions
+RUN chown -R thalariond:thalariond /app/
 USER thalariond
-RUN npm install bower
-RUN rails bower:install
 
 EXPOSE 8080
 CMD ["/app/docker-entrypoint.sh"]
