@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require tether
+//= require tether/dist/js/tether
 //= require bootstrap/dist/js/bootstrap.min
 //= require bootstrap-toggle/js/bootstrap-toggle.min
 //= require turbolinks

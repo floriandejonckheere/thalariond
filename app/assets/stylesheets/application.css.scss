@@ -5,19 +5,16 @@
  *
  * This file is part of Thalarion Panel
  *
+ *= require raleway/raleway
+ *= require hint/dist/hint.min
+ *= require bootstrap-toggle/css/bootstrap-toggle.min
+ *= require roboto-slab-font/roboto-slab.css
+ *= require fontawesome/css/font-awesome.css
+ *= require font-roboto/dist/styles/roboto.css
+ *
  * */
 
 @import "variables";
-
-$fa-font-path: "fontawesome/fonts";
-@import "fontawesome/scss/font-awesome";
-@import "font-roboto/src/styles/roboto";
-
-$roboto-slab-font-path: "roboto-slab-font/fonts";
-@import "roboto-slab-font/roboto-slab.scss";
-@import "raleway/raleway.css";
-
-@import "hint/dist/hint.min.css";
 
 $brand-primary: $color-primary;
 $input-border-focus: $color-primary;
@@ -27,9 +24,6 @@ $nprogress-color: $color-primary;
 @import "nprogress";
 @import "nprogress-bootstrap";
 @import "nprogress-turbolinks5";
-
-@import "bootstrap-toggle/css/bootstrap-toggle.min.css";
-
 
 @import "utilities";
 @import "form";
