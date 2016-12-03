@@ -22,6 +22,11 @@
   font-size: 1rem;
 }
 
+.dropdown-menu > .dropdown-item {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
 .dropdown {
   select {
     padding: $btn-padding-y-sm $btn-padding-x-lg $btn-padding-y-sm $btn-padding-x-sm;

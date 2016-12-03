@@ -11,6 +11,9 @@
   <li class="nav-item">
     <a href="#owner" class="nav-link" role="tab" data-toggle="tab">Owner</a>
   </li>
+  <li class="nav-item">
+    <a href="#permission_groups" class="nav-link" role="tab" data-toggle="tab">Permission groups</a>
+  </li>
 </ul>
 
 <div class="tab-content">
@@ -35,14 +38,14 @@
         </tr>
       </thead>
       <tbody>
-        <% if @groups.empty? %>
+        <% unless @groups.where(:email => nil).first %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
         <% else %>
-          <% @groups.each do |group| %>
+          <% @groups.where(:email => nil).order(:name).each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -90,7 +93,7 @@
             </td>
           </tr>
         <% else %>
-          <% @groups.select { |g| g.users.include? current_user }.each do |group| %>
+          <% @groups.select { |g| g.users.include? current_user }.order(:name).each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -138,7 +141,55 @@
             </td>
           </tr>
         <% else %>
-          <% @groups.select { |g| g.owner == current_user }.each do |group| %>
+          <% @groups.select { |g| g.owner == current_user }.order(:name).each do |group| %>
+            <tr>
+              <td>
+                <strong><%= link_to group.display_name, group_path(group) %></strong>
+              </td>
+              <td>
+                <% if group.owner == current_user %>
+                  Owner
+                <% elsif group.users.include? current_user %>
+                  Member
+                <% else %>
+                  Not a member
+                <% end %>
+              </td>
+              <td>
+                <% if group.owner %>
+                  <%= link_to group.owner.display_name, user_path(group.owner) %>
+                <% else %>
+                  <em>No current owner</em>
+                <% end %>
+              </td>
+              <td>
+                <%= pluralize(group.users.count, 'member') %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div role="tabpanel" class="tab-pane fade in" id="permission_groups">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% unless @groups.where.not(:email => nil).first %>
+          <tr>
+            <td colspan="4" class="text-xs-center">
+              <em>No groups found</em>
+            </td>
+          </tr>
+        <% else %>
+          <% @groups.where.not(:email => nil).order(:name).each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>

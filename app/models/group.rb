@@ -35,6 +35,10 @@ class Group < ApplicationRecord
                     :optional => true
 
   # Methods
+  def email?
+    !!self.email
+  end
+
   # Callbacks
   def sanitize_attributes
     self.name.downcase!
