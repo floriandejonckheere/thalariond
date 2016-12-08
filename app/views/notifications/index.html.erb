@@ -90,14 +90,14 @@
         </tr>
       </thead>
       <tbody>
-        <% if @notifications.select { |n| not n.read }.empty? %>
+        <% if @unread_notifications.empty? %>
           <tr>
             <td colspan="3" class="text-xs-center">
               <em>No unread notifications</em>
             </td>
           </tr>
         <% else %>
-          <% @notifications.select { |n| not n.read }.each do |notification| %>
+          <% @unread_notifications.each do |notification| %>
             <tr>
               <td>
                 <strong><%= link_to notification.title, notification_path(notification) %></strong>
@@ -124,17 +124,17 @@
         </tr>
       </thead>
       <tbody>
-        <% if @notifications.select { |n| n.read }.empty? %>
+        <% if @read_notifications.empty? %>
           <tr>
             <td colspan="3" class="text-xs-center">
               <em>No read notifications</em>
             </td>
           </tr>
         <% else %>
-          <% @notifications.select { |n| n.read }.each do |notification| %>
+          <% @read_notifications.each do |notification| %>
             <tr>
               <td>
-                <strong><%= link_to strip_tags(notification.title), notification_path(notification) %></strong>
+                <%= link_to strip_tags(notification.title), notification_path(notification) %>
               </td>
               <td>
                 <%= notification.priority_display %>

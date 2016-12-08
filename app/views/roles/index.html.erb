@@ -13,6 +13,7 @@
       <thead>
         <tr>
           <th>Role</th>
+          <th>Order</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,9 @@
           <tr>
             <td>
               <strong><%= link_to role.display_name, role_path(role) %></strong>
+            </td>
+            <td>
+              <%= role.order %>
             </td>
           </tr>
         <% end %>

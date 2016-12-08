@@ -30,7 +30,7 @@
             </td>
           </tr>
         <% end %>
-        <% (@emails + @email_aliases).sort.each do |email| %>
+        <% (@emails + @email_aliases).each do |email| %>
           <tr>
             <td>
               <% if email.is_a?(Email) %>

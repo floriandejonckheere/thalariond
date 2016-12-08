@@ -42,7 +42,7 @@
             </td>
           </tr>
         <% end %>
-        <% (@domains + @domain_aliases).sort.each do |domain| %>
+        <% @domains_and_aliases.each do |domain| %>
           <tr>
             <td>
               <% if domain.is_a?(Domain) %>

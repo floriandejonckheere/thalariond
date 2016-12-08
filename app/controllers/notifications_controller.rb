@@ -8,7 +8,9 @@ class NotificationsController < ApplicationController
   layout 'dashboard'
 
   def index
-    @notifications = current_user.notifications
+    @notifications = current_user.notifications.order :timestamp => :desc
+    @unread_notifications = @notifications.where :read => false
+    @read_notifications = @notifications.where :read => true
   end
 
   def show

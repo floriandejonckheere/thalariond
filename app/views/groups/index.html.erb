@@ -38,14 +38,14 @@
         </tr>
       </thead>
       <tbody>
-        <% unless @groups.where(:email => nil).first %>
+        <% if @regular_groups.empty? %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
         <% else %>
-          <% @groups.where(:email => nil).order(:name).each do |group| %>
+          <% @regular_groups.each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -86,14 +86,14 @@
         </tr>
       </thead>
       <tbody>
-        <% if @groups.select { |g| g.users.include? current_user }.empty? %>
+        <% if @member_groups.empty? %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
         <% else %>
-          <% @groups.select { |g| g.users.include? current_user }.order(:name).each do |group| %>
+          <% @member_groups.each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -134,14 +134,14 @@
         </tr>
       </thead>
       <tbody>
-        <% if @groups.select { |g| g.owner == current_user }.empty? %>
+        <% if @owned_groups.empty? %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
         <% else %>
-          <% @groups.select { |g| g.owner == current_user }.order(:name).each do |group| %>
+          <% @owned_groups.each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>
@@ -182,14 +182,14 @@
         </tr>
       </thead>
       <tbody>
-        <% unless @groups.where.not(:email => nil).first %>
+        <% if @permission_groups.empty? %>
           <tr>
             <td colspan="4" class="text-xs-center">
               <em>No groups found</em>
             </td>
           </tr>
         <% else %>
-          <% @groups.where.not(:email => nil).order(:name).each do |group| %>
+          <% @permission_groups.each do |group| %>
             <tr>
               <td>
                 <strong><%= link_to group.display_name, group_path(group) %></strong>

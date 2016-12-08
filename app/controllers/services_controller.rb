@@ -9,6 +9,7 @@ class ServicesController < ApplicationController
   # If you're experiencing a ForbiddenAttributesError, check out before_action in application_controller
 
   def index
+    @services = Service.all.order :uid
   end
 
   def create

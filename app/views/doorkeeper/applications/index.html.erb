@@ -35,7 +35,7 @@
             </td>
           </tr>
         <% end %>
-        <% @applications.sort.each do |application| %>
+        <% @applications.each do |application| %>
           <tr>
             <td>
               <strong><%= link_to application.name, oauth_application_path(application) %></strong>
@@ -64,7 +64,7 @@
             </td>
           </tr>
         <% end %>
-        <% @authorized_applications.sort.each do |application| %>
+        <% @authorized_applications.each do |application| %>
           <tr>
             <td>
               <strong><%= link_to application.name, oauth_application_path(application) %></strong>

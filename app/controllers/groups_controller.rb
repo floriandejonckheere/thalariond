@@ -9,6 +9,11 @@ class GroupsController < ApplicationController
   # If you're experiencing a ForbiddenAttributesError, check out before_action in application_controller
 
   def index
+    @regular_groups = Group.where(:email => nil).accessible_by(current_ability).order :name
+    @permission_groups = Group.where.not(:email => nil).accessible_by(current_ability).order :name
+
+    @member_groups = current_user.groups.order :name
+    @owned_groups = current_user.owned_groups.order :name
   end
 
   def create

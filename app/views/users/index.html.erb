@@ -7,27 +7,21 @@
       All
     </a>
   </li>
-  <% if @unconfirmed_users.any? %>
-    <li class="nav-item">
-      <a href="#unconfirmed" class="nav-link" role="tab" data-toggle="tab">
-        Unconfirmed <span class="label label-pill label-default"><%= @unconfirmed_users.count %></span>
-      </a>
-    </li>
-  <% end %>
-  <% if @disabled_users.any? %>
-    <li class="nav-item">
-      <a href="#disabled" class="nav-link" role="tab" data-toggle="tab">
-        Disabled <span class="label label-pill label-default"><%= @disabled_users.count %></span>
-      </a>
-    </li>
-  <% end %>
-  <% if @locked_users.any? %>
-    <li class="nav-item">
-      <a href="#locked" class="nav-link" role="tab" data-toggle="tab">
-        Locked <span class="label label-pill label-default"><%= @locked_users.count %></span>
-      </a>
-    </li>
-  <% end %>
+  <li class="nav-item">
+    <a href="#unconfirmed" class="nav-link" role="tab" data-toggle="tab">
+      Unconfirmed <% if @unconfirmed_users.any? %><span class="label label-pill label-default"><%= @unconfirmed_users.count %></span><% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#disabled" class="nav-link" role="tab" data-toggle="tab">
+      Disabled <% if @disabled_users.any? %><span class="label label-pill label-default"><%= @disabled_users.count %></span><% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#locked" class="nav-link" role="tab" data-toggle="tab">
+      Locked <% if @locked_users.any? %><span class="label label-pill label-default"><%= @locked_users.count %></span><% end %>
+    </a>
+  </li>
 </ul>
 
 
@@ -96,17 +90,23 @@
     </table>
   </div>
 
-  <% if @unconfirmed_users.any? %>
-    <div role="tabpanel" class="tab-pane fade in" id="unconfirmed">
-      <table class="table">
-        <thead>
+  <div role="tabpanel" class="tab-pane fade in" id="unconfirmed">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @unconfirmed_users.empty? %>
           <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
+            <td colspan="4" class="text-xs-center">
+              <em>No unconfirmed users found</em>
+            </td>
           </tr>
-        </thead>
-        <tbody>
+        <% else %>
           <% @unconfirmed_users.each do |user| %>
             <tr>
               <td>
@@ -120,66 +120,78 @@
               </td>
             </tr>
           <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <% if @disabled_users.any? %>
-    <div role="tabpanel" class="tab-pane fade in" id="disabled">
-      <table class="table">
-        <thead>
+  <div role="tabpanel" class="tab-pane fade in" id="disabled">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% if @disabled_users.empty? %>
           <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
+            <td colspan="4" class="text-xs-center">
+              <em>No disabled users found</em>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <% @disabled_users.each do |user| %>
-            <tr>
-              <td>
-                <%= user.uid %>
-              </td>
-              <td>
-                <strong><%= link_to user.display_name, user_path(user) %></strong>
-              </td>
-              <td>
-                <%= user.email %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
+        <% else %>
+            <% @disabled_users.each do |user| %>
+                <tr>
+                  <td>
+                    <%= user.uid %>
+                  </td>
+                  <td>
+                    <strong><%= link_to user.display_name, user_path(user) %></strong>
+                  </td>
+                  <td>
+                    <%= user.email %>
+                  </td>
+                </tr>
+            <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <% if @locked_users.any? %>
-    <div role="tabpanel" class="tab-pane fade in" id="locked">
-      <table class="table">
-        <thead>
+  <div role="tabpanel" class="tab-pane fade in" id="locked">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @locked_users.empty? %>
           <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
+            <td colspan="4" class="text-xs-center">
+              <em>No locked users found</em>
+            </td>
           </tr>
-        </thead>
-        <tbody>
+      <% else %>
           <% @locked_users.each do |user| %>
-            <tr>
-              <td>
-                <%= user.uid %>
-              </td>
-              <td>
-                <strong><%= link_to user.display_name, user_path(user) %></strong>
-              </td>
-              <td>
-                <%= user.email %>
-              </td>
-            </tr>
+              <tr>
+                <td>
+                  <%= user.uid %>
+                </td>
+                <td>
+                  <strong><%= link_to user.display_name, user_path(user) %></strong>
+                </td>
+                <td>
+                  <%= user.email %>
+                </td>
+              </tr>
           <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

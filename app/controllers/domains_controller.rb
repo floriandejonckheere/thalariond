@@ -7,7 +7,9 @@ class DomainsController < ApplicationController
   layout 'dashboard'
 
   def index
-    @domain_aliases = DomainAlias.accessible_by(current_ability)
+    @domains = Domain.accessible_by(current_ability).order :domain
+    @domain_aliases = DomainAlias.accessible_by(current_ability).order :domain
+    @domains_and_aliases = (@domains + @domain_aliases).sort_by &:domain
   end
 
   def create

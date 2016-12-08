@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   # If you're experiencing a ForbiddenAttributesError, check out before_action in application_controller
 
   def index
-    @users = User.accessible_by(current_ability).select { |u| can? :read, u }
+    @users = User.order(:uid).select { |u| current_user.can? :read, u }
     @unconfirmed_users = @users.select{ |u| not u.confirmed? }
     @disabled_users = @users.select{ |u| not u.enabled }
     @locked_users = @users.select{ |u| u.access_locked? }
