@@ -39,7 +39,7 @@
       <% else %>
         <ul>
           <% @application.scopes.each do |scope| %>
-            <li><%= scope %></li>
+            <li><%= scope %> (<%= t scope, scope: [:doorkeeper, :scopes] %>)</li>
           <% end %>
         </ul>
       <% end %>
