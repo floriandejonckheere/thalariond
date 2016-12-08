@@ -29,7 +29,7 @@ module ThalariondRails
     # Customize Doorkeeper layout
     config.to_prepare do
       Doorkeeper::ApplicationsController.layout 'dashboard'
-      Doorkeeper::AuthorizationsController.layout 'session'
+      Doorkeeper::AuthorizationsController.layout 'oauth2'
       Doorkeeper::AuthorizedApplicationsController.layout 'dashboard'
     end
   end

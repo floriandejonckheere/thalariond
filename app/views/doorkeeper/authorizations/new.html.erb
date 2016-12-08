@@ -13,6 +13,7 @@
 <% end %>
 
 <div class="card-block" id="oauth-permissions">
+  <p>You are currently signed in as <strong><%= current_user.first_name %></strong>.</p>
   <% if @pre_auth.scopes.count > 0 %>
     <p><strong><%= @pre_auth.client.name %></strong> is requesting permission to:</p>
 

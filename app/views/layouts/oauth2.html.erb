@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= yield 'title' %> - Thalarion Panel</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <%= csrf_meta_tags %>
+  <%= render 'partials/meta' %>
+</head>
+<body>
+  <div class="container-fluid signin-container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 col-xl-4 col-xl-offset-4 p-a-2">
+        <div class="card-block">
+           <h2 class="card-title text-xs-center m-b-3">
+            <%= yield 'title' %>
+          </h2>
+        </div>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
