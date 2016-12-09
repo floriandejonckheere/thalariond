@@ -36,7 +36,7 @@ class Notification < ApplicationRecord
 
   def send_notification
     return unless Rails.application.config.enable_notifications_mailer
-    return unless user.enabled_notifications
+    return unless user.notifications_enabled
 
     NotificationMailer.delay.notification self
   end

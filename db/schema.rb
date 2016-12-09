@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809104839) do
+ActiveRecord::Schema.define(version: 20161209120142) do
 
   create_table "auth_events", force: :cascade do |t|
     t.text     "component",  null: false
@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 20160809104839) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.boolean  "enabled",                default: true
-    t.boolean  "enable_notifications",   default: true
+    t.boolean  "notifications_enabled",  default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

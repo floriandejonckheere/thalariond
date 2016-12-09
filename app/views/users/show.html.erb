@@ -58,10 +58,10 @@
   <tr>
     <td>Notifications</td>
     <td>
-      <% if @user.enable_notifications %>
-        Email and web
+      <% if @user.notifications_enabled %>
+        Enabled
       <% else %>
-        Web only
+        Disabled
       <% end %>
     </td>
   </tr>

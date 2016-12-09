@@ -64,6 +64,8 @@ class User < ApplicationRecord
 
   has_many :notifications, :dependent => :destroy
 
+  validates_inclusion_of :notifications_enabled, :in => [true, false]
+
   # Methods
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym.downcase }

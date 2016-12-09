@@ -106,6 +106,7 @@ class UsersController < ApplicationController
                                   :email,
                                   :enabled,
                                   :password,
-                                  :password_confirmation)
+                                  :password_confirmation,
+                                  :notifications_enabled)
   end
 end

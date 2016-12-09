@@ -50,14 +50,14 @@
   </fieldset>
 
   <fieldset class="form-group">
-    <%= form.check_box :enable_notifications,
-        :id => 'enable_notifications',
+    <%= form.check_box :notifications_enabled,
+        :id => 'notifications_enabled',
         :data => {
           :toggle => 'toggle',
           :onstyle => 'success',
           :offstyle => 'danger'
         } %>
-    <label for="enable_notifications" class="m-l-1">Email notifications</label>
+    <label for="notifications_enabled" class="m-l-1">Email notifications</label>
   </fieldset>
 
   <% if can? :toggle, @user or @user.access_locked? %>
