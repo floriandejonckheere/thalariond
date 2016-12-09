@@ -31,8 +31,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @users = User.accessible_by(current_ability).select { |u| can? :read, u }
-    @services = Service.accessible_by(current_ability).select { |s| can? :read, s }
+    @users_not_in_group = User.order(:uid).select { |u| current_user.can? :read, u } - @group.users
+    @services_not_in_group = Service.order(:uid).select { |s| current_user.can? :read, s } - @group.services
   end
 
   def update

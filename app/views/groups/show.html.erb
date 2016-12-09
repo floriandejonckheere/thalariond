@@ -75,7 +75,7 @@
             </td>
           </tr>
         <% else %>
-          <% @group.users.each do |member| %>
+          <% @group.users.order(:uid).each do |member| %>
             <tr>
               <td><%= link_to member.display_name, user_path(member) %></td>
               <td><%= @group.owner == member ? 'Owner' : 'Member' %></td>
@@ -96,11 +96,11 @@
   </div>
 
   <% if can? :update, @group %>
-    <% if (@users - @group.users).any? %>
+    <% if @users_not_in_group.any? %>
       <div class="col-xs-4">
         <%= form_for :user, url: group_users_path(@group) do |f| %>
           <label class="th dropdown">
-            <%= f.select :id, @users.reject { |u| @group.users.include? u }.collect { |u| [ u.display_name, u.id ] } %>
+            <%= f.select :id, @users_not_in_group.collect { |u| [ u.display_name, u.id ] } %>
           </label>
           <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
         <% end %>
@@ -131,7 +131,7 @@
             </td>
           </tr>
         <% else %>
-          <% @group.services.each do |service| %>
+          <% @group.services.order(:uid).each do |service| %>
             <tr>
               <td><%= link_to service.display_name, service_path(service) %></td>
               <% if can? :update, @group %>
@@ -149,11 +149,11 @@
   </div>
 
   <% if can? :update, @group %>
-    <% if (@services - @group.services).any? %>
+    <% if @services_not_in_group.any? %>
       <div class="col-xs-4">
         <%= form_for :service, url: group_services_path(@group) do |f| %>
           <label class="th dropdown">
-            <%= f.select :id, @services.reject { |u| @group.services.include? u }.collect { |u| [ u.display_name, u.id ] } %>
+            <%= f.select :id, @services_not_in_group.collect { |u| [ u.display_name, u.id ] } %>
           </label>
           <%= f.submit 'Add', :class => "btn btn-sm btn-secondary" %>
         <% end %>

@@ -39,7 +39,7 @@
     <fieldset class="form-group">
       <label for="owner">Owner</label><br>
       <label class="th dropdown">
-        <%= f.collection_select(:user_id, @group.users.all, :id, :display_name, {:include_blank => true}) %>
+        <%= f.collection_select(:user_id, @group.users.all.order(:uid), :id, :display_name, {:include_blank => true}) %>
       </label>
     </fieldset>
   <% end %>

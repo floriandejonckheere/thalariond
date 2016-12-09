@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   def edit
     @available_roles = []
-    Role.all.each do |role|
+    Role.all.order(:name).each do |role|
       # Cannot assign already assigned roles
       next if @user.has_role? role.name.to_sym
       # Check assignment authorization

@@ -27,6 +27,15 @@ class ServicesController < ApplicationController
   end
 
   def edit
+    @available_roles = []
+    Role.all.order(:name).each do |role|
+      # Cannot assign already assigned roles
+      next if @service.has_role? role.name.to_sym
+      # Check assignment authorization
+      next unless current_user.can? :assign, role
+
+      @available_roles << role
+    end
   end
 
   def show
