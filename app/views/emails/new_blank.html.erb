@@ -1,0 +1,40 @@
+<% content_for :title do   %>
+  <ol class="breadcrumb">
+    <li>Mail</li>
+    <li><%= link_to 'Emails', mail_path %></li>
+  </ol>
+<% end %>
+<% content_for :section do %>New email<% end %>
+
+<%= form_for @email do |f| %>
+    <% if @email.errors.any? %>
+        <div class="alert alert-danger">
+          <strong><%= pluralize(@email.errors.count, 'error') %> prohibited this email from being saved:</strong>
+          <ul>
+            <% @email.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <fieldset class="form-group">
+      <label for="mail">Local part</label>
+      <%= f.text_field :mail,
+                       :placeholder => :mail,
+                       :class => 'form-control form-inline',
+                       :id => 'mail',
+                       :autofocus =>'true',
+                       :required => 'true' %>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label for="Domain" class="block">Domain</label>
+      <label class="th dropdown">
+        <%= f.select :domain_id, Domain.all.order(:domain).collect { |r| [ r.domain, r.id ] } %>
+      </label>
+    </fieldset>
+
+    <%= f.submit 'Save', :class => 'btn btn-primary' %>
+<% end %>
+

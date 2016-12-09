@@ -14,6 +14,16 @@
 </ul>
 
 <div class="tab-content">
+  <div class="pull-right">
+    <% if can? :create, Email %>
+        <%= link_to new_email_path,
+                    :class => 'btn btn-secondary btn-sm',
+                    :title => 'Add email',
+                    :data => { :toggle => 'tooltip' } do %>
+            <i class="fa fa-plus"></i>
+        <% end %>
+    <% end %>
+  </div>
   <div role="tabpanel" class="tab-pane fade in active" id="all">
     <table class="table">
       <thead>

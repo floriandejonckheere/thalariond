@@ -1,12 +1,15 @@
 class EmailsController < ApplicationController
   before_action :authenticate_user!
 
-  load_and_authorize_resource :domain
-  load_and_authorize_resource :email, :through => :domain
+  load_and_authorize_resource :domain, :except => [:new_blank, :create]
+  load_and_authorize_resource :email, :through => :domain, :except => [:new_blank, :create]
 
   layout 'dashboard'
 
   def create
+    authorize! :create, Email
+    @domain = Domain.find(params[:email][:domain_id]) unless @domain
+
     @email = @domain.emails.build(params[:email])
     if @email.save
       redirect_to domain_email_path(@domain, @email)
@@ -17,6 +20,11 @@ class EmailsController < ApplicationController
 
   def new
     @email = @domain.emails.build
+  end
+
+  def new_blank
+    authorize! :create, Email
+    @email = Email.new
   end
 
   def edit
@@ -42,6 +50,6 @@ class EmailsController < ApplicationController
   private
   def email_params
      params.require(:email).permit(:mail,
-                                    :group)
+                                    :domain_id)
   end
 end

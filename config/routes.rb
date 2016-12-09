@@ -62,6 +62,10 @@ Rails.application.routes.draw do
   resources :domain_aliases, :controller => 'domain_aliases', :except => :index
   resources :email_aliases, :controller => 'email_aliases', :except => :index
 
+  # Additional routes for a new email without predefined domain
+  get '/emails/new' => 'emails#new_blank', :as => 'new_email'
+  post '/emails' => 'emails#create'
+
   get '/home' => 'home#index'
   get '/admin' => 'admin#index'
   get '/mail' => 'mail#index'
