@@ -28,12 +28,12 @@ NProgress.configure({
 });
 
 var ready = function() {
+  console.log('turbolinks:ready');
+
   $('[data-toggle="tooltip"]').tooltip();
   $('[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
-  var hash = window.location.hash;
-  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-
+  // Scroll if tab selected
   $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
     var scrollmem = $('body').scrollTop();
     window.location.hash = this.hash;
@@ -42,3 +42,10 @@ var ready = function() {
 };
 
 $(document).on('turbolinks:load', ready);
+
+$(window).on('turbolinks:load hashchange', function() {
+  console.log('hashchange');
+  // Activate tab if applicable
+  var hash = window.location.hash;
+  hash && $('ul.nav-tabs a[href="' + hash + '"]').tab('show');
+});
