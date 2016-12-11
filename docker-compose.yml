@@ -8,9 +8,25 @@ services:
     volumes:
       - public:/app/public
       - /var/run/postgresql/:/var/run/postgresql/
+    depends_on:
+      - sidekiq
+    links:
+      - sidekiq
     env_file:
       - thalariond.env
     restart: always
+  sidekiq:
+    build: .
+    depends_on:
+      - redis
+    links:
+      - redis
+    command: bundle exec sidekiq
+  redis:
+    image: redis
+    volumes:
+      - redis:/data
 
 volumes:
   public: {}
+  redis: {}
