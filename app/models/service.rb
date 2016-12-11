@@ -46,14 +46,6 @@ class Service < ApplicationRecord
     SecureRandom.base64(length).tr('lIO0', 'sxyz').delete('/=+')[0..length - 1]
   end
 
-  def enable!
-    update :enabled => true
-  end
-
-  def disable!
-    update :enabled => false
-  end
-
   # Callbacks
   def sanitize_attributes
     self.uid.downcase!

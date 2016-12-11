@@ -84,14 +84,6 @@ class User < ApplicationRecord
     end
   end
 
-  def enable!
-    update :enabled => true
-  end
-
-  def disable!
-    update :enabled => false
-  end
-
   def unread_notifications
     self.notifications.where.not 'read'
   end
