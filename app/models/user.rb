@@ -92,6 +92,10 @@ class User < ApplicationRecord
     update :enabled => false
   end
 
+  def unread_notifications
+    self.notifications.where.not 'read'
+  end
+
   # Callbacks
   def sanitize_attributes
     self.uid.downcase!
