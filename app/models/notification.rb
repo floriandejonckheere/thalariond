@@ -3,9 +3,6 @@ class Notification < ApplicationRecord
 
   belongs_to :user
 
-  validates :priority,
-              :presence => true
-  serialize :priority, PrioritySerializer
   validates :title,
               :presence => true
   validates :text,
@@ -16,15 +13,6 @@ class Notification < ApplicationRecord
   after_create :send_notification
 
   # Methods
-  def priority_display
-    {
-      :critical => 'Critical',
-      :high => 'High',
-      :normal => 'Normal',
-      :low => 'Low'
-    }[priority]
-  end
-
   def read!
     update :read => true
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161209120142) do
+ActiveRecord::Schema.define(version: 20161211134555) do
 
   create_table "auth_events", force: :cascade do |t|
     t.text     "component",  null: false
@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(version: 20161209120142) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer  "priority",   default: 2,     null: false
     t.text     "title",                      null: false
     t.text     "text",                       null: false
     t.boolean  "read",       default: false, null: false

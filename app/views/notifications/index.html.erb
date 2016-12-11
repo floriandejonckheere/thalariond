@@ -39,7 +39,6 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Priority</th>
           <th>Date</th>
         </tr>
       </thead>
@@ -59,9 +58,6 @@
                 <% else %>
                   <strong><%= link_to notification.title, notification_path(notification) %></strong>
                 <% end %>
-              </td>
-              <td>
-                <%= notification.priority_display %>
               </td>
               <td>
                 <%= time_ago_in_words(notification.timestamp) %> ago
@@ -85,7 +81,6 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Priority</th>
           <th>Date</th>
         </tr>
       </thead>
@@ -103,9 +98,6 @@
                 <strong><%= link_to notification.title, notification_path(notification) %></strong>
               </td>
               <td>
-                <%= notification.priority_display %>
-              </td>
-              <td>
                 <%= time_ago_in_words(notification.timestamp) %> ago
               </td>
             </tr>
@@ -119,7 +111,6 @@
       <thead>
         <tr>
           <th>Title</th>
-          <th>Priority</th>
           <th>Date</th>
         </tr>
       </thead>
@@ -135,9 +126,6 @@
             <tr>
               <td>
                 <%= link_to strip_tags(notification.title), notification_path(notification) %>
-              </td>
-              <td>
-                <%= notification.priority_display %>
               </td>
               <td>
                 <%= time_ago_in_words(notification.timestamp) %> ago
