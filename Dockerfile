@@ -21,6 +21,7 @@ ENV RAILS_ENV production
 
 # Precompile assets
 RUN rails bower:install['--allow-root']
+RUN rails bower:resolve['--allow-root']
 RUN DB_ADAPTER=nulldb SECRET_KEY_BASE=foo bundle exec rake assets:precompile
 
 # Correct permissions
