@@ -10,22 +10,30 @@ services:
       - /var/run/postgresql/:/var/run/postgresql/
     depends_on:
       - sidekiq
+      - redis
     links:
       - sidekiq
+      - redis
     env_file:
       - thalariond.env
     restart: always
   sidekiq:
     build: .
+    volumes:
+      - /var/run/postgresql/:/var/run/postgresql/
     depends_on:
       - redis
     links:
       - redis
+    env_file:
+      - thalariond.env
+    restart: always
     command: bundle exec sidekiq
   redis:
     image: redis
     volumes:
       - redis:/data
+    restart: always
 
 volumes:
   public: {}
