@@ -9,6 +9,8 @@ require 'ldapd/connection'
 module LDAPd
 class Server
   def initialize(opts)
+    config = YAML::load(ERB.new(File.read(Rails.root.join 'config', 'ldapd.yml')).result)
+
     ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)[Rails.env])
 
     opts[:logger].info "Initializing LDAPd in #{Rails.env} mode on #{config['bindaddr']}:#{config['port']}"

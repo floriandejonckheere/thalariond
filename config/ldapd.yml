@@ -1,0 +1,16 @@
+bindaddr: <%= ENV['LDAPD_BINDADDR'] %>
+port: <%= ENV['LDAPD_PORT'] %>
+base_dn: <%= ENV['LDAPD_BASEDN'] %>
+
+<% if ENV.has_key? 'SSL_CERT' %>
+  ssl_cert: <%= ENV['LDAPD_SSL_CERT'] %>
+<% end %>
+<% if ENV.has_key? 'SSL_KEY' %>
+  ssl_key: <%= ENV['LDAPD_SSL_KEY'] %>
+<% end %>
+<% if ENV.has_key? 'SSL_CA_PATH' %>
+  ssl_ca_path: <%= ENV['LDAPD_CA_PATH'] %>
+<% end %>
+<% if ENV.has_key? 'SSL_DHPARAMS' %>
+  ssl_dhparams: <%= ENV['LDAPD_DHPARAMS'] %>
+<% end %>

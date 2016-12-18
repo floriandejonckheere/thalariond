@@ -1,56 +1,53 @@
 interactive = (Rails.env.test? or
                 !!defined?(Rails::Console) or
-                !!defined?(Rails::Generators) or
-                !!defined?(::Rake))
+                !!defined?(Rails::Generators))
 
-unless interactive and ENV['LDAPD_DISABLE']
-  require Rails.root.join('lib', 'ldapd.rb')
-
-  log_file = Rails.root.join('log', "ldapd.#{Rails.env}.log")
+if !interactive and !ENV.has_key?('LDAPD_DISABLE')
+  require Rails.root.join 'lib', 'ldapd.rb'
 
   LDAPd.pid = Process.fork
 
   if LDAPd.pid
-    Process.detach LDAPd.pid
-    # Start watcher thread
+    Rails.logger.info "Starting thalariond with PID #{Process.pid}"
+    Rails.logger.info "Starting up LDAPd with PID #{LDAPd.pid}"
+
+    Thread.new do
+      Process.waitpid LDAPd.pid
+
+      Rails.logger.info "LDAPd exited with status #{$?.exitstatus}"
+
+      Kernel.exit!
+    end
   else
     # Set up logging
-    logger = Logger.new(log_file)
+    log_file = Rails.root.join 'log', "ldapd.#{Rails.env}.log"
+
+    logger = Logger.new log_file, 'a'
     logger.level = Rails.logger.level || Logger::DEBUG
 
-    $stdout.reopen(log_file, 'a')
-    $stderr.reopen(log_file, 'a')
+    logger.info "Starting up LDAPd with PID #{Process.pid}"
+
+    $stdout.reopen Rails.root.join('log', "ldapd.#{Rails.env}.info.log"), 'a'
+    $stderr.reopen Rails.root.join('log', "ldapd.#{Rails.env}.err.log"), 'a'
 
     $server = LDAPd::Server.new :logger => logger
 
-    trap 'TERM' do
+    def exit_server
       $server.stop
+
+      Kernel.exit!
     end
 
-    restart_count = 0
+    # Stop server on parent exit
+    trap('TERM') { exit_server }
 
-    loop do
-      logger.info 'Starting LDAPd'
+    begin
+      $server.start
+    rescue => e
+      logger.error e.message
+      e.backtrace.each { |er| logger.error er }
 
-      begin
-        start_time = DateTime.now
-        $server.start
-      rescue
-        next
-      ensure
-        # gets called after rescue, but before next
-        end_time = DateTime.now
-        logger.warn "LDAPd stopped, ran for #{((end_time - start_time) * 24 * 60 * 60).to_i} seconds"
-
-        # Server ran for less than 10s
-        if ((end_time - start_time) * 24 * 60 * 60) < 10
-          logger.error "LDAPd ran for less than 10 seconds, aborting"
-          Process.kill 'TERM', Process.ppid
-
-          # Prevent running finalizers
-          Kernel.exit!
-        end
-      end
+      exit_server
     end
   end
 end
