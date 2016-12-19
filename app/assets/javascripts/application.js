@@ -28,8 +28,6 @@ NProgress.configure({
 });
 
 var ready = function() {
-  console.log('turbolinks:ready');
-
   $('[data-toggle="tooltip"]').tooltip();
   $('[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
@@ -44,7 +42,6 @@ var ready = function() {
 $(document).on('turbolinks:load', ready);
 
 $(window).on('turbolinks:load hashchange', function() {
-  console.log('hashchange');
   // Activate tab if applicable
   var hash = window.location.hash;
   hash && $('ul.nav-tabs a[href="' + hash + '"]').tab('show');
