@@ -30,18 +30,18 @@ class Server
       search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
     end
 
-    params = { :bindaddr => ENV['LDAPD_BINDADDR'],
-                :port => ENV['LDAPD_PORT'],
+    params = { :bindaddr => config['bindaddr'],
+                :port => config['port'],
                 :router => router,
-                :namingContexts => ENV['LDAPD_BASEDN'],
+                :namingContexts => config['base_dn'],
                 :logger => opts[:logger]
     }
 
-    if ENV['LDAPD_SSL_CERT']
-      params[:ssl_cert_file] = ENV['LDAPD_SSL_CERT']
-      params[:ssl_key_file] = ENV['LDAPD_SSL_KEY']
-      params[:ssl_ca_path] = ENV['LDAPD_SSL_CA_PATH'] if ENV['LDAPD_SSL_CA_PATH']
-      params[:ssl_dhparams] = ENV['LDAPD_SSL_DHPARAMS'] if ENV['LDAPD_SSL_DHPARAMS']
+    if config['ssl_cert']
+      params[:ssl_cert_file] = config['ssl_cert']
+      params[:ssl_key_file] = config['ssl_key']
+      params[:ssl_ca_path] = config['ssl_ca_path'] if config['ssl_ca_path']
+      params[:ssl_dhparams] = config['ssl_dhparams'] if config['ssl_ca_dhparams']
     end
 
     @server = LDAP::Server.new params
