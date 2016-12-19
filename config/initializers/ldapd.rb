@@ -22,7 +22,7 @@ if !interactive and !ENV.has_key?('LDAPD_DISABLE')
     # Set up logging
     log_file = Rails.root.join 'log', "ldapd.#{Rails.env}.log"
 
-    logger = Logger.new log_file, 'a'
+    logger = Logger.new log_file
     logger.level = Rails.logger.level || Logger::DEBUG
 
     logger.info "Starting up LDAPd with PID #{Process.pid}"
