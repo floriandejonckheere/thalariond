@@ -1,3 +1,10 @@
+# Redirect $stdout and $stderr to a logger
+class IOLogger < Logger
+  alias puts info
+  alias write info
+  def flush; self; end
+end
+
 interactive = (Rails.env.test? or
                 !!defined?(Rails::Console) or
                 !!defined?(Rails::Generators))
@@ -22,13 +29,13 @@ if !interactive and !ENV.has_key?('LDAPD_DISABLE')
     # Set up logging
     log_file = Rails.root.join 'log', "ldapd.#{Rails.env}.log"
 
-    logger = Logger.new log_file
+    logger = IOLogger.new log_file
     logger.level = Rails.logger.level || Logger::DEBUG
 
     logger.info "Starting up LDAPd with PID #{Process.pid}"
 
-    $stdout.reopen Rails.root.join('log', "ldapd.#{Rails.env}.info.log"), 'a'
-    $stderr.reopen Rails.root.join('log', "ldapd.#{Rails.env}.err.log"), 'a'
+    $stdout = logger
+    $stderr = logger
 
     $server = LDAPd::Server.new :logger => logger
 
