@@ -239,7 +239,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert_not s('service1').can? :assign, r('operator')
     assert_not s('service1').can? :assign, r('service')
     assert_not s('service1').can? :assign, r('administrator')
-    assert_not u('user1').can? :assign, Role
+    assert_not s('service1').can? :assign, Role
 
     assert_not u('operator').can? :assign, r('user')
     assert_not u('operator').can? :assign, r('service')
@@ -247,7 +247,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert_not u('operator').can? :assign, r('operator')
     assert_not u('operator').can? :assign, r('user')
     assert_not u('operator').can? :assign, r('administrator')
-    assert_not u('user1').can? :assign, Role
+    assert_not u('operator').can? :assign, Role
 
     assert u('master').can? :assign, r('user')
     assert u('master').can? :assign, r('service')
@@ -255,7 +255,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('master').can? :assign, r('operator')
     assert u('master').can? :assign, r('master')
     assert_not u('master').can? :assign, r('administrator')
-    assert u('user1').can? :assign, Role
+    assert u('master').can? :assign, Role
 
     assert u('admin').can? :assign, r('user')
     assert u('admin').can? :assign, r('service')
@@ -263,6 +263,20 @@ class AbilityTest < ActiveSupport::TestCase
     assert u('admin').can? :assign, r('operator')
     assert u('admin').can? :assign, r('master')
     assert u('admin').can? :assign, r('administrator')
-    assert u('user1').can? :assign, Role
+    assert u('admin').can? :assign, Role
+  end
+
+  test 'notifications' do
+    n1 = u('user1').notifications.first
+
+    assert u('user1').can? :read, n1
+    assert u('user1').can? :destroy, n1
+    assert u('user1').cannot? :update, n1
+    assert u('user1').cannot? :list, Notification
+
+    assert u('user2').cannot? :read, n1
+    assert u('user2').cannot? :destroy, n1
+    assert u('user2').cannot? :update, n1
+    assert u('user2').cannot? :list, Notification
   end
 end
