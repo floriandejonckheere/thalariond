@@ -5,11 +5,7 @@ class IOLogger < Logger
   def flush; self; end
 end
 
-interactive = (Rails.env.test? or
-                !!defined?(Rails::Console) or
-                !!defined?(Rails::Generators))
-
-if !interactive and !ENV.has_key?('LDAPD_DISABLE')
+if $server and !ENV.has_key?('LDAPD_DISABLE')
   require Rails.root.join 'lib', 'ldapd.rb'
 
   LDAPd.pid = Process.fork
@@ -37,10 +33,10 @@ if !interactive and !ENV.has_key?('LDAPD_DISABLE')
     $stdout = logger
     $stderr = logger
 
-    $server = LDAPd::Server.new :logger => logger
+    server = LDAPd::Server.new :logger => logger
 
     def exit_server
-      $server.stop
+      server.stop
 
       Kernel.exit!
     end
@@ -49,7 +45,7 @@ if !interactive and !ENV.has_key?('LDAPD_DISABLE')
     trap('TERM') { exit_server }
 
     begin
-      $server.start
+      server.start
     rescue => e
       logger.error e.message
       e.backtrace.each { |er| logger.error er }
