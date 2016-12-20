@@ -4,11 +4,11 @@ services:
   app:
     build: .
     ports:
-      - "127.0.0.1:8080:8080"
       - "127.0.0.1:1389:1389"
     volumes:
       - public:/app/public
       - /var/run/postgresql/:/var/run/postgresql/
+      - sockets:/app/tmp/sockets/
     depends_on:
       - sidekiq
       - redis
@@ -39,3 +39,4 @@ services:
 volumes:
   public: {}
   redis: {}
+  sockets: {}

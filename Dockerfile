@@ -22,11 +22,11 @@ ENV RAILS_ENV production
 # Precompile assets
 RUN rails bower:install['--allow-root']
 RUN rails bower:resolve['--allow-root']
-RUN DB_ADAPTER=nulldb SECRET_KEY_BASE=foo bundle exec rake assets:precompile
+RUN DB_ADAPTER=nulldb SECRET_KEY_BASE=foo bundle exec rails assets:clobber
+RUN DB_ADAPTER=nulldb SECRET_KEY_BASE=foo bundle exec rails assets:precompile
 
 # Correct permissions
 RUN chown -R thalariond:thalariond /app/
 USER thalariond
 
-EXPOSE 8080
 CMD ["/app/docker-entrypoint.sh"]

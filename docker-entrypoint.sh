@@ -8,4 +8,4 @@ cd /app
 rm -f /app/tmp/pids/server.pid
 
 [[ ${SKIP_MIGRATE} ]] || bundle exec rake db:migrate            # Migrate relational data
-bundle exec rails server -p 8080        # Start puma
+bundle exec puma -b unix:///app/tmp/sockets/puma.sock           # Start Puma
