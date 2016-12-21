@@ -3,6 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Thalariond.rake = true
-
 Rails.application.load_tasks

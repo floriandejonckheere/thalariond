@@ -12,5 +12,8 @@ rm -f /app/tmp/pids/server.pid
 # Run as regular user
 su - thalariond
 
-[[ ${SKIP_MIGRATE} ]] || bundle exec rake db:migrate            # Migrate relational data
-bundle exec puma -b unix:///app/tmp/sockets/puma.sock           # Start Puma
+# Migrate relational data
+[[ ${SKIP_MIGRATE} ]] || bundle exec rake db:migrate
+
+# Start app server
+LDAPD_ENABLE=true bundle exec puma -b unix:///app/tmp/sockets/puma.sock
