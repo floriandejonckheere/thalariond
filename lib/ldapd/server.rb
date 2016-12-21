@@ -47,7 +47,7 @@ class Server
       params[:socket] = config['socket']
 
       # Remove stale socket
-      FileUtils::rm_r config['socket']
+      FileUtils::rm config['socket'] if File.exists? config['socket']
     end
 
       if config['ssl_cert']

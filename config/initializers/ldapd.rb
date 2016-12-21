@@ -5,7 +5,7 @@ class IOLogger < Logger
   def flush; self; end
 end
 
-if $server and !ENV.has_key?('LDAPD_DISABLE')
+if !Thalariond.rake? and !ENV.has_key?('LDAPD_DISABLE')
   require Rails.root.join 'lib', 'ldapd.rb'
 
   LDAPd.pid = Process.fork
