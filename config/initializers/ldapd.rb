@@ -42,7 +42,11 @@ if $server and !ENV.has_key?('LDAPD_DISABLE')
     end
 
     # Stop server on parent exit
-    trap('TERM') { exit_server }
+    trap 'TERM' do
+      server.stop
+
+      Kernel.exit!
+    end
 
     begin
       server.start
@@ -50,7 +54,8 @@ if $server and !ENV.has_key?('LDAPD_DISABLE')
       logger.error e.message
       e.backtrace.each { |er| logger.error er }
 
-      exit_server
+      server.stop
+      Kernel.exit!
     end
   end
 end

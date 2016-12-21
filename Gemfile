@@ -11,7 +11,7 @@ gem 'devise'
 # CanCanCan authorization
 gem 'cancancan', '~> 1.10'
 # LDAP server
-gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git'
+gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git', :tag => 'v0.6.2'
 # OAuth2 provider
 gem 'doorkeeper'
 

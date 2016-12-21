@@ -22,8 +22,8 @@ class << self
 
     service = Service.find_by :uid => params[:uid]
 
-    fail request "bind #{dn} failed: invalid uid" if service.nil?
-    fail request "bind #{dn} failed: invalid password" unless service.valid_password? password
+    fail request, "bind #{dn} failed: invalid uid" if service.nil?
+    fail request, "bind #{dn} failed: invalid password" unless service.valid_password? password
 
     request.connection.account = service
   end

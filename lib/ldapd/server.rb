@@ -1,4 +1,5 @@
 require 'erb'
+require 'fileutils'
 
 require 'ldap/server'
 require 'ldap/server/router'
@@ -13,7 +14,11 @@ class Server
 
     ActiveRecord::Base.establish_connection(YAML::load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)[Rails.env])
 
-    opts[:logger].info "Initializing LDAPd in #{Rails.env} mode on #{config['bindaddr']}:#{config['port']}"
+    if config['socket']
+      opts[:logger].info "Initializing LDAPd in #{Rails.env} mode on #{config['socket']}"
+    else
+      opts[:logger].info "Initializing LDAPd in #{Rails.env} mode on #{config['bindaddr']}:#{config['port']}"
+    end
 
     router = LDAP::Server::Router.new(opts[:logger]) do
       # Common authentication methods
@@ -30,14 +35,22 @@ class Server
       search  'cn=:group, ou=groups, dc=thalarion, dc=be' => 'LDAPd::LDAPController#searchGroup'
     end
 
-    params = { :bindaddr => config['bindaddr'],
-                :port => config['port'],
-                :router => router,
-                :namingContexts => config['base_dn'],
-                :logger => opts[:logger]
+    params = {
+      :router => router,
+      :namingContexts => config['base_dn'],
+      :logger => opts[:logger]
     }
 
-    if config['ssl_cert']
+    params[:bindaddr] = config['bindaddr'] if config['bindaddr']
+    params[:port] = config['port'] if config['port']
+    if config['socket']
+      params[:socket] = config['socket']
+
+      # Remove stale socket
+      FileUtils::rm_r config['socket']
+    end
+
+      if config['ssl_cert']
       params[:ssl_cert_file] = config['ssl_cert']
       params[:ssl_key_file] = config['ssl_key']
       params[:ssl_ca_path] = config['ssl_ca_path'] if config['ssl_ca_path']

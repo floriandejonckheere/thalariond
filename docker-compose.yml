@@ -3,8 +3,6 @@ version: '2'
 services:
   app:
     build: .
-    ports:
-      - "127.0.0.1:1389:1389"
     volumes:
       - public:/app/public
       - /var/run/postgresql/:/var/run/postgresql/

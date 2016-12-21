@@ -1,8 +1,9 @@
 GIT
   remote: https://github.com/floriandejonckheere/ruby-ldapserver.git
-  revision: d7649f322e3ef8e1c2e9a1e4c882155c104d095b
+  revision: 0c1f91783a4281c39edb8e3572203eddfa48d276
+  tag: v0.6.2
   specs:
-    ruby-ldapserver (0.6.1)
+    ruby-ldapserver (0.6.2)
 
 GIT
   remote: https://github.com/nulldb/nulldb.git
