@@ -1,11 +1,11 @@
-require 'cancan'
+require 'cancancan'
 
 module LDAPd
 class LDAPController
 class << self
 
   def fail(request, message, error = LDAP::ResultError::InvalidCredentials)
-    request.connection.logger.debug message
+    $stderr << message
     raise error
   end
 
