@@ -4,7 +4,7 @@
     <li><%= link_to 'OAuth2', oauth_applications_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>OAuth2 application <%= @application.name %><% end %>
+<% content_for :section do %><%= @application.name %><% end %>
 
 <div class="pull-right">
   <div class="btn-group">

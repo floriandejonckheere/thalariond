@@ -4,6 +4,6 @@
     <li><%= link_to 'Domains', domains_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Domain <%= @domain.domain %><% end %>
+<% content_for :section do %><%= @domain.domain %><% end %>
 
 <%= render 'form' %>

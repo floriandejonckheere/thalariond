@@ -4,6 +4,6 @@
     <li><%= link_to 'Users', users_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>User <%= @user.display_name %><% end %>
+<% content_for :section do %><%= @user.display_name %><% end %>
 
 <%= render 'form' %>

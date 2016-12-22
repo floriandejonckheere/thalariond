@@ -4,7 +4,7 @@
     <li><%= link_to 'Emails', mail_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Email <%= @email %><% end %>
+<% content_for :section do %><%= @email %><% end %>
 
 <% if @email.group %>
   <div class="alert alert-info">

@@ -4,7 +4,7 @@
     <li><%= link_to 'Domain aliases', domains_path(:anchor => "domain_aliases") %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Domain alias <%= @domain_alias.alias %><% end %>
+<% content_for :section do %><%= @domain_alias.alias %><% end %>
 
 <div class="pull-right">
   <div class="btn-group">

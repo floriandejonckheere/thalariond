@@ -4,7 +4,7 @@
     <li><%= link_to 'Services', services_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Service <%= @service.display_name %><% end %>
+<% content_for :section do %><%= @service.display_name %><% end %>
 
 <label for="password">New secret token</label>
 <div class="secret"><%= @service_secret %></div>

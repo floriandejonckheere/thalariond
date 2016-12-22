@@ -4,6 +4,6 @@
     <li><%= link_to 'Groups', groups_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Group <%= @group.name %><% end %>
+<% content_for :section do %><%= @group.name %><% end %>
 
 <%= render 'form' %>

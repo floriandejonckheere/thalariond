@@ -4,7 +4,7 @@
     <li><%= link_to 'Email aliases', mail_path(:anchor => "email_aliases") %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Email alias <%= @email_alias.alias %><% end %>
+<% content_for :section do %><%= @email_alias.alias %><% end %>
 
 <div class="pull-right">
   <div class="btn-group">

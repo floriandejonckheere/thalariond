@@ -4,7 +4,7 @@
     <li><%= link_to 'Roles', roles_path %></li>
   </ol>
 <% end %>
-<% content_for :section do %>Role <%= @role.display_name %><% end %>
+<% content_for :section do %><%= @role.display_name %><% end %>
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
