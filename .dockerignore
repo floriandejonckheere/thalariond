@@ -1,0 +1,11 @@
+tmp
+log
+db/*.sqlite3
+.git
+vendor
+node_modules
+
+*.env
+
+Dockerfile
+docker-compose.yml
