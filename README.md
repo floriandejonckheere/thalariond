@@ -56,6 +56,7 @@ Docker and docker-compose are used in the deployment process. The environment va
  
 ```
 # docker-compose up
+# chmod 755 /var/lib/docker/volumes/thalariond_assets/_data
 # chown -R www-data:www-data /var/lib/docker/volumes/thalariond_assets/_data
 ```
 

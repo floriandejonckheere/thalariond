@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.4.0'
 
 # Bower
 gem 'bower-rails', '~> 0.10.0'
@@ -14,9 +14,6 @@ gem 'cancancan', '~> 1.10'
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git', :tag => 'v0.6.2'
 # OAuth2 provider
 gem 'doorkeeper'
-
-# Notify exceptions
-gem 'exception_notification'
 
 gem 'rails', '5.0.0'
 # Use SCSS for stylesheets
@@ -60,4 +57,7 @@ group :production do
 
   # Dummy database for asset precompilation
   gem 'activerecord-nulldb-adapter', :git => 'https://github.com/nulldb/nulldb.git'
+
+  # Notify exceptions
+  gem 'exception_notification'
 end

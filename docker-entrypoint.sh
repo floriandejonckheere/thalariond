@@ -4,7 +4,7 @@
 #
 
 # Correct permissions
-RUN chown -R thalariond:thalariond /app/
+chown -R thalariond:thalariond /app/
 
 # Remove stale lock files
 rm -f /app/tmp/pids/server.pid
