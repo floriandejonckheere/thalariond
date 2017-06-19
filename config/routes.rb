@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   root :to => redirect('/home')
 
   ##
+  # NGINX Authentication route
+  #
+  get '/auth' => 'application#auth'
+
+  ##
   # Doorkeeper
   #
   use_doorkeeper :scope => 'oauth2' do

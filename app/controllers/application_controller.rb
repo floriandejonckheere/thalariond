@@ -28,4 +28,8 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to home_path, flash[:danger] => exception.message
   end
+
+  def auth
+    signed_in? ? head(:ok) : head(:unauthorized)
+  end
 end
