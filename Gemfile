@@ -15,7 +15,7 @@ gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldap
 # OAuth2 provider
 gem 'doorkeeper'
 
-gem 'rails', '5.0.0'
+gem 'rails', '5.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
