@@ -1,5 +1,5 @@
 class MyDevise::SessionsController < Devise::SessionsController
-  after_filter :log_failed_login, :only => :new
+  after_action :log_failed_login, :only => :new
 
   layout 'session'
 
