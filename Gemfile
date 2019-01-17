@@ -3,13 +3,13 @@ source 'https://rubygems.org'
 ruby '2.6.0'
 
 # Bower
-gem 'bower-rails', '~> 0.10.0'
+gem 'bower-rails'
 # Paper Trail auditing
-gem 'paper_trail', '~> 4.0.0'
+gem 'paper_trail'
 # Devise authentication
 gem 'devise'
 # CanCanCan authorization
-gem 'cancancan', '~> 1.10'
+gem 'cancancan'
 # LDAP server
 gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git', :tag => 'v0.6.2'
 # OAuth2 provider
