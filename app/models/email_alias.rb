@@ -66,14 +66,6 @@ class EmailAlias < ApplicationRecord
 
 
   # Overrides
-  def to_ldap
-    h = {}
-    h['alias'] = self.alias
-    h['mail'] = self.mail
-    h['objectClass'] = 'mailAliasAccount'
-    return h
-  end
-
   def <=>(email_alias)
     return self.alias <=> email_alias.mail if email_alias.is_a?(Email)
     self.alias <=> email_alias.alias

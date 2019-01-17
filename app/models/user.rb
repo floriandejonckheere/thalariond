@@ -177,30 +177,6 @@ class User < ApplicationRecord
   end
 
   # Overrides
-  def to_ldap
-    h = {}
-    h['uid'] = self.uid
-    h['objectClass'] = 'userAccount'
-    h['givenName'] = self.first_name
-    h['cn'] = self.first_name + (self.last_name? ? " #{self.last_name}" : "")
-    h['sn'] = self.last_name if self.last_name?
-    h['mail'] = self.email
-    h['enabled'] = self.active_for_authentication?.to_s
-    if self.groups.any?
-      h['group'] = []
-      self.groups.each do |g|
-        h['group'] << "cn=#{g.name},ou=Groups,#{ENV['LDAPD_BASEDN']}"
-      end
-    end
-    if self.roles.any?
-      h['role'] = []
-      self.roles.each do |r|
-        h['role'] << r.name
-      end
-    end
-    return h
-  end
-
   def active_for_authentication?
     super && self.enabled && self.has_role?(:user)
   end

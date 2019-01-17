@@ -4,7 +4,7 @@ class AuthEvent < ApplicationRecord
   belongs_to :user
 
   validates :component,
-              :inclusion => { :in => ["http", "ldap"] }
+              :inclusion => { :in => ["http"] }
   validates :action,
               :inclusion => { :in => ["signin", "signout"] }
 

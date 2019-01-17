@@ -16,4 +16,4 @@ su - thalariond
 [[ ${SKIP_MIGRATE} ]] || bundle exec rake db:migrate
 
 # Start app server
-LDAPD_ENABLE=true bundle exec puma -b unix:///app/tmp/sockets/puma.sock
+bundle exec puma -b unix:///app/tmp/sockets/puma.sock

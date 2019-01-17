@@ -63,14 +63,6 @@ class Email < ApplicationRecord
     "#{self.mail}@#{self.domain.domain}"
   end
 
-  def to_ldap
-    h = {}
-    h['mail'] = self.mail
-    h['maildrop'] = "#{self.domain.domain}/#{self.mail}/"
-    h['objectClass'] = 'mailAccount'
-    return h
-  end
-
   def <=>(email)
     return self.mail <=> email.alias if email.is_a?(EmailAlias)
     self.mail <=> email.mail

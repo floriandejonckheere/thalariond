@@ -56,28 +56,6 @@ class Service < ApplicationRecord
     errors.add(:uid, "is already taken by a user") if User.exists?(:uid => self.uid)
   end
 
-  # Overrides
-  def to_ldap
-    h = {}
-    h['uid'] = self.uid
-    h['objectClass'] = 'serviceAccount'
-    h['displayName'] = self.display_name
-    h['enabled'] = self.active_for_authentication?.to_s
-    if self.groups.any?
-      h['group'] = []
-      self.groups.each do |g|
-        h['group'] << "cn=#{g.name},ou=Groups,#{ENV['LDAPD_BASEDN']}"
-      end
-    end
-    if self.roles.any?
-      h['role'] = []
-      self.roles.each do |r|
-        h['role'] << r.name
-      end
-    end
-    return h
-  end
-
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
     super && self.enabled && self.has_role?(:service)

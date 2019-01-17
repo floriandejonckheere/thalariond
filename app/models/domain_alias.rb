@@ -50,14 +50,6 @@ class DomainAlias < ApplicationRecord
 
 
   # Overrides
-  def to_ldap
-    h = {}
-    h['alias'] = self.alias
-    h['dc'] = self.domain
-    h['objectClass'] = 'domainAlias'
-    return h
-  end
-
   def <=>(domain_alias)
     return self.alias <=> domain_alias.domain if domain_alias.is_a?(Domain)
     self.alias <=> domain_alias.alias
