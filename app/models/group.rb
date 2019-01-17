@@ -1,6 +1,4 @@
 class Group < ApplicationRecord
-  has_paper_trail
-
   before_save :sanitize_attributes
   before_destroy :verify_no_permission_group
 
