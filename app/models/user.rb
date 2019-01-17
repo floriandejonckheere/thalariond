@@ -40,8 +40,6 @@ class User < ApplicationRecord
               # Devise takes care of email format validation
               # :format => { with: /\A[^@]+@[^@]+\z/ }
 
-  validate :validate_email_outside_managed_domains
-
   validates :first_name,
               :presence => true
 
@@ -164,10 +162,6 @@ class User < ApplicationRecord
   # Validations
   def validate_users_services_unique
     errors.add(:uid, "is already taken by a service") if Service.exists?(:uid => self.uid)
-  end
-
-  def validate_email_outside_managed_domains
-    errors.add(:email, "can't be inside a registered domain") if Domain.find_by(:domain => email.split('@')[1]).present?
   end
 
   def validate_owned_groups_included_in_groups

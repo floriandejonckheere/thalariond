@@ -1,9 +1,0 @@
-<% content_for :title do   %>
-  <ol class="breadcrumb">
-    <li>Mail</li>
-    <li><%= link_to 'Domain aliases', domains_path(:anchor => "domain_aliases") %></li>
-  </ol>
-<% end %>
-<% content_for :section do %>New domain alias<% end %>
-
-<%= render 'form' %>

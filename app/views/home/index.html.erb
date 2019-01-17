@@ -7,7 +7,6 @@
   <ul>
     <li>Change your personal details</li>
     <li>Change your primary email address</li>
-    <li>Manage your groups and emails</li>
     <li>View additional services</li>
   </ul>
 </p>
@@ -15,7 +14,4 @@
 <h5>Get started</h5>
 <p>
   <%= link_to 'Manage your account &raquo;'.html_safe, user_path(current_user), :class => 'btn btn-secondary' %>
-  <% if can? :list, Domain %>
-    <%= link_to 'View your email accounts &raquo;'.html_safe, mail_path, :class => 'btn btn-secondary' %>
-  <% end %>
 </p>

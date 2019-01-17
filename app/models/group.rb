@@ -30,32 +30,14 @@ class Group < ApplicationRecord
   has_and_belongs_to_many :services,
                             :unique => true
 
-  # Permission group
-  belongs_to :email,
-                    :optional => true
-
   # Methods
-  def email?
-    !!self.email
-  end
-
   # Callbacks
   def sanitize_attributes
     self.name.downcase!
   end
 
-  def verify_no_permission_group
-    if self.email
-      errors[:base] = 'Cannot delete a permission group'
-      false
-    end
-  end
-
   def notify_access_granted(user)
     text = "You have been granted access to group <strong>#{self.display_name}</strong>."
-    if self.email
-      text << " This group is associated with the email address <strong>#{self.email}</strong>, which you now also have access to. Please refer to the online documentation for more information."
-    end
     Notification.create! :user => user,
                     :title => 'Group access granted',
                     :text => text

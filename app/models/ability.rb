@@ -8,7 +8,6 @@ class Ability
 
   # Try to prevent using `User.accessible_by`
 
-
   def initialize(account)
     if account&.roles
       @account = account
@@ -56,21 +55,6 @@ class Ability
     can [:read, :destroy], Notification, :user_id => @account.id
   end
 
-  def mail
-    # Can list and view domains and aliases
-    can [:list, :read], Domain
-    can [:list, :read], DomainAlias
-
-    # User can read email of subscribed groups
-    can :read, Email, :group => { :users => { :id => @account.id } } if user?
-
-    # Service can read email of subscribed groups
-    can :read, Email, :group => { :services => { :id => @account.id } } if service?
-
-    # Can list and view email aliases
-    can [:list, :read], EmailAlias
-  end
-
   def operator
     user if user?
     service if service?
@@ -83,11 +67,6 @@ class Ability
 
     # Can list, view and update all groups
     can [:list, :read, :update], Group
-
-    if @account.has_role? :mail
-      can [:list, :read, :update], Email
-      can [:list, :read, :update], EmailAlias
-    end
   end
 
   def master
@@ -110,14 +89,6 @@ class Ability
         true
       end
     end
-
-    if mail?
-      # Can manage all email aspects
-      can :manage, Domain
-      can :manage, DomainAlias
-      can :manage, Email
-      can :manage, EmailAlias
-    end
   end
 
   def administrator
@@ -131,9 +102,5 @@ class Ability
 
   def service?
     @account.is_a? Service
-  end
-
-  def mail?
-    @account.has_role? :mail
   end
 end
