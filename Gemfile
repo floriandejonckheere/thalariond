@@ -2,26 +2,18 @@ source 'https://rubygems.org'
 
 ruby '2.6.0'
 
-# Bower
+# Bower assets pipeline integration
 gem 'bower-rails'
-# Paper Trail auditing
-gem 'paper_trail'
 # Devise authentication
 gem 'devise'
-# CanCanCan authorization
+# Role-based authorization framework
 gem 'cancancan'
-# LDAP server
-gem 'ruby-ldapserver', :git => 'https://github.com/floriandejonckheere/ruby-ldapserver.git', :tag => 'v0.6.2'
-# OAuth2 provider
-gem 'doorkeeper'
 
 gem 'rails', '5.2.2'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
