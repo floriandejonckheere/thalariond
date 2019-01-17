@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.0'
+ruby '2.6.0'
 
 # Bower
 gem 'bower-rails', '~> 0.10.0'
