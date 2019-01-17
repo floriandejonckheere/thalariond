@@ -25,46 +25,12 @@ ActiveRecord::Schema.define(version: 2016_12_11_134555) do
     t.index ["user_id"], name: "index_auth_events_on_user_id"
   end
 
-  create_table "domain_aliases", force: :cascade do |t|
-    t.text "alias", null: false
-    t.text "domain", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["alias"], name: "index_domain_aliases_on_alias", unique: true
-    t.index ["domain"], name: "index_domain_aliases_on_domain"
-  end
-
-  create_table "domains", force: :cascade do |t|
-    t.text "domain", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["domain"], name: "index_domains_on_domain", unique: true
-  end
-
-  create_table "email_aliases", force: :cascade do |t|
-    t.text "alias", null: false
-    t.text "mail", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["alias"], name: "index_email_aliases_on_alias", unique: true
-  end
-
-  create_table "emails", force: :cascade do |t|
-    t.text "mail", null: false
-    t.integer "domain_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["mail", "domain_id"], name: "index_emails_on_mail_and_domain_id", unique: true
-  end
-
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.string "display_name"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "email_id"
-    t.index ["email_id"], name: "index_groups_on_email_id"
     t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
@@ -88,43 +54,6 @@ ActiveRecord::Schema.define(version: 2016_12_11_134555) do
     t.datetime "timestamp", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer "resource_owner_id", null: false
-    t.integer "application_id", null: false
-    t.string "token", null: false
-    t.integer "expires_in", null: false
-    t.text "redirect_uri", null: false
-    t.datetime "created_at", null: false
-    t.datetime "revoked_at"
-    t.string "scopes"
-    t.index ["token"], name: "index_oauth_access_grants_on_token", unique: true
-  end
-
-  create_table "oauth_access_tokens", force: :cascade do |t|
-    t.integer "resource_owner_id"
-    t.integer "application_id"
-    t.string "token", null: false
-    t.string "refresh_token"
-    t.integer "expires_in"
-    t.datetime "revoked_at"
-    t.datetime "created_at", null: false
-    t.string "scopes"
-    t.index ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true
-    t.index ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id"
-    t.index ["token"], name: "index_oauth_access_tokens_on_token", unique: true
-  end
-
-  create_table "oauth_applications", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "uid", null: false
-    t.string "secret", null: false
-    t.text "redirect_uri", null: false
-    t.string "scopes", default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
@@ -196,28 +125,6 @@ ActiveRecord::Schema.define(version: 2016_12_11_134555) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-  end
-
-  create_table "version_associations", force: :cascade do |t|
-    t.integer "version_id"
-    t.string "foreign_key_name", null: false
-    t.integer "foreign_key_id"
-    t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
-    t.index ["version_id"], name: "index_version_associations_on_version_id"
-  end
-
-  create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.integer "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "object", limit: 1073741823
-    t.text "ip"
-    t.text "user_agent"
-    t.datetime "created_at"
-    t.integer "transaction_id"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
-    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
 end
