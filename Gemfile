@@ -37,6 +37,10 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 
+  # Enforce code style using Rubocop
+  gem 'rubocop', :require => false
+  gem 'rubocop-rspec', :require => false
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
