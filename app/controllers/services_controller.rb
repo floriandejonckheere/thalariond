@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ServicesController < ApplicationController
   before_action :authenticate_user!
 
@@ -38,8 +40,7 @@ class ServicesController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
   def update
     authorize! :toggle, @service if params[:service][:enabled]
@@ -62,17 +63,18 @@ class ServicesController < ApplicationController
   def reset
     authorize! :update, @service
 
-    flash[:info] = "Secret token reset"
+    flash[:info] = 'Secret token reset'
     @service_secret = Service.generate_token
     @service.update!(:password => @service_secret, :password_confirmation => @service_secret)
   end
 
   private
+
   def service_params
-     params.require(:service).permit(:uid,
-                                      :display_name,
-                                      :enabled,
-                                      :password,
-                                      :password_confirmation)
+    params.require(:service).permit(:uid,
+                                    :display_name,
+                                    :enabled,
+                                    :password,
+                                    :password_confirmation)
   end
 end

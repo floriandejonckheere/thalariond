@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class AuthEvent < ApplicationRecord
   before_save :generate_timestamp
 
   belongs_to :user
 
   validates :component,
-              :inclusion => { :in => ["http"] }
+            :inclusion => { :in => ['http'] }
   validates :action,
-              :inclusion => { :in => ["signin", "signout"] }
+            :inclusion => { :in => %w[signin signout] }
 
   def generate_timestamp
     self.timestamp = DateTime.now

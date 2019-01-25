@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
@@ -18,28 +20,29 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    flash[:info] = "Notification deleted"
+    flash[:info] = 'Notification deleted'
     @notification.destroy
 
     redirect_to notifications_path
   end
 
   def destroy_all
-    flash[:info] = "Notifications deleted"
+    flash[:info] = 'Notifications deleted'
     current_user.notifications.destroy_all
     redirect_to notifications_path
   end
 
   def update_all
-    flash[:info] = "Notifications marked as read"
-    current_user.notifications.each { |n| n.read! }
+    flash[:info] = 'Notifications marked as read'
+    current_user.notifications.each(&:read!)
     redirect_to notifications_path
   end
 
   private
+
   def group_params
-     params.require(:group).permit(:name,
-                                    :display_name,
-                                    :user_id)
+    params.require(:group).permit(:name,
+                                  :display_name,
+                                  :user_id)
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
@@ -10,9 +12,9 @@ class UsersController < ApplicationController
 
   def index
     @users = User.order(:uid).select { |u| current_user.can? :read, u }
-    @unconfirmed_users = @users.select{ |u| not u.confirmed? }
-    @disabled_users = @users.select{ |u| not u.enabled }
-    @locked_users = @users.select{ |u| u.access_locked? }
+    @unconfirmed_users = @users.select(&:confirmed?)
+    @disabled_users = @users.select(&:enabled)
+    @locked_users = @users.select(&:access_locked?)
   end
 
   def create
@@ -20,8 +22,8 @@ class UsersController < ApplicationController
     password = Devise.friendly_token.first password_length
 
     parameters = user_params
-    parameters["password"] = password
-    parameters["password_confirmation"] = password
+    parameters['password'] = password
+    parameters['password_confirmation'] = password
 
     @user = User.new parameters
     if @user.save
@@ -33,8 +35,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def new
-  end
+  def new; end
 
   def edit
     @available_roles = []
@@ -50,9 +51,9 @@ class UsersController < ApplicationController
 
   def show
     @events = AuthEvent.where(:user => @user)
-                        .where('timestamp > ?', 5.days.ago)
-                        .limit(5)
-                        .order(:timestamp => :desc)
+                       .where('timestamp > ?', 5.days.ago)
+                       .limit(5)
+                       .order(:timestamp => :desc)
   end
 
   def update
@@ -64,11 +65,11 @@ class UsersController < ApplicationController
     authorize! :toggle, @user if params[:user][:enabled]
 
     # Prevent disabling of all admin accounts
-    if params[:user][:enabled] == "0" and
-      @user.has_role? :administrator and
-      Role.find_by(:name => 'administrator').users.count == 1
-          flash[:danger] = "At least one admin account must be enabled"
-          parameters.delete 'enabled'
+    if (params[:user][:enabled] == '0') &&
+       @user.has_role?(:administrator) &&
+       (Role.find_by(:name => 'administrator').users.count == 1)
+      flash[:danger] = 'At least one admin account must be enabled'
+      parameters.delete 'enabled'
     end
 
     if @user.update(parameters)
@@ -88,8 +89,8 @@ class UsersController < ApplicationController
 
   def destroy
     # Prevent deletion of all admin accounts
-    if @user.has_role? :administrator and Role.find_by(:name => 'administrator').users.count == 1
-      flash[:danger] = "At least one admin account must be present"
+    if @user.has_role?(:administrator) && (Role.find_by(:name => 'administrator').users.count == 1)
+      flash[:danger] = 'At least one admin account must be present'
     else
       flash[:info] = "User '#{@user.display_name}' deleted"
       @user.destroy
@@ -99,14 +100,15 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
     params.require(:user).permit(:uid,
-                                  :first_name,
-                                  :last_name,
-                                  :email,
-                                  :enabled,
-                                  :password,
-                                  :password_confirmation,
-                                  :notifications_enabled)
+                                 :first_name,
+                                 :last_name,
+                                 :email,
+                                 :enabled,
+                                 :password,
+                                 :password_confirmation,
+                                 :notifications_enabled)
   end
 end

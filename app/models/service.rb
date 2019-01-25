@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Service < ApplicationRecord
   before_save :sanitize_attributes
 
@@ -7,21 +9,20 @@ class Service < ApplicationRecord
 
   # Validations
   validates :uid,
-              :presence => true,
-              :uniqueness => true
+            :presence => true,
+            :uniqueness => true
 
   validate :validate_users_services_unique
   validates :display_name,
-              :presence => true
+            :presence => true
 
   # Role-based ACL
   has_and_belongs_to_many :roles,
-                            :unique => true
+                          :unique => true
 
   # Groups
   has_and_belongs_to_many :groups,
-                            :unique => true
-
+                          :unique => true
 
   # Methods
   def has_role?(role_sym)
@@ -31,7 +32,7 @@ class Service < ApplicationRecord
   def ability
     @ability ||= Ability.new(self)
   end
-  delegate :can?, :cannot?, to: :ability
+  delegate :can?, :cannot?, :to => :ability
 
   def self.generate_token(length = 75)
     SecureRandom.base64(length).tr('lIO0', 'sxyz').delete('/=+')[0..length - 1]
@@ -39,16 +40,16 @@ class Service < ApplicationRecord
 
   # Callbacks
   def sanitize_attributes
-    self.uid.downcase!
+    uid.downcase!
   end
 
   # Validations
   def validate_users_services_unique
-    errors.add(:uid, "is already taken by a user") if User.exists?(:uid => self.uid)
+    errors.add(:uid, 'is already taken by a user') if User.exists?(:uid => uid)
   end
 
   # Overrides Devise's active_for_authentication?
   def active_for_authentication?
-    super && self.enabled && self.has_role?(:service)
+    super && enabled && has_role?(:service)
   end
 end

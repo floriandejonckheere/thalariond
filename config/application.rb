@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -12,7 +14,7 @@ module Thalariond
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.mailer = YAML.load_file("#{Rails.root.to_s}/config/mailer.yml")[Rails.env]
+    config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 
     # Enable or disable email notifications
     config.enable_notifications_mailer = (Rails.env == 'production')
@@ -21,6 +23,6 @@ module Thalariond
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf|otf)\z/
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W[#{config.root}/lib]
   end
 end

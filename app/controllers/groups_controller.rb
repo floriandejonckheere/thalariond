@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GroupsController < ApplicationController
   before_action :authenticate_user!
 
@@ -24,11 +26,9 @@ class GroupsController < ApplicationController
     end
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def show
     @users_not_in_group = User.order(:uid).select { |u| current_user.can? :read, u } - @group.users
@@ -50,10 +50,11 @@ class GroupsController < ApplicationController
   end
 
   private
+
   def group_params
-     params.require(:group).permit(:name,
-                                    :display_name,
-                                    :user_id,
-                                    :email_id)
+    params.require(:group).permit(:name,
+                                  :display_name,
+                                  :user_id,
+                                  :email_id)
   end
 end

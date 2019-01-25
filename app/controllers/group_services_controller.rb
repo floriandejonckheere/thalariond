@@ -1,16 +1,15 @@
+# frozen_string_literal: true
+
 class GroupServicesController < ApplicationController
   before_action :authenticate_user!
 
   load_and_authorize_resource :group
   load_and_authorize_resource :service, :through => :group
 
-
   def create
     @service = Service.find(params[:service][:id])
 
-    unless @group.services.include? @service
-      @group.services << @service
-    end
+    @group.services << @service unless @group.services.include? @service
 
     redirect_to @group
   end

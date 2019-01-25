@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ServiceRolesController < ApplicationController
   before_action :authenticate_user!
 
@@ -11,7 +13,7 @@ class ServiceRolesController < ApplicationController
     if current_user.can? :assign, @role
       @service.roles << @role
     else
-      @user.errors << "You do not have enough permissions to assign this role"
+      @user.errors << 'You do not have enough permissions to assign this role'
     end
 
     redirect_to edit_service_path(@service)
@@ -25,7 +27,7 @@ class ServiceRolesController < ApplicationController
     if current_user.can? :assign, @role
       @service.roles.delete @role
     else
-      @user.errors << "You do not have enough permissions to assign this role"
+      @user.errors << 'You do not have enough permissions to assign this role'
     end
 
     redirect_to edit_service_path(@service)

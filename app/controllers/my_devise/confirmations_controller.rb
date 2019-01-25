@@ -1,19 +1,24 @@
-class MyDevise::ConfirmationsController < Devise::ConfirmationsController
-  layout 'session'
+# frozen_string_literal: true
 
-  def create
-    user = User.find_by(:email => confirmation_params[:email])
+class MyDevise
+  class ConfirmationsController < Devise::ConfirmationsController
+    layout 'session'
 
-    if user and not user.enabled
-      set_flash_message :alert, :disabled
-      redirect_to new_user_confirmation_path
-    else
-      super
+    def create
+      user = User.find_by(:email => confirmation_params[:email])
+
+      if user && !user.enabled
+        set_flash_message :alert, :disabled
+        redirect_to new_user_confirmation_path
+      else
+        super
+      end
     end
-  end
 
-  private
-  def confirmation_params
-    params.require(:user).permit(:email)
+    private
+
+    def confirmation_params
+      params.require(:user).permit(:email)
+    end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
@@ -9,15 +11,15 @@ class Ability
   # Try to prevent using `User.accessible_by`
 
   def initialize(account)
-    if account&.roles
-      @account = account
-      @account.roles.each { |r| send(r.name.downcase) }
-    end
+    return unless account&.roles
+
+    @account = account
+    @account.roles.each { |r| send(r.name.downcase) }
   end
 
   def base
-    can [:list, :read], Service
-    can [:list, :read], Role
+    can %i[list read], Service
+    can %i[list read], Role
 
     # WARNING: User.accessible_by gives you ALL the Users, authorize each one separately
     # can :read, User, [] do |user|
@@ -52,7 +54,7 @@ class Ability
     can :update, User, :id => @account.id
 
     # Can read and delete own notifications
-    can [:read, :destroy], Notification, :user_id => @account.id
+    can %i[read destroy], Notification, :user_id => @account.id
   end
 
   def operator
@@ -60,26 +62,26 @@ class Ability
     service if service?
 
     # Can list, view, update and enable/disable all users
-    can [:list, :read, :update, :toggle], User
+    can %i[list read update toggle], User
 
     # Can update and enable/disable all services
-    can [:update, :toggle], Service
+    can %i[update toggle], Service
 
     # Can list, view and update all groups
-    can [:list, :read, :update], Group
+    can %i[list read update], Group
   end
 
   def master
     operator
 
     # Can create and delete users
-    can [:create, :destroy], User
+    can %i[create destroy], User
 
     # Can create and delete services
-    can [:create, :destroy], Service
+    can %i[create destroy], Service
 
     # Can create and delete groups
-    can [:create, :destroy], Group
+    can %i[create destroy], Group
 
     # Can assign all roles except administrator
     can :assign, Role do |role|

@@ -1,16 +1,15 @@
+# frozen_string_literal: true
+
 class GroupUsersController < ApplicationController
   before_action :authenticate_user!
 
   load_and_authorize_resource :group
   load_and_authorize_resource :user, :through => :group
 
-
   def create
     @user = User.find(params[:user][:id])
 
-    unless @group.users.include? @user
-      @group.users << @user
-    end
+    @group.users << @user unless @group.users.include? @user
 
     redirect_to @group
   end

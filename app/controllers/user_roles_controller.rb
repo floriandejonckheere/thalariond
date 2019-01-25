@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 class UserRolesController < ApplicationController
   before_action :authenticate_user!
 
   load_resource :user
   load_resource :role, :through => :user
-
 
   def create
     authorize! :assign, Role
@@ -12,7 +13,7 @@ class UserRolesController < ApplicationController
     if current_user.can? :assign, @role
       @user.roles << @role
     else
-      @user.errors[:base] << "You do not have enough permissions to assign this role"
+      @user.errors[:base] << 'You do not have enough permissions to assign this role'
     end
 
     redirect_to edit_user_path(@user)
@@ -24,13 +25,13 @@ class UserRolesController < ApplicationController
     @role = Role.find(params[:id])
 
     if current_user.can? :assign, @role
-      if @role.name == 'administrator' and @role.users.count == 1
+      if (@role.name == 'administrator') && (@role.users.count == 1)
         flash[:danger] = 'At least one admin account must be present'
       else
         @user.roles.delete @role
       end
     else
-      @user.errors[:base] << "You do not have enough permissions to assign this role"
+      @user.errors[:base] << 'You do not have enough permissions to assign this role'
     end
 
     redirect_to edit_user_path(@user)
