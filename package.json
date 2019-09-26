@@ -1,10 +1,8 @@
 {
   "name": "thalariond",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "A suite of services providing a centralized user database management system",
-  "dependencies": {
-    "bower": "^1.7.9"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",

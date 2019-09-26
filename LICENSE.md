@@ -1,5 +1,4 @@
-Copyright (c) 2015-2016 Florian Dejonckheere
-Background picture CC0 by Benjamin Child
+Copyright (c) 2019 Florian Dejonckheere
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation files

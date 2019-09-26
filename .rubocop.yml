@@ -1,9 +1,6 @@
-require: rubocop-rspec
 AllCops:
   Exclude:
     - db/**/*.rb
-    - node_modules/**/*
-    - web/**/*
     - bin/*
 
 Documentation:
@@ -15,15 +12,6 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Max: 120
-
-Naming/UncommunicativeMethodParamName:
-  # Allow parameters to be named '_' if they are not used
-  AllowedNames:
-    - _
-    - id
-
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
 
 Style/NestedParenthesizedCalls:
   Enabled: false

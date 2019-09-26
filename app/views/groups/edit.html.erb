@@ -1,9 +1,0 @@
-<% content_for :title do   %>
-  <ol class="breadcrumb">
-    <li>Accounts</li>
-    <li><%= link_to 'Groups', groups_path %></li>
-  </ol>
-<% end %>
-<% content_for :section do %><%= @group.name %><% end %>
-
-<%= render 'form' %>

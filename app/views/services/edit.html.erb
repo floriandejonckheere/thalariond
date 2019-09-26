@@ -1,9 +1,0 @@
-<% content_for :title do   %>
-  <ol class="breadcrumb">
-    <li>Accounts</li>
-    <li><%= link_to 'Services', services_path %></li>
-  </ol>
-<% end %>
-<% content_for :section do %><%= @service.display_name %><% end %>
-
-<%= render 'form' %>
