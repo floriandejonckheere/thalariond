@@ -11,6 +11,8 @@ gem 'rails', '~> 6.0.0'
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
+# Use PostgreSQL as database
+gem 'pg'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -56,9 +58,6 @@ group :development, :test do
 end
 
 group :test do
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.4'
-
   # BDD testing for Ruby
   gem 'rspec'
   gem 'rspec-rails'
@@ -85,9 +84,4 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-group :production do
-  # Use PostgreSQL as database
-  gem 'pg'
 end
