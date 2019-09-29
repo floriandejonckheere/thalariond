@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
-    - db/**/*.rb
+    - db/schema.rb
+    - node_modules/**/*
     - bin/*
 
 Documentation:
@@ -13,6 +14,10 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Max: 120
+
+Metrics/MethodLength:
+  Exclude:
+    - db/**/*
 
 Style/NestedParenthesizedCalls:
   Enabled: false
