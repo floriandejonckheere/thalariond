@@ -25,6 +25,9 @@ gem 'jbuilder', '~> 2.7'
 # Authentication
 gem 'devise'
 
+# Authorization
+gem 'pundit'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -64,6 +67,9 @@ group :test do
 
   # Rails RSpec matchers
   gem 'shoulda-matchers'
+
+  # Pundit RSpec matchers
+  gem 'pundit-matchers'
 
   # Factory pattern for testing
   gem 'factory_bot'
