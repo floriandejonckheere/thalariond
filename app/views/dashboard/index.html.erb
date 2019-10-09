@@ -1,1 +1,8 @@
 You are now signed in. <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+
+<div id="dashboard-index-view">
+  <dashboard-index-view></dashboard-index-view>
+</div>
+
+<%= javascript_pack_tag 'dashboard/index'%>
+<%= stylesheet_pack_tag 'dashboard/index'%>
